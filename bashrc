@@ -144,28 +144,8 @@ if [[ ${OS} = Ubuntu ]]; then
 			echo touch $HOME/.sudo_as_admin_successful
 		esac
 	fi
-
-	# Better to uninstall the stupid command-not-found package.
 	unset -f command_not_found_handle
 fi
-
-# -- grc ----------------------------------------------------------------------
-
-GRC=`which grc`
-[[ "${TERM}" != dumb && -n "${GRC}" ]] && {
-	alias colourify="$GRC -es --colour=auto"
-	alias configure='colourify ./configure'
-	alias diff='colourify diff'
-	alias make='colourify make'
-	alias gcc='colourify gcc'
-	alias g++='colourify g++'
-	alias as='colourify as'
-	alias gas='colourify gas'
-	alias ld='colourify ld'
-	alias netstat='colourify netstat'
-	alias ping='colourify ping'
-	alias traceroute='colourify /usr/sbin/traceroute'
-}
 
 # -- grep ---------------------------------------------------------------------
 
