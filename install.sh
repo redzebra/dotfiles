@@ -131,32 +131,9 @@ if which SetFile >/dev/null 2>&1; then
 	SetFile -a V ~/.local/
 fi
 
-#mkdir -m 0700 -p build
-#pushd build
-##rm -rf bash-completion-*
-#tar xjf ../dist/bash-completion-1.3.tar.bz2
-#pushd bash-completion-1.3
-#./configure --prefix=${HOME}/.local
-#make
-#sed -i.bak -e 's@/etc/bash_completion@~/.local/etc/bash_completion@' \
-#	bash_completion
-#make install
-#popd
-#popd
-
-#for f in bash_completion.d/*; do
-#	_install ${f} ${HOME}/.local/etc/${f}
-#done
-
-#if [ `uname -s` = Darwin -a -s '/Applications/Sublime Text 2.app' ]; then
-#	echo installing Sublime Text 2 support
-#	tar -cf - 'Sublime Text 2' | tar -C ~/Library/Application\ Support -xf -
-#fi
-
 if which perl >/dev/null 2>&1; then
 	echo installing ack support
 	_install ackrc ~/.ackrc
-	#_install -m 0500 local/bin/ack ~/.local/bin/ack
 fi
 
 #echo installing autojump support
@@ -166,23 +143,6 @@ fi
 
 if which bash >/dev/null 2>&1; then
 	echo installing bash support
-##  _mkdir ~/.bash/
-##  for f in bash/*; do
-##    [ -f $f ] && _install $f ~/.$f
-##  done
-##  for d in bash/completion.d bash/logout.d bash/profile.d; do
-##    _mkdir ~/.$d/
-##    for f in $d/*; do
-##      [ -f $f ] && _install $f ~/.$f
-##    done
-##    for f in ~/.$d/*; do
-##      [ -e $d/`basename $f` ] || { echo removing $f; rm $f; }
-##    done
-##  done
-##  _mkdir ~/.bash/completion.d/helpers/
-##  for f in bash/completion.d/helpers/*; do
-##    [ -f $f ] && _install -m 0500 $f ~/.$f
-##  done
 	for f in bash_completion bash_logout bash_profile bashrc; do
 		_install $f ~/.$f
 	done
@@ -196,11 +156,6 @@ if which bash >/dev/null 2>&1; then
 	_install inputrc ~/.inputrc
 fi
 
-#if which fog >/dev/null 2>&1; then
-#	echo installing fog support
-#	_install fog ~/.fog
-#fi
-
 if [ -z "${variant}" ] && which git >/dev/null 2>&1; then
 	echo installing git support
 	for f in gitconfig gitignore; do _install $f ~/.$f; done
@@ -208,34 +163,8 @@ fi
 
 if [ `uname -s` = Darwin -o `uname -s` = Linux ]; then
 	echo installing colordiff support
-	#_install -m 0500 local/bin/colordiff ~/.local/bin/colordiff
-	#_install local/share/man/man1/colordiff.1 ~/.local/share/man/man1/colordiff.1
 	_install colordiffrc ~/.colordiffrc
 fi
-
-#if [ `uname -s` = Darwin -a `uname -s` = Linux ]; then
-#	echo installing grc support
-#	_mkdir ~/.grc/
-#	for f in grc/conf.* grc/grc.conf; do
-#		_install ${f} ~/.${f}
-#	done
-#	_install -m 0500 bin/grc ~/bin/grc
-#	_install -m 0500 bin/grcat ~/bin/grcat
-#fi
-
-#if [ `uname -s` = Darwin ]; then
-#	if which python >/dev/null 2>&1; then
-#		_version=$(python --version 2>&1 | egrep -o '[0-9]+\.[0-9]+')
-#	  echo installing python ${_version} support
-#		_mkdir ~/lib/
-#		if which SetFile >/dev/null 2>&1; then
-#			SetFile -a V ~/lib/
-#		fi
-#		_mkdir ~/lib/python${_version}/
-#		_mkdir ~/lib/python${_version}/site-packages
-#		unset _version
-#	fi
-#fi
 
 if which ruby >/dev/null 2>&1; then
 	echo installing ruby support
@@ -276,12 +205,12 @@ if which vim >/dev/null 2>&1; then
 		_install $f ~/.$f
 	done
 	for f in `cd ~/.vim && find * -type f ! -name tags ! -name '*.cache' ! -name '*.spl'|egrep -v '^view/'`; do
-		[ -e vim/$f ] || { echo removing ~/.vim/$f; rm ~/.vim/$f; }
+		[ -e vim/$f ] || { echo removing ~/.vim/$f; rm -f ~/.vim/$f; }
 	done
 	_install vimrc ~/.vimrc
-#	if which gvim >/dev/null 2>&1 || which mvim >/dev/null 2>&1; then
-#		_install gvimrc ~/.gvimrc
-#	fi
+	if which gvim >/dev/null 2>&1 || which mvim >/dev/null 2>&1; then
+		_install gvimrc ~/.gvimrc
+	fi
  	[ -d ~/.vim/doc ] && vim -E -i NONE -u NONE '+helptags ~/.vim/doc' '+quit' </dev/null >/dev/null
 	for d in ~/.vim/bundle/*/doc; do
 	 	vim -E -i NONE -u NONE "+helptags $d" '+quit' </dev/null >/dev/null
@@ -289,28 +218,6 @@ if which vim >/dev/null 2>&1; then
 	for f in ~/.vim/spell/*.add; do
 		vim -E -i NONE -u NONE "+mkspell! $f" '+quit' </dev/null >/dev/null
 	done
-	if which mvim >/dev/null 2>&1; then
-		_install gvimrc ~/.gvimrc
-	fi
 fi
-
-#if which zsh >/dev/null 2>&1; then
-#  echo installing zsh support
-#  _mkdir ~/.zsh/
-#  for d in zsh/lib; do
-#    _mkdir ~/.$d/
-#    for f in $d/*; do
-#      [ -f $f ] && _install $f ~/.$f
-#    done
-#  done
-#  for d in zsh/plugins/*; do
-#    _mkdir ~/.$d/
-#    for f in $d/*; do
-#      [ -f $f ] && _install $f ~/.$f
-#    done
-#  done
-#  _install zshrc ~/.zshrc
-#  _install zshenv ~/.zshenv
-#fi
 
 # vi: set sw=2 ts=2:
