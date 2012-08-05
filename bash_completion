@@ -1,0 +1,6 @@
+[ -d ~/.bash_completion.d ] && {
+  for i in `LC_ALL=C command ls ~/.bash_completion.d`; do
+    . ~/.bash_completion.d/$i
+  done
+}
+[ -r ~/.rvm/scripts/completion ] && . ~/.rvm/scripts/completion

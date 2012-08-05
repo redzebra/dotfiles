@@ -1,0 +1,28 @@
+#!/bin/bash
+
+source=$(basename ${BASH_SOURCE})
+
+if [[ $# == 3 ]]; then
+	if [[ "$1" == "-r" ]]; then
+		region="$2"
+		shift 2
+	fi
+fi
+if [[ $# != 1 ]]; then
+	echo "usage: ${source} [-r region] account" >&2
+	return 1
+fi
+
+for e in credentials crt key; do
+	if [[ ! -f "${HOME}/.aws/${1}.${e}" ]]; then
+		echo "${source}: ${HOME}/.aws/${1}.${e}: No such file" >&2
+		return 2
+	fi
+done
+
+export EC2_REGION="${region:-eu-west-1}"
+export EC2_URL="https://ec2.${EC2_REGION}.amazonaws.com"
+
+export AWS_CREDENTIAL_FILE="${HOME}/.aws/${1}.credentials"
+export EC2_CERT="${HOME}/.aws/${1}.crt"
+export EC2_PRIVATE_KEY="${HOME}/.aws/${1}.key"

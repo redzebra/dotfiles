@@ -1,0 +1,25 @@
+_aws_context()
+{
+	local cur prev base
+	COMPREPLY=()
+	cur="${COMP_WORDS[COMP_CWORD]}"
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+	case "${prev}" in
+		"-r")
+			local regions="ap-northeast-1 ap-southeast-1 eu-west-1 sa-east-1 us-east-1 us-west-1 us-west-2"
+			COMPREPLY=( $(compgen -W "${regions}" -- ${cur}) )
+			return 0
+			;;
+	esac
+
+	if [[ "${cur}" == -* ]]; then
+		COMPREPLY=( $(compgen -W "-r" -- "${cur}") )
+		return 0
+	else
+		local names=$(for x in `ls -1 ~/.aws/*.credentials`; do basename ${x%.credentials}; done)
+		COMPREPLY=( $(compgen -W "${names}" -- "${cur}") )
+		return 0
+	fi
+}
+complete -F _aws_context aws-context

@@ -26,11 +26,11 @@ cd `dirname $0` || exit
 
 # Sanity checks.
 
-#if which bash >/dev/null 2>&1; then
-#  for f in bash_completion bash_logout bash_profile bashrc; do
-#    bash -n $f || exit
-#  done
-#fi
+if which bash >/dev/null 2>&1; then
+	for f in bash_completion bash_logout bash_profile bashrc; do
+		bash -n $f || exit
+	done
+fi
 
 if test -d .git && which git >/dev/null 2>&1; then
 	_status=`git status -s`
@@ -111,13 +111,25 @@ _install () {
 
 umask 077 || exit
 
-#_mkdir ~/.local/
-#if which SetFile >/dev/null 2>&1; then
-#	SetFile -a V ~/.local/
-#fi
-#_mkdir ~/.local/share
-#_mkdir ~/.local/share/man
-#ln -s share/man ~/.local/share/man
+echo installing .local tree
+for d in `find local -type d ! -name .git`; do
+	_mkdir ~/.$d/
+done
+for f in `find local -type f ! -name '.git*'`; do
+	case $f in
+		local/bin/aws-context) ;;
+		local/bin/*) _mode=0500;;
+		local/etc/bash_completion.d/helpers/*) _mode=0500;;
+	esac
+	_install ${_mode:+-m ${_mode}} $f ~/.$f
+	unset _mode
+done
+for f in `cd ~/.local && find * -type f`; do
+	[ -e local/$f ] || { echo removing ~/.local/$f; rm -f ~/.local/$f; }
+done
+if which SetFile >/dev/null 2>&1; then
+	SetFile -a V ~/.local/
+fi
 
 #mkdir -m 0700 -p build
 #pushd build
@@ -136,11 +148,6 @@ umask 077 || exit
 #	_install ${f} ${HOME}/.local/etc/${f}
 #done
 
-_mkdir ~/bin/
-if which SetFile >/dev/null 2>&1; then
-	SetFile -a V ~/bin/
-fi
-
 #if [ `uname -s` = Darwin -a -s '/Applications/Sublime Text 2.app' ]; then
 #	echo installing Sublime Text 2 support
 #	tar -cf - 'Sublime Text 2' | tar -C ~/Library/Application\ Support -xf -
@@ -149,14 +156,16 @@ fi
 if which perl >/dev/null 2>&1; then
 	echo installing ack support
 	_install ackrc ~/.ackrc
-	_install -m 0500 bin/ack ~/bin/ack
+	#_install -m 0500 local/bin/ack ~/.local/bin/ack
 fi
 
-echo installing autojump support
-_install -m 0500 bin/autojump ~/bin/autojump
+#echo installing autojump support
+#_install -m 0500 local/bin/autojump ~/.local/bin/autojump
+#_install local/etc/profile.d/autojump.sh ~/.local/etc/profile.d/autojump.sh
+#_install local/man/man1/autojump.1 ~/.local/share/man/man1/autojump.1
 
-#if which bash >/dev/null 2>&1; then
-#  echo installing bash support
+if which bash >/dev/null 2>&1; then
+	echo installing bash support
 ##  _mkdir ~/.bash/
 ##  for f in bash/*; do
 ##    [ -f $f ] && _install $f ~/.$f
@@ -174,12 +183,18 @@ _install -m 0500 bin/autojump ~/bin/autojump
 ##  for f in bash/completion.d/helpers/*; do
 ##    [ -f $f ] && _install -m 0500 $f ~/.$f
 ##  done
-##  for f in bash_completion bash_env bash_logout bash_profile bashrc; do
-#  for f in bash_completion bash_logout bash_profile bashrc; do
-#    _install $f ~/.$f
-#  done
-#  _install inputrc ~/.inputrc
-#fi
+	for f in bash_completion bash_logout bash_profile bashrc; do
+		_install $f ~/.$f
+	done
+	_mkdir ~/.bash_completion.d
+	for f in bash_completion.d/*; do
+		_install $f ~/.$f
+	done
+	for f in `cd ~/.bash_completion.d && find * -type f`; do
+		[ -e bash_completion.d/$f ] || { echo removing ~/.bash_completion.d/$f; rm ~/.bash_completion.d/$f; }
+	done
+	_install inputrc ~/.inputrc
+fi
 
 #if which fog >/dev/null 2>&1; then
 #	echo installing fog support
@@ -191,9 +206,10 @@ if [ -z "${variant}" ] && which git >/dev/null 2>&1; then
 	for f in gitconfig gitignore; do _install $f ~/.$f; done
 fi
 
-if [ `uname -s` = Darwin -a `uname -s` = Linux ]; then
+if [ `uname -s` = Darwin -o `uname -s` = Linux ]; then
 	echo installing colordiff support
-	_install -m 0500 bin/colordiff ~/bin/colordiff
+	#_install -m 0500 local/bin/colordiff ~/.local/bin/colordiff
+	#_install local/share/man/man1/colordiff.1 ~/.local/share/man/man1/colordiff.1
 	_install colordiffrc ~/.colordiffrc
 fi
 
@@ -224,7 +240,7 @@ fi
 if which ruby >/dev/null 2>&1; then
 	echo installing ruby support
 #	_mkdir ~/.gem/
-#	_install gemrc ~/.gemrc
+	_install gemrc ~/.gemrc
 	_install irbrc ~/.irbrc
 fi
 

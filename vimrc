@@ -60,6 +60,11 @@ let highlight_function_names=1
 
 " -----------------------------------------------------------------------------
 
+set spelllang=en_gb
+set spellfile=~/.vim/spell/en_gb.utf-8.add
+
+" -----------------------------------------------------------------------------
+
 if filereadable(expand("~/.vimrc.local"))
 	source ~/.vimrc.local
 endif
