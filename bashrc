@@ -1,7 +1,7 @@
 # .bashrc file for interactive bash(1) shells.
 
 if [ -z "${PS1}" ]; then
-  return
+	return
 fi
 
 shopt -u cdable_vars 2>/dev/null
@@ -86,15 +86,15 @@ LIGHTGRAY=$'\e0;37m'
 #ORANGE=$'\e[33;40m'
 
 function scm_ps1 () {
-  if [[ -d .svn ]]; then
-    which svnversion &>/dev/null && echo -n "($(svnversion 2>/dev/null))"
-  elif [[ $(declare -f __git_ps1) ]]; then
-    local GIT_PS1_SHOWDIRTYSTATE=yes
-    local GIT_PS1_SHOWSTASHSTATE=yes
-    local GIT_PS1_SHOWUNTRACKEDFILES=yes
-    local GIT_PS1_SHOWUPSTREAM='auto verbose'
-    echo -n "$(__git_ps1 '(%s)' 2>/dev/null)"
-  fi
+	if [[ -d .svn ]]; then
+		which svnversion &>/dev/null && echo -n "($(svnversion 2>/dev/null))"
+	elif [[ $(declare -f __git_ps1) ]]; then
+		local GIT_PS1_SHOWDIRTYSTATE=yes
+		local GIT_PS1_SHOWSTASHSTATE=yes
+		local GIT_PS1_SHOWUNTRACKEDFILES=yes
+		local GIT_PS1_SHOWUPSTREAM='auto verbose'
+		echo -n "$(__git_ps1 '(%s)' 2>/dev/null)"
+	fi
 }
 
 case $(hostname -s) in
