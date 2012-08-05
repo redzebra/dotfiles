@@ -16,6 +16,7 @@ colorscheme ir_black
 
 set shortmess+=I
 
+set backupcopy=yes		" Prevent Finder labels from disappearing
 set nobackup
 
 " -- UI -----------------------------------------------------------------------
