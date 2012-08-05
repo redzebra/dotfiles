@@ -171,6 +171,7 @@ if which ruby >/dev/null 2>&1; then
 #	_mkdir ~/.gem/
 	_install gemrc ~/.gemrc
 	_install irbrc ~/.irbrc
+	_install rspec ~/.rspec
 fi
 
 if which screen >/dev/null 2>&1; then
