@@ -12,6 +12,8 @@ _fetch () {
 	esac
 }
 
+git submodule update
+
 # ack
 _fetch bash_completion.d/ack \
 	https://raw.github.com/petdance/ack/master/etc/ack.bash_completion.sh
