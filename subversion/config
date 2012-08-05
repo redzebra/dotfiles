@@ -20,7 +20,7 @@ diff-cmd = colordiff
 # diff3-cmd = diff3_program (diff3, gdiff3, etc.)
 ### Set diff3-has-program-arg to 'yes' if your 'diff3' program
 ###   accepts the '--diff-program' option.
-# diff3-has-program-arg = [yes | no]
+diff3-has-program-arg = yes
 ### Set merge-tool-cmd to the command used to invoke your external
 ### merging tool of choice. Subversion will pass 4 arguments to
 ### the specified command: base theirs mine merged
@@ -99,7 +99,9 @@ enable-auto-props = yes
 *.md = svn:eol-style=native
 *.png = svn:mime-type=image/png
 *.pp = svn:eol-style:native
-*.sh = svn:eol-style=native;svn:executable
+*.py = svn:eol-style=native
+*.rb = svn:eol-style=native
+*.sh = svn:eol-style=native
 *.txt = svn:eol-style=native
 Makefile = svn:eol-style=native
 Rakefile = svn:eol-style=native
