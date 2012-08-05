@@ -14,6 +14,8 @@ _fetch () {
 
 _fetch bash_completion.d/ack \
 	https://raw.github.com/petdance/ack/master/etc/ack.bash_completion.sh
+_fetch local/bin/ack \
+	https://raw.github.com/petdance/ack/master/ack
 
 # Sublime Text 2 - Themes - IR_black
 #_fetch 'Sublime Text 2/Packages/Color Scheme - Default/IR_Black.tmTheme' \
