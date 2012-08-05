@@ -258,6 +258,7 @@ if which svn >/dev/null 2>&1; then
 	echo installing subversion support
 	_mkdir ~/.subversion/
 	_install subversion/config ~/.subversion/config
+	_install colorsvnrc ~/.colorsvnrc
 fi
 
 if [ `uname -s` = OpenBSD ]; then

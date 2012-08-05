@@ -1,0 +1,36 @@
+.TH COLORSVN 1
+.SH NAME
+colorsvn \- Subversion output colorizer.
+.SH SYNOPSIS
+.B colorsvn
+.I "command [args]"
+.SH DESCRIPTION
+.BR colorsvn
+will execute subversion commands and colorize the output.
+
+Configuration for 
+.BR colorsvn
+is determined by either /etc/colorsvnrc or by ~/.colorsvnrc file.
+
+Format of configuration file:
+there may be as many empty lines in between two config-lines as you want 
+/ comments start with a pound key (#).
+
+Key and value are colon separated.
+
+.SH SEE ALSO 
+.BR svn "(1)
+.SH AUTHOR
+Originally written by 
+
+Jamie Moyers <jmoyers@geeks.com>
+
+Neil Stevens <neil@qualityassistant.com>
+
+Maintained by 
+
+KDE project
+
+Revised by
+
+Valerij Klein <vklein@console-colors.de>
