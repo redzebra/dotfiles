@@ -14,13 +14,27 @@ filetype plugin indent on	" Automatically detect file types
 set background=dark		" Assume a dark background
 colorscheme ir_black
 
+set shortmess+=I
+
 set nobackup
 
 " -- UI -----------------------------------------------------------------------
 
+set noshowmode			" don't display the current mode
+
 if has('statusline')
 	set laststatus=2
 endif
+
+set backspace=indent,eol,start	" backspace over everything in insert mode
+set showmatch			" show matching brackets/parentheses
+set incsearch			" do incremental searching
+set hlsearch
+set ignorecase			" case insensitive search
+set smartcase			" case sensitive search when uppercase present
+set wildmenu			" show list instead of just completing
+set wildmode=list:longest:full	" command <Tab> completion
+set scrolloff=3			" minimum lines to keep above and below cursor
 
 " -- FORMATTING ----------------------------------------------------------------
 
@@ -50,6 +64,11 @@ let highlight_sedtabs=1
 let bash_is_sh=1		" highlight bash syntax
 let highlight_balanced_quotes=1	" highlight single quotes inside double
 let highlight_function_names=1
+
+" -----------------------------------------------------------------------------
+
+set autoread			" reload changed files (if no local changes)
+set nobackup			" don't create backup files
 
 " -----------------------------------------------------------------------------
 
