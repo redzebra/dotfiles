@@ -125,6 +125,7 @@ for f in `find local -type f ! -name '.git*'`; do
 	unset _mode
 done
 for f in `cd ~/.local && find * -type f`; do
+	[ $f = 'share/autojump/autojump.txt' ] && continue
 	[ -e local/$f ] || { echo removing ~/.local/$f; rm -f ~/.local/$f; }
 done
 if which SetFile >/dev/null 2>&1; then
@@ -135,11 +136,6 @@ if which perl >/dev/null 2>&1; then
 	echo installing ack support
 	_install ackrc ~/.ackrc
 fi
-
-#echo installing autojump support
-#_install -m 0500 local/bin/autojump ~/.local/bin/autojump
-#_install local/etc/profile.d/autojump.sh ~/.local/etc/profile.d/autojump.sh
-#_install local/man/man1/autojump.1 ~/.local/share/man/man1/autojump.1
 
 if which bash >/dev/null 2>&1; then
 	echo installing bash support
