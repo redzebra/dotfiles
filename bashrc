@@ -43,9 +43,9 @@ export HISTCONTROL HISTIGNORE HISTSIZE
 export CLICOLOR=1
 
 if which vim >/dev/null 2>&1; then
-  export VISUAL=vim
+	export VISUAL=vim
 elif which vi >/dev/null 2>&1; then
-  export VISUAL=vi
+	export VISUAL=vi
 fi
 
 OS=$(uname -s)
@@ -54,18 +54,18 @@ if [[ ${OS} = Darwin ]]; then
 		export LC_ALL="${LANG}"
 	fi
 elif [[ ${OS} = Linux ]]; then
-  if _lsb_release=$(command -pv lsb_release); then
-    OS=$(${_lsb_release} -i -s)
-    unset _lsb_release
-  elif [[ -e /etc/debian_version ]]; then
-    OS=Debian
-  elif [[ -e /etc/redhat-release ]]; then
-    if grep -i CentOS /etc/redhat-release >/dev/null; then
-      OS=CentOS
-    else
-      OS=RedHat
-    fi
-  fi
+	if _lsb_release=$(command -pv lsb_release); then
+		OS=$(${_lsb_release} -i -s)
+		unset _lsb_release
+	elif [[ -e /etc/debian_version ]]; then
+		OS=Debian
+	elif [[ -e /etc/redhat-release ]]; then
+		if grep -i CentOS /etc/redhat-release >/dev/null; then
+			OS=CentOS
+		else
+			OS=RedHat
+		fi
+	fi
 fi
 
 # -- Fancy Prompt -------------------------------------------------------------
@@ -99,33 +99,33 @@ function scm_ps1 () {
 
 case $(hostname -s) in
 	domU-*-*-*-*|ec2-*-*-*-*|ip-*-*-*-*)
-    if which curl &>/dev/null; then
-      _id="$(curl -s http://169.254.169.254/latest/meta-data/instance-id 2>/dev/null)"
-    elif which wget &>/dev/null; then
-      _id="$(wget -o - -q http://169.254.169.254/latest/meta-data/instance-id 2>/dev/null)"
-    fi
-    if which facter &>/dev/null; then
-      if [[ -z "${_id}" ]]; then
-      	_id="$(facter ec2_instance_id 2>/dev/null)"
+		if which curl &>/dev/null; then
+			_id="$(curl -s http://169.254.169.254/latest/meta-data/instance-id 2>/dev/null)"
+		elif which wget &>/dev/null; then
+			_id="$(wget -o - -q http://169.254.169.254/latest/meta-data/instance-id 2>/dev/null)"
+		fi
+		if which facter &>/dev/null; then
+			if [[ -z "${_id}" ]]; then
+				_id="$(facter ec2_instance_id 2>/dev/null)"
 			fi
-      _role="$(facter role 2>/dev/null)"	# GNL
-      _stage="$(facter stage 2>/dev/null)"	# GNL
-    fi
-    if [[ -n "${_stage}" ]]; then
-      case "${_stage}" in
-        PROD) _stage='\[\e[1;31m\]'${_stage}':';;
-        *)    _stage="${_stage}:"
-      esac
-    fi
-    if [[ -n "${_role}" ]]; then
-      _role="${_role}:"
-    fi
-    _hostid="${_stage}${_role}${_id:-[EC2]}"
-#    PS1='\[\e[1;32m\]'${_stage}${_role}${_id:-[EC2]}'\[\e[0m\]:\[\e[1;34m\]\W\[\e[0m\]$(scm_ps1)\[\e[0m\]\$ '
-    unset _id
-    ;;
-  *)
-    _hostid='$(tr "[A-Z]" "[a-z]" <<<\h)'
+			_role="$(facter role 2>/dev/null)"	# GNM
+			_stage="$(facter stage 2>/dev/null)"	# GNM
+		fi
+		if [[ -n "${_stage}" ]]; then
+			case "${_stage}" in
+				PROD) _stage='\[\e[1;31m\]'${_stage}':';;
+				*)    _stage="${_stage}:"
+			esac
+		fi
+		if [[ -n "${_role}" ]]; then
+			_role="${_role}:"
+		fi
+		_hostid="${_stage}${_role}${_id:-[EC2]}"
+#		PS1='\[\e[1;32m\]'${_stage}${_role}${_id:-[EC2]}'\[\e[0m\]:\[\e[1;34m\]\W\[\e[0m\]$(scm_ps1)\[\e[0m\]\$ '
+		unset _id
+		;;
+	*)
+		_hostid='$(tr "[A-Z]" "[a-z]" <<<\h)'
 esac
 PS1='\[\e[1;32m\]'${_hostid}'\[\e[0m\]:\[\e[1;34m\]\W\[\e[0m\]$(scm_ps1)\[\e[0m\]\$ '
 export PS1
@@ -139,14 +139,14 @@ export PS1
 # -- Ubuntu Annoyances --------------------------------------------------------
 
 if [[ ${OS} = Ubuntu ]]; then
-  if [[ ! -e $HOME/.sudo_as_admin_successful ]]; then
-    case " $(groups) " in "* admin *")
-      echo touch $HOME/.sudo_as_admin_successful
-    esac
-  fi
+	if [[ ! -e $HOME/.sudo_as_admin_successful ]]; then
+		case " $(groups) " in "* admin *")
+			echo touch $HOME/.sudo_as_admin_successful
+		esac
+	fi
 
-  # Better to uninstall the stupid command-not-found package.
-  unset -f command_not_found_handle
+	# Better to uninstall the stupid command-not-found package.
+	unset -f command_not_found_handle
 fi
 
 # -- grc ----------------------------------------------------------------------
@@ -170,20 +170,20 @@ GRC=`which grc`
 # -- grep ---------------------------------------------------------------------
 
 [[ -z "${GREP_OPTIONS}" ]] && {
-  if echo foo|grep --color=auto foo - &>/dev/null; then
-    GREP_OPTIONS+="${GREP_OPTIONS:+ }--color=auto"
-  fi
-  if echo foo|grep --exclude-dir=bar foo - &>/dev/null; then
-    GREP_OPTIONS+="${GREP_OPTIONS:+ }--exclude-dir=.git --exclude-dir=.svn"
-  fi
-  [[ -n "${GREP_OPTIONS}" ]] && export GREP_OPTIONS
+	if echo foo|grep --color=auto foo - &>/dev/null; then
+		GREP_OPTIONS+="${GREP_OPTIONS:+ }--color=auto"
+	fi
+	if echo foo|grep --exclude-dir=bar foo - &>/dev/null; then
+		GREP_OPTIONS+="${GREP_OPTIONS:+ }--exclude-dir=.git --exclude-dir=.svn"
+	fi
+	[[ -n "${GREP_OPTIONS}" ]] && export GREP_OPTIONS
 }
 
 # -- less ---------------------------------------------------------------------
 
 if command -v less &>/dev/null; then
-  #[[ -z "${LESS}" ]] && export LESS="-R"
-  [[ -z "${LESSHISTFILE}" ]] && LESSHISTFILE=/dev/null
+	#[[ -z "${LESS}" ]] && export LESS="-R"
+	[[ -z "${LESSHISTFILE}" ]] && LESSHISTFILE=/dev/null
 
 	[[ -z "${LESSOPEN}" ]] && {
 		for _p in lesspipe lesspipe.sh; do
@@ -211,7 +211,5 @@ fi
 # -- sudo ---------------------------------------------------------------------
 
 [[ -z "${SUDO_PROMPT}" ]] && {
-  export SUDO_PROMPT="[sudo] password for $(id -un): "
+	export SUDO_PROMPT="[sudo] password for $(id -un): "
 }
-
-# vim: set noet sw=2 ts=2:

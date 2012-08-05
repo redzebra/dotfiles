@@ -16,21 +16,6 @@ export AWS_SNS_HOME=/opt/aws/apitools/sns
 export EC2_AMITOOL_HOME=/opt/aws/amitools/ec2
 export EC2_HOME=/opt/aws/apitools/ec2
 if [[ -x /usr/libexec/java_home ]]; then
-  export JAVA_HOME=`/usr/libexec/java_home`
+	export JAVA_HOME=`/usr/libexec/java_home`
 fi
 alias aws-context='source aws-context'
-
-#if which scselect &>/dev/null; then
-#	case "`scselect|awk '$1=="*" {print $3}'|tr -d '()'`" in
-# 	 Home)
-# 	   export http_proxy='http://192.168.2.1:8123'
-# 	   export NO_PROXY='localhost'
-# 	   ;;
-#	esac
-#fi
-
-#if [ -s ~/.rvm/scripts/rvm ]; then
-#  . ~/.rvm/scripts/rvm
-#fi
-
-# vi: set noet ts=2:

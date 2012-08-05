@@ -16,3 +16,6 @@
 [submodule "vim/bundle/bad-whitespace"]
 	path = vim/bundle/bad-whitespace
 	url = https://github.com/bitc/vim-bad-whitespace.git
+[submodule "vim/bundle/specky"]
+	path = vim/bundle/specky
+	url = https://github.com/vim-scripts/Specky.git
