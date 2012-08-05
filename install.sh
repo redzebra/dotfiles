@@ -289,6 +289,9 @@ if which vim >/dev/null 2>&1; then
 	for f in ~/.vim/spell/*.add; do
 		vim -E -i NONE -u NONE "+mkspell! $f" '+quit' </dev/null >/dev/null
 	done
+	if which mvim >/dev/null 2>&1; then
+		_install gvimrc ~/.gvimrc
+	fi
 fi
 
 #if which zsh >/dev/null 2>&1; then

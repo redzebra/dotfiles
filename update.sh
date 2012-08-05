@@ -22,6 +22,10 @@ _fetch local/bin/ack \
 _fetch local/bin/colordiff \
 	https://raw.github.com/daveewart/colordiff/master/colordiff.pl
 
+# vim
+_fetch vim/colors/molokai.vim \
+	https://raw.github.com/tomasr/molokai/master/colors/molokai.vim
+
 # Sublime Text 2 - Themes - IR_black
 #_fetch 'Sublime Text 2/Packages/Color Scheme - Default/IR_Black.tmTheme' \
 #	http://sublime-text-community-packages.googlecode.com/svn/trunk/Themes/IR_Black.tmTheme
