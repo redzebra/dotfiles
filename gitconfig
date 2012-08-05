@@ -1,0 +1,9 @@
+[color]
+	ui = true
+[core]
+	excludesfile = ~/.gitignore
+[mergetool]
+	keepBackup = true
+[user]
+	name = Nick Osborn
+	email = 
