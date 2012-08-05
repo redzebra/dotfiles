@@ -254,11 +254,11 @@ if which ssh >/dev/null 2>&1; then
 	_mkdir ~/.ssh/
 fi
 
-#if which svn >/dev/null 2>&1; then
-#	echo installing subversion support
-#	_mkdir ~/.subversion/
-##	_install subversion/config ~/.subversion/config
-#fi
+if which svn >/dev/null 2>&1; then
+	echo installing subversion support
+	_mkdir ~/.subversion/
+	_install subversion/config ~/.subversion/config
+fi
 
 if [ `uname -s` = OpenBSD ]; then
 	echo installing vi support
