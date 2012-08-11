@@ -5,7 +5,7 @@ scriptencoding utf-8
 
 " -- GENERAL ------------------------------------------------------------------
 
-set runtimepath+=~/.vim/bundle/pathogen
+runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
 
 syntax on			" Turn on syntax highlighting
@@ -35,12 +35,13 @@ set ignorecase			" case insensitive search
 set smartcase			" case sensitive search when uppercase present
 set wildmenu			" show list instead of just completing
 set wildmode=list:longest:full	" command <Tab> completion
+set wildignore=.*.bak,.*.tmp,*.pyc,*.swp
 set scrolloff=3			" minimum lines to keep above and below cursor
 
 " -- FORMATTING ----------------------------------------------------------------
 
 set textwidth=79
-set wrap
+"set wrap
 "set showbreak=+
 
 set autoindent
