@@ -164,7 +164,7 @@ fi
 
 if which ruby >/dev/null 2>&1; then
 	echo installing ruby support
-#	_mkdir ~/.gem/
+	_mkdir ~/.gem/
 	_install gemrc ~/.gemrc
 	_install irbrc ~/.irbrc
 	_install rspec ~/.rspec
