@@ -212,6 +212,13 @@ if command -pv mvim >/dev/null; then
 	alias gvim='command -pv mvim'
 fi
 
+# -- python --------------------------------------------------------------------
+
+if [ -d ${HOME}/Library/Python/2.7/site-packages ]; then
+	PYTHONPATH=${HOME}/Library/Python/2.7/site-packages:${PYTHONPATH:+:${PYTHONPATH}}
+	export PYTHONPATH
+fi
+
 # -- sudo ---------------------------------------------------------------------
 
 [[ -z "${SUDO_PROMPT}" ]] && {
