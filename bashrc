@@ -146,6 +146,18 @@ if [[ ${OS} = Ubuntu ]]; then
 	unset -f command_not_found_handle
 fi
 
+# -- colorsvn -----------------------------------------------------------------
+
+if command -pv colorsvn >/dev/null; then
+	alias svn='command -pv colorsvn'
+fi
+
+# -- git ----------------------------------------------------------------------
+
+if command -pv mvim >/dev/null; then
+	export GIT_EDITOR='command -p mvim -f -n --nomru -c "set stal=0"'
+fi
+
 # -- grep ---------------------------------------------------------------------
 
 [[ -z "${GREP_OPTIONS}" ]] && {
@@ -156,6 +168,15 @@ fi
 		GREP_OPTIONS+="${GREP_OPTIONS:+ }--exclude-dir=.git --exclude-dir=.svn"
 	fi
 	[[ -n "${GREP_OPTIONS}" ]] && export GREP_OPTIONS
+}
+
+# -- java ---------------------------------------------------------------------
+
+[[ ${OS} = Darwin ]] && {
+	_jave_home=$(/usr/libexec/java_home --failfast) && {
+		export JAVA_HOME=$(/usr/libexec/java_home)
+	}
+	unset _java_home
 }
 
 # -- less ---------------------------------------------------------------------
@@ -185,6 +206,12 @@ if command -v less &>/dev/null; then
 		export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 		export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 	fi
+fi
+
+# -- macvim -------------------------------------------------------------------
+
+if command -pv mvim >/dev/null; then
+	alias gvim='command -pv mvim'
 fi
 
 # -- sudo ---------------------------------------------------------------------
