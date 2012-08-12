@@ -21,7 +21,6 @@ if [ "$(uname -s)" = "Darwin" ]; then
 	PATH=${PATH%:/usr/local/bin}
 	PATH="/usr/local/bin:${PATH}"
 fi
-
 for d in /opt/bin /opt/local/bin /opt/aws/bin; do
 	[ -d "${d}" ] && PATH="${d}:${PATH}"
 done
