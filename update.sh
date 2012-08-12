@@ -35,6 +35,8 @@ _fetch local/bin/colordiff \
 # vim
 _fetch vim/colors/molokai.vim \
 	https://raw.github.com/tomasr/molokai/master/colors/molokai.vim
+_fetch vim/plugin/autotag.vim \
+	https://raw.github.com/craigemery/dotFiles/master/vim/plugin/autotag.vim
 _fetch vim/plugin/openssl.vim \
 	'http://www.vim.org/scripts/download_script.php?src_id=8564'
 _fetch vim/syntax/haproxy.vim \
