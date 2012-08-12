@@ -17,9 +17,11 @@ shopt -s no_empty_cmd_completion 2>/dev/null
 shopt -s promptvars 2>/dev/null
 shopt -s xpg_echo 2>/dev/null
 
-for d in "/Applications/Xcode.app/Contents/Developer/usr/bin"; do
-	[ -d "${d}" ] && PATH="${d}:${PATH}"
-done
+if [ "$(uname -s)" = "Darwin" ]; then
+	PATH=${PATH%:/usr/local/bin}
+	PATH="/usr/local/bin:${PATH}"
+fi
+
 for d in /opt/bin /opt/local/bin /opt/aws/bin; do
 	[ -d "${d}" ] && PATH="${d}:${PATH}"
 done
@@ -27,9 +29,6 @@ for d in "${HOME}/.local/bin" "${HOME}/.gem/ruby/1.8/bin" "${HOME}/bin"; do
 	[ -d "${d}" ] && PATH="${d}:${PATH}"
 done
 
-for d in "/Applications/Xcode.app/Contents/Developer/usr/share/man"; do
-	[ -d "${d}" ] && MANPATH="${d}${MANPATH:+:${MANPATH}}"
-done
 for d in "${HOME}/.local/share/man"; do
 	[ -d "${d}" ] && MANPATH="${d}${MANPATH:+:${MANPATH}}"
 done
