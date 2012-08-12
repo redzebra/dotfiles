@@ -1,3 +1,3 @@
-if which mvim >/dev/null 2>&1; then
-	export GIT_EDITOR='mvim -f --nomru -c "au VimLeave * !open -a Terminal"'
+if command -pv mvim >/dev/null; then
+	export GIT_EDITOR='command -p mvim -f -n --nomru -c "set stal=0"'
 fi
