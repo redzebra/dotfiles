@@ -11,8 +11,8 @@ call pathogen#infect()
 syntax on			" Turn on syntax highlighting
 filetype plugin indent on	" Automatically detect file types
 
-set background=dark		" Assume a dark background
-colorscheme ir_black
+set background=light		" Assume a light background
+colorscheme hemisu
 
 set shortmess+=I
 
