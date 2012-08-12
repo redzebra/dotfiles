@@ -162,6 +162,11 @@ if [ `uname -s` = Darwin -o `uname -s` = Linux ]; then
 	_install colordiffrc ~/.colordiffrc
 fi
 
+if [ `uname -s` = Darwin ]; then
+	echo installing python support
+	_install pydistutils.cfg ~/.pydistutils.cfg
+fi
+
 if which ruby >/dev/null 2>&1; then
 	echo installing ruby support
 	_mkdir ~/.gem/
