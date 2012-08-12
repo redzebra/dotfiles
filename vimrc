@@ -77,6 +77,13 @@ set nobackup			" don't create backup files
 set spelllang=en_gb
 set spellfile=~/.vim/spell/en_gb.utf-8.add
 
+if has("autocmd") && exists("+omnifunc")
+	autocmd Filetype *
+		\ if &omnifunc == "" |
+		\   setlocal omnifunc=syntaxcomplete#Complete |
+		\ endif
+endif
+
 " -----------------------------------------------------------------------------
 
 if filereadable(expand("~/.vimrc.local"))
