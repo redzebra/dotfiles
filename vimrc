@@ -40,8 +40,8 @@ set scrolloff=3			" minimum lines to keep above and below cursor
 
 " -- FORMATTING ----------------------------------------------------------------
 
-set textwidth=79
-"set wrap
+"set textwidth=79
+set wrap
 "set showbreak=+
 
 set autoindent
