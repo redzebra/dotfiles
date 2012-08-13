@@ -24,7 +24,7 @@ export EC2_REGION="${region:-eu-west-1}"
 export EC2_URL="https://ec2.${EC2_REGION}.amazonaws.com"
 
 export AWS_CREDENTIAL_FILE="${HOME}/.aws/${1}.credentials"
-unset AWS_DELEGATION_TOKEN=
+unset AWS_DELEGATION_TOKEN
 export EC2_CERT="${HOME}/.aws/${1}.crt"
 export EC2_PRIVATE_KEY="${HOME}/.aws/${1}.key"
 
