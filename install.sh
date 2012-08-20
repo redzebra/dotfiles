@@ -162,6 +162,11 @@ if [ `uname -s` = Darwin -o `uname -s` = Linux ]; then
 	_install colordiffrc ~/.colordiffrc
 fi
 
+if which puppet-lint >/dev/null 2>&1; then
+	echo installing puppet-lint support
+	_install -m 0400 puppet-lintrc ~/.puppet-lintrc
+fi
+
 if [ `uname -s` = Darwin ]; then
 	echo installing python support
 	_install pydistutils.cfg ~/.pydistutils.cfg
