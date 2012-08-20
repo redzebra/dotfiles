@@ -1,0 +1,71 @@
+have rds-version && {
+	_aws_apitools_rds() {
+		local cur prev opts
+		COMPREPLY=()
+		cur=${COMP_WORDS[COMP_CWORD]}
+		prev=${COMP_WORDS[COMP_CWORD-1]}
+
+		case ${prev} in
+			--aws-credential-file|--ec2-cert-file-path|--ec2-private-key-file)
+				_filedir
+				return 0
+				;;
+			--db-instance-class)
+				COMPREPLY=( $(compgen -W "db.m1.small, db.m1.large, db.m1.xlarge, db.m2.2xlarge, db.m2.4xlarge" -- ${cur}) )
+				return 0
+				;;
+			--region)
+				COMPREPLY=( $(compgen -W "ap-northeast-1 ap-southeast-1 eu-west-1 sa-west-1 us-east-1 us-west-1 us-west-2" -- ${cur}) )
+				return 0
+				;;
+		esac
+
+		if [[ ${cur} == -* ]]; then
+			for opt in $(${COMP_WORDS[0]} -h|egrep --color=never '^ +-([A-Za-z]|(-[a-z]+)+)'); do
+				[[ ${opt} = -* ]] && opts+="${opts:+ }${opt%,}"
+			done
+			COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+			return 0
+		fi
+	}
+
+  complete -F _aws_apitools_rds rds-add-option-to-option-group
+  complete -F _aws_apitools_rds rds-authorize-db-security-group-ingress
+  complete -F _aws_apitools_rds rds-copy-db-snapshot
+  complete -F _aws_apitools_rds rds-create-db-instance
+  complete -F _aws_apitools_rds rds-create-db-instance-read-replica
+  complete -F _aws_apitools_rds rds-create-db-parameter-group
+  complete -F _aws_apitools_rds rds-create-db-security-group
+  complete -F _aws_apitools_rds rds-create-db-snapshot
+  complete -F _aws_apitools_rds rds-create-db-subnet-group
+  complete -F _aws_apitools_rds rds-create-option-group
+  complete -F _aws_apitools_rds rds-delete-db-instance
+  complete -F _aws_apitools_rds rds-delete-db-parameter-group
+  complete -F _aws_apitools_rds rds-delete-db-security-group
+  complete -F _aws_apitools_rds rds-delete-db-snapshot
+  complete -F _aws_apitools_rds rds-delete-db-subnet-group
+  complete -F _aws_apitools_rds rds-delete-option-group
+  complete -F _aws_apitools_rds rds-describe-db-instances
+  complete -F _aws_apitools_rds rds-describe-db-parameter-groups
+  complete -F _aws_apitools_rds rds-describe-db-parameters
+  complete -F _aws_apitools_rds rds-describe-db-security-groups
+  complete -F _aws_apitools_rds rds-describe-db-snapshots
+  complete -F _aws_apitools_rds rds-describe-db-subnet-groups
+  complete -F _aws_apitools_rds rds-describe-engine-default-parameters
+  complete -F _aws_apitools_rds rds-describe-events
+  complete -F _aws_apitools_rds rds-describe-option-group-options
+  complete -F _aws_apitools_rds rds-describe-option-groups
+  complete -F _aws_apitools_rds rds-describe-orderable-db-instance-options
+  complete -F _aws_apitools_rds rds-describe-reserved-db-instances
+  complete -F _aws_apitools_rds rds-describe-reserved-db-instances-offerings
+  complete -F _aws_apitools_rds rds-modify-db-instance
+  complete -F _aws_apitools_rds rds-modify-db-parameter-group
+  complete -F _aws_apitools_rds rds-modify-db-subnet-group
+  complete -F _aws_apitools_rds rds-purchase-reserved-db-instances-offering
+  complete -F _aws_apitools_rds rds-reboot-db-instance
+  complete -F _aws_apitools_rds rds-remove-option-from-option-group
+  complete -F _aws_apitools_rds rds-reset-db-parameter-group
+  complete -F _aws_apitools_rds rds-restore-db-instance-from-db-snapshot
+  complete -F _aws_apitools_rds rds-restore-db-instance-to-point-in-time
+  complete -F _aws_apitools_rds rds-revoke-db-security-group-ingress
+}

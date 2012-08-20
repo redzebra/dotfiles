@@ -1,0 +1,53 @@
+have elb-cmd && {
+	_aws_apitools_elb() {
+		local cur prev opts
+		COMPREPLY=()
+		cur=${COMP_WORDS[COMP_CWORD]}
+		prev=${COMP_WORDS[COMP_CWORD-1]}
+
+		case ${prev} in
+			--aws-credential-file|--ec2-cert-file-path|--ec2-private-key-file-path)
+				_filedir
+				return 0
+				;;
+			--region)
+				COMPREPLY=( $(compgen -W "ap-northeast-1 ap-southeast-1 eu-west-1 sa-west-1 us-east-1 us-west-1 us-west-2" -- ${cur}) )
+				return 0
+				;;
+		esac
+
+		if [[ ${cur} == -* ]]; then
+			for opt in $(${COMP_WORDS[0]} -h|egrep --color=never '^ +-([A-Za-z]|(-[a-z]+)+)'); do
+				[[ ${opt} = -* ]] && opts+="${opts:+ }${opt%,}"
+			done
+			COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+			return 0
+		fi
+	}
+
+  complete -F _aws_apitools_elb elb-apply-security-groups-to-lb
+  complete -F _aws_apitools_elb elb-associate-route53-hosted-zone
+  complete -F _aws_apitools_elb elb-attach-lb-to-subnets
+  complete -F _aws_apitools_elb elb-configure-healthcheck
+  complete -F _aws_apitools_elb elb-create-app-cookie-stickiness-policy
+  complete -F _aws_apitools_elb elb-create-lb
+  complete -F _aws_apitools_elb elb-create-lb-cookie-stickiness-policy
+  complete -F _aws_apitools_elb elb-create-lb-listeners
+  complete -F _aws_apitools_elb elb-create-lb-policy
+  complete -F _aws_apitools_elb elb-delete-lb
+  complete -F _aws_apitools_elb elb-delete-lb-listeners
+  complete -F _aws_apitools_elb elb-delete-lb-policy
+  complete -F _aws_apitools_elb elb-deregister-instances-from-lb
+  complete -F _aws_apitools_elb elb-describe-instance-health
+  complete -F _aws_apitools_elb elb-describe-lb-policies
+  complete -F _aws_apitools_elb elb-describe-lb-policy-types
+  complete -F _aws_apitools_elb elb-describe-lbs
+  complete -F _aws_apitools_elb elb-detach-lb-from-subnets
+  complete -F _aws_apitools_elb elb-disable-zones-for-lb
+  complete -F _aws_apitools_elb elb-disassociate-route53-hosted-zone
+  complete -F _aws_apitools_elb elb-enable-zones-for-lb
+  complete -F _aws_apitools_elb elb-register-instances-with-lb
+  complete -F _aws_apitools_elb elb-set-lb-listener-ssl-cert
+  complete -F _aws_apitools_elb elb-set-lb-policies-for-backend-server
+  complete -F _aws_apitools_elb elb-set-lb-policies-of-listener
+}

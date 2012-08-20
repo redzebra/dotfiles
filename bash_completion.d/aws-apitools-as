@@ -1,0 +1,69 @@
+have as-cmd && {
+	_aws_apitools_as() {
+		local cur prev opts
+		COMPREPLY=()
+		cur=${COMP_WORDS[COMP_CWORD]}
+		prev=${COMP_WORDS[COMP_CWORD-1]}
+
+		case ${prev} in
+			--aws-credential-file|--ec2-cert-file-path|--ec2-private-key-file-path)
+				_filedir
+				return 0
+				;;
+			--user-data-file)
+				_filedir
+				return 0
+				;;
+			--instance-type|-t)
+				COMPREPLY=( $(compgen -W "m1.small m1.medium m1.large m1.xlarge t1.micro m2.xlarge m2.2xlarge m2.4xlarge c1.medium c1.xlarge cc1.4xlarge cc2.8xlarge cg1.4xlarge hi1.4xlarge" -- ${cur}) )
+				return 0
+				;;
+			--region)
+				COMPREPLY=( $(compgen -W "ap-northeast-1 ap-southeast-1 eu-west-1 sa-west-1 us-east-1 us-west-1 us-west-2" -- ${cur}) )
+				return 0
+				;;
+		esac
+
+		if [[ ${cur} == -* ]]; then
+			for opt in $(${COMP_WORDS[0]} -h|egrep --color=never '^ +-([A-Za-z]|(-[a-z]+)+)'); do
+				[[ ${opt} = -* ]] && opts+="${opts:+ }${opt%,}"
+			done
+			COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+			return 0
+		fi
+	}
+
+	complete -F _aws_apitools_as as-create-auto-scaling-group
+	complete -F _aws_apitools_as as-create-launch-config
+	complete -F _aws_apitools_as as-create-or-update-tags
+	complete -F _aws_apitools_as as-delete-auto-scaling-group
+	complete -F _aws_apitools_as as-delete-launch-config
+	complete -F _aws_apitools_as as-delete-notification-configuration
+	complete -F _aws_apitools_as as-delete-policy
+	complete -F _aws_apitools_as as-delete-scheduled-action
+	complete -F _aws_apitools_as as-delete-tags
+	complete -F _aws_apitools_as as-describe-adjustment-types
+	complete -F _aws_apitools_as as-describe-auto-scaling-groups
+	complete -F _aws_apitools_as as-describe-auto-scaling-instances
+	complete -F _aws_apitools_as as-describe-auto-scaling-notification-types
+	complete -F _aws_apitools_as as-describe-launch-configs
+	complete -F _aws_apitools_as as-describe-metric-collection-types
+	complete -F _aws_apitools_as as-describe-notification-configurations
+	complete -F _aws_apitools_as as-describe-policies
+	complete -F _aws_apitools_as as-describe-process-types
+	complete -F _aws_apitools_as as-describe-scaling-activities
+	complete -F _aws_apitools_as as-describe-scheduled-actions
+	complete -F _aws_apitools_as as-describe-tags
+	complete -F _aws_apitools_as as-disable-metrics-collection
+	complete -F _aws_apitools_as as-enable-metrics-collection
+	complete -F _aws_apitools_as as-execute-policy
+	complete -F _aws_apitools_as as-put-notification-configuration
+	complete -F _aws_apitools_as as-put-scaling-policy
+	complete -F _aws_apitools_as as-put-scheduled-update-group-action
+	complete -F _aws_apitools_as as-resume-processes
+	complete -F _aws_apitools_as as-set-desired-capacity
+	complete -F _aws_apitools_as as-set-instance-health
+	complete -F _aws_apitools_as as-suspend-processes
+	complete -F _aws_apitools_as as-terminate-instance-in-auto-scaling-group
+	complete -F _aws_apitools_as as-update-auto-scaling-group
+}

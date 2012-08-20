@@ -144,10 +144,10 @@ if which bash >/dev/null 2>&1; then
 	done
 	_mkdir ~/.bash_completion.d
 	for f in bash_completion.d/*; do
-		_install $f ~/.$f
+		[ -f $f ] && _install $f ~/.$f
 	done
 	for f in `cd ~/.bash_completion.d && find * -type f`; do
-		[ -e bash_completion.d/$f ] || { echo removing ~/.bash_completion.d/$f; rm ~/.bash_completion.d/$f; }
+		[ -e bash_completion.d/$f ] || { echo removing ~/.bash_completion.d/$f; rm -f ~/.bash_completion.d/$f; }
 	done
 	_install inputrc ~/.inputrc
 fi

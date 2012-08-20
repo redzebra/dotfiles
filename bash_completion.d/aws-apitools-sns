@@ -1,0 +1,39 @@
+have sns-cmd && {
+	_aws_apitools_sns() {
+		local cur prev opts
+		COMPREPLY=()
+		cur=${COMP_WORDS[COMP_CWORD]}
+		prev=${COMP_WORDS[COMP_CWORD-1]}
+
+    case ${prev} in
+			--region)
+				COMPREPLY=( $(compgen -W "ap-northeast-1 ap-southeast-1 eu-west-1 sa-west-1 us-east-1 us-west-1 us-west-2" -- ${cur}) )
+				return 0
+				;;
+		esac
+
+		if [[ ${cur} == -* ]]; then
+			for opt in $(${COMP_WORDS[0]} -h|egrep --color=never '^ +-([A-Za-z]|(-[a-z]+)+)'); do
+				[[ ${opt} = -* ]] && opts+="${opts:+ }${opt%,}"
+			done
+			COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+			return 0
+		fi
+	}
+
+	complete -F _aws_apitools_sns sns-add-permission
+	complete -F _aws_apitools_sns sns-confirm-subscription
+	complete -F _aws_apitools_sns sns-create-topic
+	complete -F _aws_apitools_sns sns-delete-topic
+	complete -F _aws_apitools_sns sns-get-subscription-attributes
+	complete -F _aws_apitools_sns sns-get-topic-attributes
+	complete -F _aws_apitools_sns sns-list-subscriptions
+	complete -F _aws_apitools_sns sns-list-subscriptions-by-topic
+	complete -F _aws_apitools_sns sns-list-topics
+	complete -F _aws_apitools_sns sns-publish
+	complete -F _aws_apitools_sns sns-remove-permission
+	complete -F _aws_apitools_sns sns-set-subscription-attributes
+	complete -F _aws_apitools_sns sns-set-topic-attributes
+	complete -F _aws_apitools_sns sns-subscribe
+	complete -F _aws_apitools_sns sns-unsubscribe
+}

@@ -1,0 +1,86 @@
+have iam-accountgetsummary && {
+	_aws_apitools_iam() {
+		local cur prev opts
+		COMPREPLY=()
+		cur=${COMP_WORDS[COMP_CWORD]}
+		prev=${COMP_WORDS[COMP_CWORD-1]}
+
+		if [[ ${cur} == -* ]]; then
+			for opt in $(${COMP_WORDS[0]} -h|egrep --color=never '^ +-([A-Za-z]|(-[a-z]+)+)'); do
+				[[ ${opt} = -* ]] && opts+="${opts:+ }${opt%,}"
+			done
+			COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+			return 0
+		fi
+	}
+
+  complete -F _aws_apitools_iam iam-accountaliascreate
+  complete -F _aws_apitools_iam iam-accountaliasdelete
+  complete -F _aws_apitools_iam iam-accountaliaslist
+  complete -F _aws_apitools_iam iam-accountdelpasswordpolicy
+  complete -F _aws_apitools_iam iam-accountgetpasswordpolicy
+  complete -F _aws_apitools_iam iam-accountgetsummary
+  complete -F _aws_apitools_iam iam-accountmodpasswordpolicy
+  complete -F _aws_apitools_iam iam-groupaddpolicy
+  complete -F _aws_apitools_iam iam-groupadduser
+  complete -F _aws_apitools_iam iam-groupcreate
+  complete -F _aws_apitools_iam iam-groupdel
+  complete -F _aws_apitools_iam iam-groupdelpolicy
+  complete -F _aws_apitools_iam iam-grouplistbypath
+  complete -F _aws_apitools_iam iam-grouplistpolicies
+  complete -F _aws_apitools_iam iam-grouplistusers
+  complete -F _aws_apitools_iam iam-groupmod
+  complete -F _aws_apitools_iam iam-groupremoveuser
+  complete -F _aws_apitools_iam iam-groupuploadpolicy
+  complete -F _aws_apitools_iam iam-instanceprofileaddrole
+  complete -F _aws_apitools_iam iam-instanceprofilecreate
+  complete -F _aws_apitools_iam iam-instanceprofiledel
+  complete -F _aws_apitools_iam iam-instanceprofilegetattributes
+  complete -F _aws_apitools_iam iam-instanceprofilelistbypath
+  complete -F _aws_apitools_iam iam-instanceprofilelistforrole
+  complete -F _aws_apitools_iam iam-instanceprofileremoverole
+  complete -F _aws_apitools_iam iam-roleaddpolicy
+  complete -F _aws_apitools_iam iam-rolecreate
+  complete -F _aws_apitools_iam iam-roledel
+  complete -F _aws_apitools_iam iam-roledelpolicy
+  complete -F _aws_apitools_iam iam-rolegetattributes
+  complete -F _aws_apitools_iam iam-rolelistbypath
+  complete -F _aws_apitools_iam iam-rolelistpolicies
+  complete -F _aws_apitools_iam iam-roleupdateassumepolicy
+  complete -F _aws_apitools_iam iam-roleuploadpolicy
+  complete -F _aws_apitools_iam iam-servercertdel
+  complete -F _aws_apitools_iam iam-servercertgetattributes
+  complete -F _aws_apitools_iam iam-servercertlistbypath
+  complete -F _aws_apitools_iam iam-servercertmod
+  complete -F _aws_apitools_iam iam-servercertupload
+  complete -F _aws_apitools_iam iam-useraddcert
+  complete -F _aws_apitools_iam iam-useraddkey
+  complete -F _aws_apitools_iam iam-useraddloginprofile
+  complete -F _aws_apitools_iam iam-useraddpolicy
+  complete -F _aws_apitools_iam iam-userchangepassword
+  complete -F _aws_apitools_iam iam-usercreate
+  complete -F _aws_apitools_iam iam-userdeactivatemfadevice
+  complete -F _aws_apitools_iam iam-userdel
+  complete -F _aws_apitools_iam iam-userdelcert
+  complete -F _aws_apitools_iam iam-userdelkey
+  complete -F _aws_apitools_iam iam-userdelloginprofile
+  complete -F _aws_apitools_iam iam-userdelpolicy
+  complete -F _aws_apitools_iam iam-userenablemfadevice
+  complete -F _aws_apitools_iam iam-usergetattributes
+  complete -F _aws_apitools_iam iam-usergetloginprofile
+  complete -F _aws_apitools_iam iam-userlistbypath
+  complete -F _aws_apitools_iam iam-userlistcerts
+  complete -F _aws_apitools_iam iam-userlistgroups
+  complete -F _aws_apitools_iam iam-userlistkeys
+  complete -F _aws_apitools_iam iam-userlistmfadevices
+  complete -F _aws_apitools_iam iam-userlistpolicies
+  complete -F _aws_apitools_iam iam-usermod
+  complete -F _aws_apitools_iam iam-usermodcert
+  complete -F _aws_apitools_iam iam-usermodkey
+  complete -F _aws_apitools_iam iam-usermodloginprofile
+  complete -F _aws_apitools_iam iam-userresyncmfadevice
+  complete -F _aws_apitools_iam iam-useruploadpolicy
+  complete -F _aws_apitools_iam iam-virtualmfadevicecreate
+  complete -F _aws_apitools_iam iam-virtualmfadevicedel
+  complete -F _aws_apitools_iam iam-virtualmfadevicelist
+}

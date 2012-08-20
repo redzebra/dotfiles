@@ -1,0 +1,32 @@
+have ec2-ami-tools-version && {
+	_aws_amitools() {
+		local cur prev opts
+		COMPREPLY=()
+		cur=${COMP_WORDS[COMP_CWORD]}
+		prev=${COMP_WORDS[COMP_CWORD-1]}
+
+		case ${prev} in
+			--region)
+				COMPREPLY=( $(compgen -W "ap-northeast-1 ap-southeast-1 eu-west-1 sa-west-1 us-east-1 us-west-1 us-west-2" -- ${cur}) )
+				return 0
+				;;
+		esac
+
+		if [[ ${cur} == -* ]]; then
+			for opt in $(${COMP_WORDS[0]} -h|egrep --color=never '^ +-([A-Za-z]|(-[a-z]+)+)'); do
+				[[ ${opt} = -* ]] && opts+="${opts:+ }${opt%,}"
+			done
+			COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+			return 0
+		fi
+	}
+
+	complete -F _aws_amitools ec2-bundle-image
+	complete -F _aws_amitools ec2-bundle-vol
+	complete -F _aws_amitools ec2-delete-bundle
+	complete -F _aws_amitools ec2-download-bundle
+	complete -F _aws_amitools ec2-migrate-bundle
+	complete -F _aws_amitools ec2-migrate-manifest
+	complete -F _aws_amitools ec2-unbundle
+	complete -F _aws_amitools ec2-upload-bundle
+}
