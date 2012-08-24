@@ -164,7 +164,8 @@ fi
 
 if which puppet-lint >/dev/null 2>&1; then
 	echo installing puppet-lint support
-	_install -m 0400 puppet-lintrc ~/.puppet-lintrc
+	rm -fv ~/.puppet-lintrc
+	_install -m 0400 puppet-lint.rc ~/.puppet-lint.rc
 fi
 
 if [ `uname -s` = Darwin ]; then
