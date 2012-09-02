@@ -6,16 +6,38 @@ have as-cmd && {
 		prev=${COMP_WORDS[COMP_CWORD-1]}
 
 		case ${prev} in
-			--aws-credential-file|--ec2-cert-file-path|--ec2-private-key-file-path)
-				_filedir
+			# Specific Options
+			--health-check-type)
+				COMPREPLY=( $(compgen -W "EC2 ELB" -- ${cur}) )
+				return 0
+				;;
+			-g|--granularity)
+				COMPREPLY=( $(compgen -W "1Minute" -- ${cur}) )
+				return 0
+				;;
+			-t|--instance-type)
+				COMPREPLY=( $(compgen -W "m1.small m1.medium m1.large m1.xlarge t1.micro m2.xlarge m2.2xlarge m2.4xlarge c1.medium c1.xlarge cc1.4xlarge cc2.8xlarge cg1.4xlarge hi1.4xlarge" -- ${cur}) )
+				return 0
+				;;
+			-s|--status)
+				COMPREPLY=( $(compgen -W "Healthy Unhealthy" -- ${cur}) )
 				return 0
 				;;
 			--user-data-file)
 				_filedir
 				return 0
 				;;
-			--instance-type|-t)
-				COMPREPLY=( $(compgen -W "m1.small m1.medium m1.large m1.xlarge t1.micro m2.xlarge m2.2xlarge m2.4xlarge c1.medium c1.xlarge cc1.4xlarge cc2.8xlarge cg1.4xlarge hi1.4xlarge" -- ${cur}) )
+			# General Options
+			--aws-credential-file)
+				_filedir
+				return 0
+				;;
+			-C|--ec2-cert-file-path)
+				_filedir
+				return 0
+				;;
+			-K|--ec2-private-key-file-path)
+				_filedir
 				return 0
 				;;
 			--region)

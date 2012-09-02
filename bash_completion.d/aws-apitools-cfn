@@ -6,11 +6,20 @@ have cfn-cmd && {
 		prev=${COMP_WORDS[COMP_CWORD-1]}
 
 		case ${prev} in
-			--aws-credential-file|--ec2-private-key-file-path)
+			# Specific Options
+			--capabilities|-c)
+				COMPREPLY=( $(compgen -W "CAPABILITY_IAM" -- ${cur}) )
+				;;
+			--template-file)
 				_filedir
 				return 0
 				;;
-			--template-file)
+			# General Options
+			--aws-credential-file)
+				_filedir
+				return 0
+				;;
+			-K|--ec2-private-key-file-path)
 				_filedir
 				return 0
 				;;
