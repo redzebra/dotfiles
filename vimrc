@@ -12,7 +12,7 @@ syntax on			" Turn on syntax highlighting
 filetype plugin indent on	" Automatically detect file types
 
 set background=light		" Assume a light background
-colorscheme hemisu
+"colorscheme hemisu
 
 set shortmess+=I
 
