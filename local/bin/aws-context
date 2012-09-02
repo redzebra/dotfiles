@@ -1,35 +1,43 @@
 #!/bin/bash
 
-source=$(basename ${BASH_SOURCE})
+source=$(basename $BASH_SOURCE)
 
-if [[ $# == 3 ]]; then
-	if [[ "$1" == "-r" ]]; then
-		region="$2"
+if [ $# -eq 0 ]; then
+	[ -n "$AWS_CREDENTIAL_FILE" ] && echo AWS_CREDENTIAL_FILE=$AWS_CREDENTIAL_FILE
+	[ -n "$BOTO_CONFIG"         ] && echo BOTO_CONFIG=$BOTO_CONFIG
+	[ -n "$EC2_CERT"            ] && echo EC2_CERT=$EC2_CERT
+	[ -n "$EC2_KEY"             ] && echo EC2_KEY=$EC2_KEY
+	[ -n "$EC2_REGION"          ] && echo EC2_REGION=$EC2_REGION
+	[ -n "$EC2_URL"             ] && echo EC2_URL=$EC2_URL
+	return 0
+fi
+
+if [ $# -eq 3 ]; then
+	if [ "$1" == "-r" ]; then
+		region=$2
 		shift 2
 	fi
 fi
-if [[ $# != 1 ]]; then
-	echo "usage: ${source} [-r region] account" >&2
+if [ $# -ne 1 ]; then
+	echo "usage: $source [-r region] account" >&2
 	return 1
 fi
 
-for e in credentials crt key; do
-	if [[ ! -f "${HOME}/.aws/${1}.${e}" ]]; then
-		echo "${source}: ${HOME}/.aws/${1}.${e}: No such file" >&2
-		return 2
-	fi
-done
+credentials=($(ls $HOME/.aws/$1.{boto,credentials,crt,key} 2>/dev/null))
+if [ ${#credentials[@]} -eq 0 ]; then
+	echo "$source: $1: No such credentials" >&2
+	return 2
+fi
 
 export EC2_REGION="${region:-eu-west-1}"
-export EC2_URL="https://ec2.${EC2_REGION}.amazonaws.com"
+export EC2_URL="https://ec2.$EC2_REGION.amazonaws.com"
+unset AWS_CREDENTIAL_FILE AWS_DELEGATION_TOKEN BOTO_CONFIG EC2_CERT EC2_KEY
 
-export AWS_CREDENTIAL_FILE="${HOME}/.aws/${1}.credentials"
-unset AWS_DELEGATION_TOKEN
-export EC2_CERT="${HOME}/.aws/${1}.crt"
-export EC2_PRIVATE_KEY="${HOME}/.aws/${1}.key"
-
-if [ -e ${HOME}/.aws/${1}.boto ]; then
-	export BOTO_CONFIG="${HOME}/.aws/${1}.boto"
-else
-	unset BOTO_CONFIG
-fi
+for credential in ${credentials[@]}; do
+	case "$credential" in
+		*.boto)        export BOTO_CONFIG=$credential;;
+		*.credentials) export AWS_CREDENTIAL_FILE=$credential;;
+		*.crt)         export EC2_CERT=$credential;;
+		*.key)         export EC2_KEY=$credential;;
+	esac
+done

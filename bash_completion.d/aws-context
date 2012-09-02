@@ -17,7 +17,7 @@ _aws_context()
 		COMPREPLY=( $(compgen -W "-r" -- "${cur}") )
 		return 0
 	else
-		local names=$(for x in `ls -1 ~/.aws/*.credentials`; do basename ${x%.credentials}; done)
+		local names=$(for x in `ls ~/.aws/*.{boto,credentials,crt,key} 2>/dev/null`; do basename ${x%.*}|sort -u; done)
 		COMPREPLY=( $(compgen -W "${names}" -- "${cur}") )
 		return 0
 	fi
