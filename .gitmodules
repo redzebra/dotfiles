@@ -19,18 +19,6 @@
 [submodule "vim/bundle/gnupg"]
 	path = vim/bundle/gnupg
 	url = https://github.com/jamessan/vim-gnupg.git
-[submodule "vim/bundle/solarized"]
-	path = vim/bundle/solarized
-	url = https://github.com/altercation/vim-colors-solarized.git
-[submodule "Terminal/Hemisu"]
-	path = Terminal/Hemisu
-	url = https://github.com/noahfrederick/Hemisu-Terminal-app.git
-[submodule "Terminal/Solarized"]
-	path = Terminal/Solarized
-	url = https://github.com/tomislav/osx-lion-terminal.app-colors-solarized.git
-[submodule "vim/bundle/hemisu"]
-	path = vim/bundle/hemisu
-	url = https://github.com/noahfrederick/Hemisu.git
 [submodule "vim/bundle/json"]
 	path = vim/bundle/json
 	url = https://github.com/elzr/vim-json.git
