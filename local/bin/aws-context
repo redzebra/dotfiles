@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source=$(basename $BASH_SOURCE)
-
 if [ $# -eq 0 ]; then
 	[ -n "$AWS_CREDENTIAL_FILE" ] && echo AWS_CREDENTIAL_FILE=$AWS_CREDENTIAL_FILE
 	[ -n "$BOTO_CONFIG"         ] && echo BOTO_CONFIG=$BOTO_CONFIG
@@ -19,13 +17,13 @@ if [ $# -eq 3 ]; then
 	fi
 fi
 if [ $# -ne 1 ]; then
-	echo "usage: $source [-r region] account" >&2
+	echo "usage: ${BASH_SOURCE##*/} [-r region] account" >&2
 	return 1
 fi
 
 credentials=($(ls $HOME/.aws/$1.{boto,credentials,crt,key} 2>/dev/null))
 if [ ${#credentials[@]} -eq 0 ]; then
-	echo "$source: $1: No such credentials" >&2
+	echo "${BASH_SOURCE##*/}: $1: No such credentials" >&2
 	return 2
 fi
 
