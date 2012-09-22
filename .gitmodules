@@ -22,3 +22,12 @@
 [submodule "vim/bundle/json"]
 	path = vim/bundle/json
 	url = https://github.com/elzr/vim-json.git
+[submodule "Sublime Text 2/SublimeLinter"]
+	path = Sublime Text 2/SublimeLinter
+	url = git://github.com/SublimeLinter/SublimeLinter.git
+[submodule "Sublime Text 2/Alignment"]
+	path = Sublime Text 2/Alignment
+	url = git://github.com/wbond/sublime_alignment.git
+[submodule "Sublime Text 2/Git"]
+	path = Sublime Text 2/Git
+	url = https://github.com/kemayo/sublime-text-2-git

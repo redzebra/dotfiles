@@ -66,7 +66,7 @@ fi
 
 _mkdir () {
 	local _args _d _i
-	_args=`getopt m: $*`
+	_args=`getopt m: "$@"`
 	if [ $? != 0 ]; then
 		echo "Usage: ${FUNCNAME[0]} [-m mode] directory ..." >&2; __args; return 1
 	fi
@@ -80,15 +80,15 @@ _mkdir () {
 	if [ $# = 0 ]; then
 		echo "Usage: ${FUNCNAME[0]} [-m mode] directory ..." >&2; return 1
 	fi
-	for _d in $*; do
-		[ -d $_d ] || mkdir $_d || return
+	for _d in "$@"; do
+		[ -d "$_d" ] || mkdir "$_d" || return
 	done
-	chmod ${_mode:-0700} $* || return
+	chmod ${_mode:-0700} "$@" || return
 }
 
 _install () {
   local _args _i _mode _src
-  _args=`getopt m: $*`
+  _args=`getopt m: "$@"`
   if [ $? != 0 ]; then
     echo "Usage: ${FUNCNAME[0]} [-m mode] file1 file2" >&2; return 1
   fi
@@ -102,9 +102,9 @@ _install () {
   if [ $# != 2 ]; then
     echo "Usage: ${FUNCNAME[0]} [-m mode] file1 file2" >&2; return 1
   fi
-  [ -n "$variant" -a -e "$1.$variant" ] && _src=$1.$variant
-  cmp -s ${_src:-$1} $2 || cp -fv ${_src:-$1} $2 || return
-  chmod ${_mode:-0400} $2 || return
+  [ -n "$variant" -a -e "$1.$variant" ] && _src="$1.$variant"
+  cmp -s "${_src:-$1}" "$2" || cp -fv "${_src:-$1}" "$2" || return
+  chmod ${_mode:-0400} "$2" || return
 }
 
 # Local install
@@ -130,6 +130,13 @@ for f in `cd ~/.local && find * -type f`; do
 done
 if which SetFile >/dev/null 2>&1; then
 	SetFile -a V ~/.local/
+fi
+
+if [ -d "/Applications/Sublime Text 2.app" ]; then
+	echo installing Sublime Text 2 support
+	_packages="${HOME}/Library/Application Support/Sublime Text 2/Packages"
+	tar -C 'Sublime Text 2' -cf - --exclude '.git*' . | tar -C "${_packages}" -xf -
+	unset _packages
 fi
 
 if which perl >/dev/null 2>&1; then
