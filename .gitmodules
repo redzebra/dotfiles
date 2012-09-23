@@ -34,3 +34,6 @@
 [submodule "Sublime Text 2/Puppet"]
 	path = Sublime Text 2/Puppet
 	url = git@github.com:redzebra/sublime-text-puppet.git
+[submodule "Sublime Text 2/Theme - Soda"]
+	path = Sublime Text 2/Theme - Soda
+	url = git://github.com/buymeasoda/soda-theme.git
