@@ -31,3 +31,6 @@
 [submodule "Sublime Text 2/Git"]
 	path = Sublime Text 2/Git
 	url = https://github.com/kemayo/sublime-text-2-git
+[submodule "Sublime Text 2/Puppet"]
+	path = Sublime Text 2/Puppet
+	url = git@github.com:redzebra/sublime-text-puppet.git
