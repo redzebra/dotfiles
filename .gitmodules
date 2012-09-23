@@ -40,3 +40,6 @@
 [submodule "Sublime Text 2/Theme - Phoenix"]
 	path = Sublime Text 2/Theme - Phoenix
 	url = git://github.com/netatoo/phoenix-theme.git
+[submodule "Sublime Text 2/Theme - Aqua"]
+	path = Sublime Text 2/Theme - Aqua
+	url = git://github.com/cafarm/aqua-theme.git
