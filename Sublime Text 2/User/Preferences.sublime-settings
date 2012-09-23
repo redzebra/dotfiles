@@ -5,5 +5,6 @@
   "dictionary": "Packages/Language - English/en_GB.dic",
   "font_options": ["subpixel_alias"],
   "highlight_modified_tabs": true,
-  "indent_guide_options": ["draw_active"]
+  "indent_guide_options": ["draw_active"],
+  "theme": "Soda Light.sublime-theme"
 }

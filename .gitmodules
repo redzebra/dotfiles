@@ -37,3 +37,6 @@
 [submodule "Sublime Text 2/Theme - Soda"]
 	path = Sublime Text 2/Theme - Soda
 	url = git://github.com/buymeasoda/soda-theme.git
+[submodule "Sublime Text 2/Theme - Phoenix"]
+	path = Sublime Text 2/Theme - Phoenix
+	url = git://github.com/netatoo/phoenix-theme.git
