@@ -3,7 +3,7 @@
 [core]
 	excludesfile = ~/.gitignore
 [help]
-	autocorrect = true
+	autocorrect = -1
 [mergetool]
 	keepBackup = true
 [user]
