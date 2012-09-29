@@ -188,6 +188,11 @@ if which ruby >/dev/null 2>&1; then
 	_install rspec ~/.rspec
 fi
 
+if which rvm >/dev/null 2>&1; then
+	echo installing rvm support
+	_install -m 0400 rvmrc ~/.rvmrc
+fi
+
 if which screen >/dev/null 2>&1; then
 	echo installing screen support
 	_install -m 0400 screenrc ~/.screenrc
