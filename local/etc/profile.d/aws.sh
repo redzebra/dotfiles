@@ -1,6 +1,7 @@
 export AWS_AUTO_SCALING_HOME=/opt/aws/apitools/as
 export AWS_CLOUDFORMATION_HOME=/opt/aws/apitools/cfn
 export AWS_CLOUDWATCH_HOME=/opt/aws/apitools/mon
+export AWS_ELASTICACHE_HOME=/opt/aws/apitools/elasticache
 export AWS_ELB_HOME=/opt/aws/apitools/elb
 export AWS_IAM_HOME=/opt/aws/apitools/iam
 export AWS_RDS_HOME=/opt/aws/apitools/rds
