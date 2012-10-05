@@ -6,6 +6,7 @@ export AWS_ELB_HOME=/opt/aws/apitools/elb
 export AWS_IAM_HOME=/opt/aws/apitools/iam
 export AWS_RDS_HOME=/opt/aws/apitools/rds
 export AWS_SNS_HOME=/opt/aws/apitools/sns
+export CS_HOME=/opt/aws/apitools/cs
 export EC2_AMITOOL_HOME=/opt/aws/amitools/ec2
 export EC2_HOME=/opt/aws/apitools/ec2
 
