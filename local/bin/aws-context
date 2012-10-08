@@ -32,6 +32,7 @@ export AWS_REGION="${region:-eu-west-1}"
 export EC2_REGION="${region:-eu-west-1}"
 export EC2_URL="https://ec2.$EC2_REGION.amazonaws.com"
 unset AWS_CREDENTIAL_FILE BOTO_CONFIG EC2_CERT EC2_PRIVATE_KEY
+unset AWS_ACCESS_KEY AWS_SECRET_KEY AWS_DELEGATION_TOKEN
 
 for credential in ${credentials[@]}; do
 	case "$credential" in
@@ -41,3 +42,9 @@ for credential in ${credentials[@]}; do
 		*.key)         export EC2_PRIVATE_KEY=$credential;;
 	esac
 done
+
+if [ -n "$AWS_CREDENTIAL_FILE" ]; then
+	AWS_ACCESS_KEY=`egrep ^AWSAccessKeyId= $AWS_CREDENTIAL_FILE|cut -d= -f2`
+	AWS_SECRET_KEY=`egrep ^AWSSecretKey= $AWS_CREDENTIAL_FILE|cut -d= -f2`
+	export AWS_ACCESS_KEY AWS_SECRET_KEY
+fi
