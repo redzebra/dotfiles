@@ -1,39 +1,249 @@
 have sns-cmd && {
-	_aws_apitools_sns() {
-		local cur prev opts
-		COMPREPLY=()
-		cur=${COMP_WORDS[COMP_CWORD]}
-		prev=${COMP_WORDS[COMP_CWORD-1]}
-
+  _aws_apitools_sns_general_options () {
     case ${prev} in
-			--region)
-				COMPREPLY=( $(compgen -W "ap-northeast-1 ap-southeast-1 eu-west-1 sa-west-1 us-east-1 us-west-1 us-west-2" -- ${cur}) )
-				return 0
-				;;
-		esac
+      --aws-credential-file) _filedir; return 0;;
+      --connection-timeout) return 0;;
+      --delimiter) return 0;;
+      -I|--access-key-id) return 0;;
+      --region)
+        COMPREPLY=($(compgen -W "ap-northeast-1 ap-southeast-1 eu-west-1 sa-west-1 us-east-1 us-west-1 us-west-2" -- ${cur}))
+        return 0
+        ;;
+      -S|--secret-key) return 0;;
+      -U|--url) return 0;;
+    esac
+    opts+="${opts:+ }--access-key-id --aws-credential-file --connection-timeout --delimiter --headers --help --quiet --region --secret-key --show-empty-fields --show-long --show-table --show-xml --url"
+    return 1
+  }
 
-		if [[ ${cur} == -* ]]; then
-			for opt in $(${COMP_WORDS[0]} -h|egrep --color=never '^ +-([A-Za-z]|(-[a-z]+)+)'); do
-				[[ ${opt} = -* ]] && opts+="${opts:+ }${opt%,}"
-			done
-			COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-			return 0
-		fi
-	}
+  _aws_apitools_sns_add_permission () {
+    case ${prev} in
+      --action-name)
+        COMPREPLY=($(compgen -W "SNS:Publish SNS:Receive SNS:Subscribe" -- ${cur}))
+        return 0
+        ;;
+      --aws-account-id) return 0;;
+      --label) return 0;;
+      --topic-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--topic-arn"
+      opts+="${opts:+ }--action-name --aws-account-id --label"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
 
-	complete -F _aws_apitools_sns sns-add-permission
-	complete -F _aws_apitools_sns sns-confirm-subscription
-	complete -F _aws_apitools_sns sns-create-topic
-	complete -F _aws_apitools_sns sns-delete-topic
-	complete -F _aws_apitools_sns sns-get-subscription-attributes
-	complete -F _aws_apitools_sns sns-get-topic-attributes
-	complete -F _aws_apitools_sns sns-list-subscriptions
-	complete -F _aws_apitools_sns sns-list-subscriptions-by-topic
-	complete -F _aws_apitools_sns sns-list-topics
-	complete -F _aws_apitools_sns sns-publish
-	complete -F _aws_apitools_sns sns-remove-permission
-	complete -F _aws_apitools_sns sns-set-subscription-attributes
-	complete -F _aws_apitools_sns sns-set-topic-attributes
-	complete -F _aws_apitools_sns sns-subscribe
-	complete -F _aws_apitools_sns sns-unsubscribe
+  _aws_apitools_sns_confirm_subscription () {
+    case ${prev} in
+      --token) return 0;;
+      --topic-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--topic-arn"
+      opts+="${opts:+ }--authenticate-on-unsubscribe --token"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_create_topic () {
+    case ${prev} in
+      --name) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--name"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_delete_topic () {
+    case ${prev} in
+      --topic-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      opts+="${opts:+ }--force"
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--topic-arn"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_get_subscription_attributes () {
+    case ${prev} in
+      --subscription-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--subscription-arn"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_get_topic_attributes () {
+    case ${prev} in
+      --topic-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--topic-arn"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_list_subscriptions () {
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_list_subscriptions_by_topic () {
+    case ${prev} in
+      --topic-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--topic-arn"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_list_topics () {
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_publish () {
+    case ${prev} in
+      --message) return 0;;
+      --message-structure) return 0;;
+      --subject) return 0;;
+      --topic-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--topic-arn"
+      opts+="${opts:+ }--message --message-structure --subject"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_remove_permission () {
+    case ${prev} in
+      --label) return 0;;
+      --topic-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--topic-arn"
+      opts+="${opts:+ }--label"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_set_subscription_attributes () {
+    case ${prev} in
+      --attribute-name)
+        COMPREPLY=($(compgen -W "DeliveryPolicy" -- ${cur}))
+        return 0
+        ;;
+      --attribute-value) return 0;;
+      --subscription-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--subscription-arn"
+      opts+="${opts:+ }--attribute-name --attribute-value"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_set_topic_attributes () {
+    case ${prev} in
+      --attribute-name)
+        COMPREPLY=($(compgen -W "DeliveryPolicy DisplayName Policy" -- ${cur}))
+        return 0
+        ;;
+      --attribute-value) return 0;;
+      --topic-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--topic-arn"
+      opts+="${opts:+ }--attribute-name --attribute-value"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_subscribe () {
+    case ${prev} in
+      --endpoint) return 0;;
+      --protocol)
+        COMPREPLY=($(compgen -W "email email-json http https sms sqs" -- ${cur}))
+        return 0
+        ;;
+      --topic-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--topic-arn"
+      opts+="${opts:+ }--endpoint --protocol"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns_unsubscribe () {
+    case ${prev} in
+      --subscription-arn) return 0;;
+    esac
+    _aws_apitools_sns_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--subscription-arn"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_sns () {
+    local cur prev opts
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD-1]}
+    cmd=$(basename ${COMP_WORDS[0]})
+    _aws_apitools_${cmd//-/_}
+  }
+
+  complete -F _aws_apitools_sns sns-add-permission
+  complete -F _aws_apitools_sns sns-confirm-subscription
+  complete -F _aws_apitools_sns sns-create-topic
+  complete -F _aws_apitools_sns sns-delete-topic
+  complete -F _aws_apitools_sns sns-get-subscription-attributes
+  complete -F _aws_apitools_sns sns-get-topic-attributes
+  complete -F _aws_apitools_sns sns-list-subscriptions
+  complete -F _aws_apitools_sns sns-list-subscriptions-by-topic
+  complete -F _aws_apitools_sns sns-list-topics
+  complete -F _aws_apitools_sns sns-publish
+  complete -F _aws_apitools_sns sns-remove-permission
+  complete -F _aws_apitools_sns sns-set-subscription-attributes
+  complete -F _aws_apitools_sns sns-set-topic-attributes
+  complete -F _aws_apitools_sns sns-subscribe
+  complete -F _aws_apitools_sns sns-unsubscribe
 }

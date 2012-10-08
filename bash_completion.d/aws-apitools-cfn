@@ -1,52 +1,189 @@
 have cfn-cmd && {
-	_aws_apitools_cfn() {
-		local cur prev opts
-		COMPREPLY=()
-		cur=${COMP_WORDS[COMP_CWORD]}
-		prev=${COMP_WORDS[COMP_CWORD-1]}
+  _aws_apitools_cfn_general_options () {
+    case ${prev} in
+      --aws-credential-file) _filedir; return 0;;
+      --connection-timeout) return 0;;
+      --delimiter) return 0;;
+      -I|--access-key-id) return 0;;
+      -K|--ec2-private-key-file-path) _filedir; return 0;;
+      --region)
+        COMPREPLY=($(compgen -W "ap-northeast-1 ap-southeast-1 eu-west-1 sa-west-1 us-east-1 us-west-1 us-west-2" -- ${cur}))
+        return 0
+        ;;
+      -S|--secret-key) return 0;;
+      -U|--url) return 0;;
+    esac
+    opts+="${opts:+ }--access-key-id --aws-credential-file --connection-timeout --delimiter --ec2-private-key-file-path --headers --help --quiet --region --secret-key --show-empty-fields --show-long --show-table --show-xml --url"
+    return 1
+  }
 
-		case ${prev} in
-			# Specific Options
-			--capabilities|-c)
-				COMPREPLY=( $(compgen -W "CAPABILITY_IAM" -- ${cur}) )
-				;;
-			--template-file)
-				_filedir
-				return 0
-				;;
-			# General Options
-			--aws-credential-file)
-				_filedir
-				return 0
-				;;
-			-K|--ec2-private-key-file-path)
-				_filedir
-				return 0
-				;;
-			--region)
-				COMPREPLY=( $(compgen -W "ap-northeast-1 ap-southeast-1 eu-west-1 sa-west-1 us-east-1 us-west-1 us-west-2" -- ${cur}) )
-				return 0
-				;;
-		esac
+  _aws_apitools_cfn_create_stack () {
+    case ${prev} in
+      -c|--capabilities) return 0;;
+      -f|--template-file) _filedir; return 0;;
+      -n|--notification-arns) return 0;;
+      -p|--parameters) return 0;;
+      --stack-name) return 0;;
+      -t|--timeout) return 0;;
+      -u|--template-url) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--stack-name"
+      opts+="${opts:+ }--capabilities --disable-rollback --notification-arns --parameters --template-file --template-url --timeout"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
 
-		if [[ ${cur} == -* ]]; then
-			for opt in $(${COMP_WORDS[0]} -h|egrep --color=never '^ +-([A-Za-z]|(-[a-z]+)+)'); do
-				[[ ${opt} = -* ]] && opts+="${opts:+ }${opt%,}"
-			done
-			COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-			return 0
-		fi
-	}
+  _aws_apitools_cfn_delete_stack () {
+    case ${prev} in
+      --stack-name) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--stack-name"
+      opts+="${opts:+ }--force"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
 
-	complete -F _aws_apitools_cfn cfn-create-stack
-	complete -F _aws_apitools_cfn cfn-delete-stack
-	complete -F _aws_apitools_cfn cfn-describe-stack-events
-	complete -F _aws_apitools_cfn cfn-describe-stack-resource
-	complete -F _aws_apitools_cfn cfn-describe-stack-resources
-	complete -F _aws_apitools_cfn cfn-describe-stacks
-	complete -F _aws_apitools_cfn cfn-get-template
-	complete -F _aws_apitools_cfn cfn-list-stack-resources
-	complete -F _aws_apitools_cfn cfn-list-stacks
-	complete -F _aws_apitools_cfn cfn-update-stack
-	complete -F _aws_apitools_cfn cfn-validate-template
+  _aws_apitools_cfn_describe_stack_events () {
+    case ${prev} in
+      --stack-name) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--stack-name"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_cfn_describe_stack_resource () {
+    case ${prev} in
+      --logical-resource-id) return 0;;
+      --stack-name) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--stack-name --logical-resource-id"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_cfn_describe_stack_resources () {
+    case ${prev} in
+      -l|--logical-resource-id) return 0;;
+      -p|--physical-resource-id) return 0;;
+      -s|--stack-name) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      opts+="${opts:+ }--logical-resource-id --physical-resource-id --stack-name"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_cfn_describe_stacks () {
+    case ${prev} in
+      --stack-name) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--stack-name"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_cfn_get_template () {
+    case ${prev} in
+      --stack-name) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--stack-name"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_cfn_list_stack_resources () {
+    case ${prev} in
+      --stack-name) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--stack-name"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_cfn_list_stacks () {
+    case ${prev} in
+      --stack-status) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      opts+="${opts:+ }--stack-status"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_cfn_update_stack () {
+    case ${prev} in
+      -c|--capabilities) return 0;;
+      -f|--template-file) _filedir; return 0;;
+      -p|--parameters) return 0;;
+      --stack-name) return 0;;
+      -u|--template-url) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--stack-name"
+      opts+="${opts:+ }--capabilities --disable-rollback --parameters --template-file --template-url"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_cfn_validate_template () {
+    case ${prev} in
+      -f|--template-file) _filedir; return 0;;
+      -u|--template-url) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      opts+="${opts:+ }--template-file --template-url"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_cfn () {
+    local cur prev opts
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD-1]}
+    cmd=$(basename ${COMP_WORDS[0]})
+    _aws_apitools_${cmd//-/_}
+  }
+
+  complete -F _aws_apitools_cfn cfn-create-stack
+  complete -F _aws_apitools_cfn cfn-delete-stack
+  complete -F _aws_apitools_cfn cfn-describe-stack-events
+  complete -F _aws_apitools_cfn cfn-describe-stack-resource
+  complete -F _aws_apitools_cfn cfn-describe-stack-resources
+  complete -F _aws_apitools_cfn cfn-describe-stacks
+  complete -F _aws_apitools_cfn cfn-get-template
+  complete -F _aws_apitools_cfn cfn-list-stack-resources
+  complete -F _aws_apitools_cfn cfn-list-stacks
+  complete -F _aws_apitools_cfn cfn-update-stack
+  complete -F _aws_apitools_cfn cfn-validate-template
 }

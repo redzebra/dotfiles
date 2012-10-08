@@ -1,39 +1,236 @@
 have mon-cmd && {
-	_aws_apitools_mon() {
-		local cur prev opts
-		COMPREPLY=()
-		cur=${COMP_WORDS[COMP_CWORD]}
-		prev=${COMP_WORDS[COMP_CWORD-1]}
+  _aws_apitools_mon_general_options () {
+    case ${prev} in
+      --aws-credential-file) _filedir; return 0;;
+      -C|--ec2-cert-file-path) _filedir; return 0;;
+      --connection-timeout) return 0;;
+      --delimiter) return 0;;
+      -I|--access-key-id) return 0;;
+      -K|--ec2-private-key-file-path) _filedir; return 0;;
+      --region)
+        COMPREPLY=($(compgen -W "ap-northeast-1 ap-southeast-1 eu-west-1 sa-west-1 us-east-1 us-west-1 us-west-2" -- ${cur}))
+        return 0
+        ;;
+      -S|--secret-key) return 0;;
+      -U|--url) return 0;;
+    esac
+    opts+="${opts:+ }--access-key-id --aws-credential-file --connection-timeout --delimiter --ec2-cert-file-path --ec2-private-key-file-path --headers --help --quiet --region --secret-key --show-empty-fields --show-long --show-table --show-xml --url"
+    return 1
+  }
 
-		case ${prev} in
-			--aws-credential-file|--ec2-cert-file-path|--ec2-private-key-file)
-				_filedir
-				return 0
-				;;
-			--region)
-				COMPREPLY=( $(compgen -W "ap-northeast-1 ap-southeast-1 eu-west-1 sa-west-1 us-east-1 us-west-1 us-west-2" -- ${cur}) )
-				return 0
-				;;
-		esac
+  _aws_apitools_mon_delete_alarms () {
+    _aws_apitools_mon_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      opts+="${opts:+ }--force"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
 
-		if [[ ${cur} == -* ]]; then
-			for opt in $(${COMP_WORDS[0]} -h|egrep --color=never '^ +-([A-Za-z]|(-[a-z]+)+)'); do
-				[[ ${opt} = -* ]] && opts+="${opts:+ }${opt%,}"
-			done
-			COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-			return 0
-		fi
-	}
+  _aws_apitools_mon_describe_alarm_history () {
+    case ${prev} in
+      --alarm-name) return 0;;
+      --end-date) return 0;;
+      --history-item-type)
+        COMPREPLY=($(compgen -W "Action ConfigurationUpdate StateUpdate" -- ${cur}))
+        return 0
+        ;;
+      --start-date) return 0;;
+    esac
+    _aws_apitools_mon_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--alarm-name"
+      opts+="${opts:+ }--end-date --history-item-type --start-date"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
 
-	complete -F _aws_apitools_mon mon-delete-alarms
-	complete -F _aws_apitools_mon mon-describe-alarm-history
-	complete -F _aws_apitools_mon mon-describe-alarms
-	complete -F _aws_apitools_mon mon-describe-alarms-for-metric
-	complete -F _aws_apitools_mon mon-disable-alarm-actions
-	complete -F _aws_apitools_mon mon-enable-alarm-actions
-	complete -F _aws_apitools_mon mon-get-stats
-	complete -F _aws_apitools_mon mon-list-metrics
-	complete -F _aws_apitools_mon mon-put-data
-	complete -F _aws_apitools_mon mon-put-metric-alarm
-	complete -F _aws_apitools_mon mon-set-alarm-state
+  _aws_apitools_mon_describe_alarms () {
+    case ${prev} in
+      --action-prefix) return 0;;
+      --alarm-name-prefix) return 0;;
+      --state-value)
+        COMPREPLY=($(compgen -W "ALARM INSUFFICIENT_DATA OK" -- ${cur}))
+        return 0
+        ;;
+    esac
+    _aws_apitools_mon_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      opts+="${opts:+ }--action-prefix --alarm-name-prefix --state-value"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_mon_describe_alarms_for_metric () {
+    case ${prev} in
+      --alarm-description) return 0;;
+      --dimensions) return 0;;
+      --metric-name) return 0;;
+      --namespace) return 0;;
+      --period) return 0;;
+      --statistic)
+        COMPREPLY=($(compgen -W "Average Maximum Minimum SampleCount Sum" -- ${cur}))
+        return 0
+        ;;
+      --unit) return 0;;
+    esac
+    _aws_apitools_mon_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      opts+="${opts:+ }--alarm-description --dimensions --metric-name --namespace --period --statistic --unit"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_mon_disable_alarm_actions () {
+    _aws_apitools_mon_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_mon_enable_alarm_actions () {
+    _aws_apitools_mon_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_mon_get_stats () {
+    case ${prev} in
+      -d|--dimensions) return 0;;
+      --end-time) return 0;;
+      --metric-name) return 0;;
+      -n|--namespace) return 0;;
+      -p|--period) return 0;;
+      --start-time) return 0;;
+      -s|--statistics)
+        COMPREPLY=($(compgen -W "Average Maximum Minimum SampleCount Sum" -- ${cur}))
+        return 0
+        ;;
+      --unit)
+        COMPREPLY=($(compgen -W "Bits Bits/Second Bytes Bytes/Second Count Count/Second None Percent" -- ${cur}))
+        return 0
+        ;;
+    esac
+    _aws_apitools_mon_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--metric-name"
+      opts+="${opts:+ }--dimensions --end-time --namespace --period --start-time --statistics --unit"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_mon_list_metrics () {
+    case ${prev} in
+      -d|--dimensions) return 0;;
+      -m|--metric-name) return 0;;
+      -n|--namespace) return 0;;
+    esac
+    _aws_apitools_mon_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      opts+="${opts:+ }--dimensions --metric-name --namespace"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_mon_put_data () {
+    case ${prev} in
+      -d|--dimensions) return 0;;
+      -m|--metric-name) return 0;;
+      -n|--namespace) return 0;;
+      -s|--statisticValues) return 0;;
+      -t|--timestamp) return 0;;
+      -u|--unit)
+        COMPREPLY=($(compgen -W "Bits Bits/Second Bytes Bytes/Second Count Count/Second Gigabits Gigabits/Second Gigabytes Gigabytes/Second Kilobits Kilobits/Second, Kilobytes Kilobytes/Second Megabits Megabits/Second Megabytes, Megabytes/Second, Microseconds Milliseconds None Percent Seconds Terabits, Terabits/Second Terabytes Terabytes/Second" -- ${cur}))
+        return 0
+        ;;
+      -v|--value) return 0;;
+    esac
+    _aws_apitools_mon_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      opts+="${opts:+ }--dimensions --metric-name --namespace --statisticValues --timestamp --unit --value"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_mon_put_metric_alarm () {
+    case ${prev} in
+      --actions-enabled) return 0;;
+      --alarm-actions) return 0;;
+      --alarm-description) return 0;;
+      --alarm-name) return 0;;
+      --comparison-operator)
+        COMPREPLY=($(compgen -W "GreaterThanOrEqualToThreshold GreaterThanThreshold LessThanOrEqualToThreshold LessThanThreshold" -- ${cur}))
+        return 0
+        ;;
+      --dimensions) return 0;;
+      --evaluation-periods) return 0;;
+      --insufficient-data-actions) return 0;;
+      --metric-name) return 0;;
+      --namespace) return 0;;
+      --ok-actions) return 0;;
+      --period) return 0;;
+      --statistic)
+        COMPREPLY=($(compgen -W "Average Maximum Minimum SampleCount Sum" -- ${cur}))
+        return 0
+        ;;
+      --threshold) return 0;;
+      --unit) return 0;;
+    esac
+    _aws_apitools_mon_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--alarm-name"
+      opts+="${opts:+ }--actions-enabled --alarm-actions --alarm-description --comparison-operator --dimensions --evaluation-periods --insufficient-data-actions --metric-name --namespace --ok-actions --period --statistic --threshold --unit"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_mon_set_alarm_state () {
+    case ${prev} in
+      --alarm-name) return 0;;
+      --state-reason) return 0;;
+      --state-reason-data) return 0;;
+      --state-value)
+        COMPREPLY=($(compgen -W "ALARM INSUFFICIENT_DATA OK" -- ${cur}))
+        return 0
+        ;;
+    esac
+    _aws_apitools_mon_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--alarm-name"
+      opts+="${opts:+ }--state-reason --state-reason-data --state-value"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
+  _aws_apitools_mon () {
+    local cur prev opts
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD-1]}
+    cmd=$(basename ${COMP_WORDS[0]})
+    _aws_apitools_${cmd//-/_}
+  }
+
+  complete -F _aws_apitools_mon mon-delete-alarms
+  complete -F _aws_apitools_mon mon-describe-alarm-history
+  complete -F _aws_apitools_mon mon-describe-alarms
+  complete -F _aws_apitools_mon mon-describe-alarms-for-metric
+  complete -F _aws_apitools_mon mon-disable-alarm-actions
+  complete -F _aws_apitools_mon mon-enable-alarm-actions
+  complete -F _aws_apitools_mon mon-get-stats
+  complete -F _aws_apitools_mon mon-list-metrics
+  complete -F _aws_apitools_mon mon-put-data
+  complete -F _aws_apitools_mon mon-put-metric-alarm
+  complete -F _aws_apitools_mon mon-set-alarm-state
 }
