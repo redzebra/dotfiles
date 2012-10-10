@@ -1,15 +1,56 @@
-" -- ENVIRONMENT --------------------------------------------------------------
+" Use vim settings, rather then vi settings (much better!)
+" This must be first, because it changes other options as a side effect.
+set nocompatible
 
-set nocompatible                " Must be first
-scriptencoding utf-8
-
-" -- GENERAL ------------------------------------------------------------------
-
+" Use pathogen to easily modify the runtime path to include all plugins under
+" the ~/.vim/bundle directory.
+filetype off			" Force reloading after pathogen is loaded
 runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
-
-syntax on			" Turn on syntax highlighting
+call pathogen#helptags()
 filetype plugin indent on	" Automatically detect file types
+syntax on			" Turn on syntax highlighting
+
+" Editing behaviour.
+"set showmode
+set nowrap			" Don't wrap lines.
+set shiftround
+set backspace=indent,eol,start	" Allow backspacing over everything in insert
+				" mode.
+set autoindent			" Always set autoindenting on.
+set copyindent			" Copy the previous indentation on
+				" autoindenting.
+set showmatch			" Set show matching parentheses.
+set ignorecase			" Ignore case when searching.
+set smartcase
+set hlsearch			" Highlight search terms.
+set incsearch			" Show search matches as you type.
+set gdefault			" Search/replace 'globally' (on a line) by
+				" default.
+set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·
+set nolist			" Don't show invisible characters by default
+set formatoptions+=1
+
+set termencoding=utf-8
+set encoding=utf-8
+set lazyredraw
+set laststatus=2
+set cmdheight=2
+
+set hidden
+set switchbuf=useopen
+if v:version >= 730
+  set undofile
+  set undodir=~/.vim/.undo,~/tmp,/tmp
+endif
+set nobackup
+"set noswapfile
+set title
+set visualbell
+set noerrorbells
+set showcmd
+set nomodeline
+set cursorline
 
 set background=light		" Assume a light background
 "colorscheme hemisu
@@ -21,7 +62,7 @@ set nobackup
 
 " -- UI -----------------------------------------------------------------------
 
-set noshowmode			" don't display the current mode
+"set noshowmode			" don't display the current mode
 
 if has('statusline')
 	set laststatus=2
