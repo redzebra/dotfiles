@@ -209,7 +209,7 @@ fi
 # -- macvim -------------------------------------------------------------------
 
 if command -pv mvim >/dev/null; then
-	alias gvim='command -pv mvim'
+	alias gvim='command mvim'
 fi
 
 # -- python --------------------------------------------------------------------
