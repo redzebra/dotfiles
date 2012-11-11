@@ -1,2 +1,7 @@
-defscrollback 1000
+autodetach on
+defscrollback 10000
+escape ^Bb
+#hardstatus lastline
+#hardstatus on
+#hardstatus string "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a "
 startup_message off
