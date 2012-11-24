@@ -169,6 +169,12 @@ if [ `uname -s` = Darwin -o `uname -s` = Linux ]; then
 	_install colordiffrc ~/.colordiffrc
 fi
 
+if which hg >/dev/null 2>&1; then
+	echo installing mercuarial support
+	_install -m 0400 hgignore ~/.hgignore
+	_install -m 0400 hgrc ~/.hgrc
+fi
+
 if which puppet-lint >/dev/null 2>&1; then
 	echo installing puppet-lint support
 	rm -fv ~/.puppet-lintrc
@@ -186,11 +192,6 @@ if which ruby >/dev/null 2>&1; then
 	_install gemrc ~/.gemrc
 	_install irbrc ~/.irbrc
 	_install rspec ~/.rspec
-fi
-
-if which rvm >/dev/null 2>&1; then
-	echo installing rvm support
-	_install -m 0400 rvmrc ~/.rvmrc
 fi
 
 if which screen >/dev/null 2>&1; then

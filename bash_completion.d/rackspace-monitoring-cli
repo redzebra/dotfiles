@@ -1,0 +1,47 @@
+#!/bin/bash
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+_raxmon()
+{
+  COMPREPLY=( $( \
+  COMP_LINE=$COMP_LINE  COMP_POINT=$COMP_POINT \
+  COMP_WORDS="${COMP_WORDS[*]}"  COMP_CWORD=$COMP_CWORD \
+  OPTPARSE_AUTO_COMPLETE=1 $1 ) )
+}
+
+complete -F _raxmon raxmon
+complete -F _raxmon raxmon-alarm-changelog-list
+complete -F _raxmon raxmon-alarms-create
+complete -F _raxmon raxmon-alarms-delete
+complete -F _raxmon raxmon-alarms-list
+complete -F _raxmon raxmon-alarms-test
+complete -F _raxmon raxmon-alarms-update
+complete -F _raxmon raxmon-alarms-validate-criteria
+complete -F _raxmon raxmon-audits-list
+complete -F _raxmon raxmon-check-types-list
+complete -F _raxmon raxmon-checks-create
+complete -F _raxmon raxmon-checks-delete
+complete -F _raxmon raxmon-checks-disable
+complete -F _raxmon raxmon-checks-enable
+complete -F _raxmon raxmon-checks-list
+complete -F _raxmon raxmon-checks-test
+complete -F _raxmon raxmon-checks-update
+complete -F _raxmon raxmon-entities-create
+complete -F _raxmon raxmon-entities-delete
+complete -F _raxmon raxmon-entities-list
+complete -F _raxmon raxmon-entities-update
+complete -F _raxmon raxmon-limits-list
+complete -F _raxmon raxmon-monitoring-zones-list
+complete -F _raxmon raxmon-notification-plans-create
+complete -F _raxmon raxmon-notification-plans-delete
+complete -F _raxmon raxmon-notification-plans-list
+complete -F _raxmon raxmon-notification-plans-update
+complete -F _raxmon raxmon-notification-types-list
+complete -F _raxmon raxmon-notifications-create
+complete -F _raxmon raxmon-notifications-delete
+complete -F _raxmon raxmon-notifications-list
+complete -F _raxmon raxmon-notifications-test
+complete -F _raxmon raxmon-notifications-test-existing
+complete -F _raxmon raxmon-notifications-update
+complete -F _raxmon raxmon-views-overview
