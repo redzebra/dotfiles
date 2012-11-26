@@ -75,14 +75,18 @@ have rds-version && {
       -au|--auto-minor-version-upgrade) return 0;;
       -b|--preferred-backup-window) return 0;;
       -c|--db-instance-class)
-      	COMPREPLY=($(compgen -W "db.m1.small db.m1.large db.m1.xlarge db.m2.2xlarge db.m2.4xlarge" -- ${cur}))
+      	COMPREPLY=($(compgen -W "db.t1.micro db.m1.small db.m1.medium db.m1.large db.m1.xlarge db.m2.xlarge db.m2.2xlarge db.m2.4xlarge" -- ${cur}))
 				return 0
 				;;
       -cs|--character-set) return 0;;
 		  --db-instance-identifier) return 0;;
-      -e|--engine) return 0;;
+      -e|--engine)
+      	COMPREPLY=($(compgen -W "MySQL oracle-se1 oracle-se sqlserver-ee sqlserver-se sqlserver-ex sqlserver-web" -- ${cur}))
+				return 0;;
       -g|--db-parameter-group-name) return 0;;
-      -lm|--license-model) return 0;;
+      -lm|--license-model)
+      	COMPREPLY=($(compgen -W "license-included bring-your-own-license general-public-license" -- ${cur}))
+				return 0;;
       -m|--multi-az)
       	COMPREPLY=($(compgen -W "true false" -- ${cur}))
 				return 0
