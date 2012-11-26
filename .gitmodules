@@ -24,10 +24,10 @@
 	url = https://github.com/elzr/vim-json.git
 [submodule "Sublime Text 2/SublimeLinter"]
 	path = Sublime Text 2/SublimeLinter
-	url = git://github.com/SublimeLinter/SublimeLinter.git
+	url = https://github.com/SublimeLinter/SublimeLinter.git
 [submodule "Sublime Text 2/Alignment"]
 	path = Sublime Text 2/Alignment
-	url = git://github.com/wbond/sublime_alignment.git
+	url = https://github.com/wbond/sublime_alignment.git
 [submodule "Sublime Text 2/Git"]
 	path = Sublime Text 2/Git
 	url = https://github.com/kemayo/sublime-text-2-git
@@ -36,10 +36,10 @@
 	url = git@github.com:redzebra/sublime-text-puppet.git
 [submodule "Sublime Text 2/Theme - Soda"]
 	path = Sublime Text 2/Theme - Soda
-	url = git://github.com/buymeasoda/soda-theme.git
+	url = https://github.com/buymeasoda/soda-theme.git
 [submodule "Sublime Text 2/Theme - Phoenix"]
 	path = Sublime Text 2/Theme - Phoenix
-	url = git://github.com/netatoo/phoenix-theme.git
+	url = https://github.com/netatoo/phoenix-theme.git
 [submodule "Sublime Text 2/Theme - Aqua"]
 	path = Sublime Text 2/Theme - Aqua
-	url = git://github.com/cafarm/aqua-theme.git
+	url = https://github.com/cafarm/aqua-theme.git
