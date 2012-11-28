@@ -219,6 +219,10 @@ if [ -d ${HOME}/Library/Python/2.7/site-packages ]; then
 	export PYTHONPATH
 fi
 
+# -- ruby ---------------------------------------------------------------------
+
+export GEM_HOME=${HOME}/.gem
+
 # -- sudo ---------------------------------------------------------------------
 
 [[ -z "${SUDO_PROMPT}" ]] && {
