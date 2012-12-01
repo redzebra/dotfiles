@@ -1,10 +1,15 @@
 {
   "auto_complete_commit_on_tab": true,
   "caret_style": "blink",
-  "color_scheme": "Packages/Color Scheme - Default/LAZY.tmTheme",
   "dictionary": "Packages/Language - English/en_GB.dic",
-  "font_options": ["subpixel_alias"],
+  "font_options":
+  [
+    "subpixel_alias"
+  ],
   "highlight_modified_tabs": true,
-  "indent_guide_options": ["draw_active"],
-  "theme": "AppKit.sublime-theme"
+  "indent_guide_options":
+  [
+    "draw_active"
+  ],
+  "theme": "Soda Light.sublime-theme"
 }

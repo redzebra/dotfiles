@@ -1,30 +1,3 @@
-[submodule "vim/bundle/puppet"]
-	path = vim/bundle/puppet
-	url = https://github.com/rodjek/vim-puppet.git
-[submodule "vim/bundle/tabular"]
-	path = vim/bundle/tabular
-	url = https://github.com/godlygeek/tabular.git
-[submodule "vim/bundle/syntastic"]
-	path = vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
-[submodule "vim/bundle/powerline"]
-	path = vim/bundle/powerline
-	url = https://github.com/Lokaltog/vim-powerline.git
-[submodule "vim/bundle/pathogen"]
-	path = vim/bundle/pathogen
-	url = https://github.com/tpope/vim-pathogen.git
-[submodule "vim/bundle/bad-whitespace"]
-	path = vim/bundle/bad-whitespace
-	url = https://github.com/bitc/vim-bad-whitespace.git
-[submodule "vim/bundle/gnupg"]
-	path = vim/bundle/gnupg
-	url = https://github.com/jamessan/vim-gnupg.git
-[submodule "vim/bundle/json"]
-	path = vim/bundle/json
-	url = https://github.com/elzr/vim-json.git
-[submodule "Sublime Text 2/SublimeLinter"]
-	path = Sublime Text 2/SublimeLinter
-	url = https://github.com/SublimeLinter/SublimeLinter.git
 [submodule "Sublime Text 2/Alignment"]
 	path = Sublime Text 2/Alignment
 	url = https://github.com/wbond/sublime_alignment.git
@@ -34,12 +7,36 @@
 [submodule "Sublime Text 2/Puppet"]
 	path = Sublime Text 2/Puppet
 	url = git@github.com:redzebra/sublime-text-puppet.git
+[submodule "Sublime Text 2/RSpec"]
+	path = Sublime Text 2/RSpec
+	url = git://github.com/SublimeText/RSpec.git
+[submodule "Sublime Text 2/SublimeLinter"]
+	path = Sublime Text 2/SublimeLinter
+	url = https://github.com/SublimeLinter/SublimeLinter.git
 [submodule "Sublime Text 2/Theme - Soda"]
 	path = Sublime Text 2/Theme - Soda
 	url = https://github.com/buymeasoda/soda-theme.git
-[submodule "Sublime Text 2/Theme - Phoenix"]
-	path = Sublime Text 2/Theme - Phoenix
-	url = https://github.com/netatoo/phoenix-theme.git
-[submodule "Sublime Text 2/Theme - Aqua"]
-	path = Sublime Text 2/Theme - Aqua
-	url = https://github.com/cafarm/aqua-theme.git
+[submodule "vim/bundle/bad-whitespace"]
+	path = vim/bundle/bad-whitespace
+	url = https://github.com/bitc/vim-bad-whitespace.git
+[submodule "vim/bundle/gnupg"]
+	path = vim/bundle/gnupg
+	url = https://github.com/jamessan/vim-gnupg.git
+[submodule "vim/bundle/json"]
+	path = vim/bundle/json
+	url = https://github.com/elzr/vim-json.git
+[submodule "vim/bundle/pathogen"]
+	path = vim/bundle/pathogen
+	url = https://github.com/tpope/vim-pathogen.git
+[submodule "vim/bundle/powerline"]
+	path = vim/bundle/powerline
+	url = https://github.com/Lokaltog/vim-powerline.git
+[submodule "vim/bundle/puppet"]
+	path = vim/bundle/puppet
+	url = https://github.com/rodjek/vim-puppet.git
+[submodule "vim/bundle/syntastic"]
+	path = vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "vim/bundle/tabular"]
+	path = vim/bundle/tabular
+	url = https://github.com/godlygeek/tabular.git
