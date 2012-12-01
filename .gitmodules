@@ -9,7 +9,7 @@
 	url = git@github.com:redzebra/sublime-text-puppet.git
 [submodule "Sublime Text 2/RSpec"]
 	path = Sublime Text 2/RSpec
-	url = git://github.com/SublimeText/RSpec.git
+	url = https://github.com/SublimeText/RSpec.git
 [submodule "Sublime Text 2/SublimeLinter"]
 	path = Sublime Text 2/SublimeLinter
 	url = https://github.com/SublimeLinter/SublimeLinter.git
@@ -40,3 +40,6 @@
 [submodule "vim/bundle/tabular"]
 	path = vim/bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
+[submodule "Sublime Text 2/DetectSyntax"]
+	path = Sublime Text 2/DetectSyntax
+	url = https://github.com/phillipkoebbe/DetectSyntax.git
