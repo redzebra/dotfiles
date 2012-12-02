@@ -33,7 +33,7 @@
 	url = https://github.com/Lokaltog/vim-powerline.git
 [submodule "vim/bundle/puppet"]
 	path = vim/bundle/puppet
-	url = https://github.com/rodjek/vim-puppet.git
+	url = git@github.com:redzebra/vim-puppet.git
 [submodule "vim/bundle/syntastic"]
 	path = vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
@@ -43,3 +43,6 @@
 [submodule "Sublime Text 2/DetectSyntax"]
 	path = Sublime Text 2/DetectSyntax
 	url = https://github.com/phillipkoebbe/DetectSyntax.git
+[submodule "Sublime Text 2/AAAPackageDev"]
+	path = Sublime Text 2/AAAPackageDev
+	url = https://github.com/SublimeText/AAAPackageDev.git
