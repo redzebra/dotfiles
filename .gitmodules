@@ -1,6 +1,12 @@
+[submodule "Sublime Text 2/AAAPackageDev"]
+	path = Sublime Text 2/AAAPackageDev
+	url = https://github.com/SublimeText/AAAPackageDev.git
 [submodule "Sublime Text 2/Alignment"]
 	path = Sublime Text 2/Alignment
 	url = https://github.com/wbond/sublime_alignment.git
+[submodule "Sublime Text 2/DetectSyntax"]
+	path = Sublime Text 2/DetectSyntax
+	url = https://github.com/phillipkoebbe/DetectSyntax.git
 [submodule "Sublime Text 2/Git"]
 	path = Sublime Text 2/Git
 	url = https://github.com/kemayo/sublime-text-2-git
@@ -40,9 +46,3 @@
 [submodule "vim/bundle/tabular"]
 	path = vim/bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
-[submodule "Sublime Text 2/DetectSyntax"]
-	path = Sublime Text 2/DetectSyntax
-	url = https://github.com/phillipkoebbe/DetectSyntax.git
-[submodule "Sublime Text 2/AAAPackageDev"]
-	path = Sublime Text 2/AAAPackageDev
-	url = https://github.com/SublimeText/AAAPackageDev.git
