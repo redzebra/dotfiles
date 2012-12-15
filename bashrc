@@ -152,8 +152,8 @@ fi
 
 # -- git ----------------------------------------------------------------------
 
-if command -pv mvim >/dev/null; then
-	export GIT_EDITOR="$(command -pv mvim) -f -n --nomru -c 'set stal=0'"
+if command -pv vim >/dev/null; then
+	export GIT_EDITOR="$(command -pv vim) -n"
 fi
 
 # -- grep ---------------------------------------------------------------------

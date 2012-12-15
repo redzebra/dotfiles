@@ -12,7 +12,7 @@
 	url = https://github.com/kemayo/sublime-text-2-git
 [submodule "Sublime Text 2/Puppet"]
 	path = Sublime Text 2/Puppet
-	url = https://github.com:redzebra/sublime-text-puppet.git
+	url = https://github.com/redzebra/sublime-text-puppet.git
 [submodule "Sublime Text 2/RSpec"]
 	path = Sublime Text 2/RSpec
 	url = https://github.com/SublimeText/RSpec.git
@@ -39,7 +39,7 @@
 	url = https://github.com/Lokaltog/vim-powerline.git
 [submodule "vim/bundle/puppet"]
 	path = vim/bundle/puppet
-	url = https://github.com:redzebra/vim-puppet.git
+	url = https://github.com/redzebra/vim-puppet.git
 [submodule "vim/bundle/syntastic"]
 	path = vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
