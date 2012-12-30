@@ -192,9 +192,6 @@ if which ruby >/dev/null 2>&1; then
 	_install gemrc ~/.gemrc
 	_install irbrc ~/.irbrc
 	_install rspec ~/.rspec
-
-	echo installing rvm support
-	install rvmrc ~/.rvmrc
 fi
 
 if which screen >/dev/null 2>&1; then
