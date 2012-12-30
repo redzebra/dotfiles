@@ -170,7 +170,7 @@ if [ `uname -s` = Darwin -o `uname -s` = Linux ]; then
 fi
 
 if which hg >/dev/null 2>&1; then
-	echo installing mercuarial support
+	echo installing mercurial support
 	_install -m 0400 hgignore ~/.hgignore
 	_install -m 0400 hgrc ~/.hgrc
 fi
