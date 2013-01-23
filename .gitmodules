@@ -1,27 +1,3 @@
-[submodule "Sublime Text 2/AAAPackageDev"]
-	path = Sublime Text 2/AAAPackageDev
-	url = https://github.com/SublimeText/AAAPackageDev.git
-[submodule "Sublime Text 2/Alignment"]
-	path = Sublime Text 2/Alignment
-	url = https://github.com/wbond/sublime_alignment.git
-[submodule "Sublime Text 2/DetectSyntax"]
-	path = Sublime Text 2/DetectSyntax
-	url = https://github.com/phillipkoebbe/DetectSyntax.git
-[submodule "Sublime Text 2/Git"]
-	path = Sublime Text 2/Git
-	url = https://github.com/kemayo/sublime-text-2-git
-[submodule "Sublime Text 2/Puppet"]
-	path = Sublime Text 2/Puppet
-	url = https://github.com/redzebra/sublime-text-puppet.git
-[submodule "Sublime Text 2/RSpec"]
-	path = Sublime Text 2/RSpec
-	url = https://github.com/SublimeText/RSpec.git
-[submodule "Sublime Text 2/SublimeLinter"]
-	path = Sublime Text 2/SublimeLinter
-	url = https://github.com/SublimeLinter/SublimeLinter.git
-[submodule "Sublime Text 2/Theme - Soda"]
-	path = Sublime Text 2/Theme - Soda
-	url = https://github.com/buymeasoda/soda-theme.git
 [submodule "vim/bundle/bad-whitespace"]
 	path = vim/bundle/bad-whitespace
 	url = https://github.com/bitc/vim-bad-whitespace.git

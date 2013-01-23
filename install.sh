@@ -132,13 +132,6 @@ if which SetFile >/dev/null 2>&1; then
 	SetFile -a V ~/.local/
 fi
 
-if [ -d "/Applications/Sublime Text 2.app" ]; then
-	echo installing Sublime Text 2 support
-	_packages="${HOME}/Library/Application Support/Sublime Text 2/Packages"
-	tar -C 'Sublime Text 2' -cf - --exclude '.git*' . | tar -C "${_packages}" -xf -
-	unset _packages
-fi
-
 if which perl >/dev/null 2>&1; then
 	echo installing ack support
 	_install ackrc ~/.ackrc
