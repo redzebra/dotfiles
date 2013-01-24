@@ -1,6 +1,8 @@
 #!/bin/bash
 
 if [ $# -eq 0 ]; then
+	[ -n "$AWS_ACCESS_KEY"      ] && echo AWS_ACCESS_KEY=$AWS_ACCESS_KEY
+	[ -n "$AWS_ACCESS_KEY_ID"   ] && echo AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
 	[ -n "$AWS_CREDENTIAL_FILE" ] && echo AWS_CREDENTIAL_FILE=$AWS_CREDENTIAL_FILE
 	[ -n "$AWS_REGION"          ] && echo AWS_REGION=$AWS_REGION
 	[ -n "$BOTO_CONFIG"         ] && echo BOTO_CONFIG=$BOTO_CONFIG
@@ -29,7 +31,7 @@ if [ ${#credentials[@]} -eq 0 ]; then
 fi
 
 export AWS_REGION="${region:-eu-west-1}"
-export EC2_REGION="${region:-eu-west-1}"
+export EC2_REGION=$AWS_REGION
 export EC2_URL="https://ec2.$EC2_REGION.amazonaws.com"
 unset AWS_CREDENTIAL_FILE BOTO_CONFIG EC2_CERT EC2_PRIVATE_KEY
 unset AWS_ACCESS_KEY AWS_SECRET_KEY AWS_DELEGATION_TOKEN
