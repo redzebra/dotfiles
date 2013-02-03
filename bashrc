@@ -24,7 +24,10 @@ fi
 for d in /opt/bin /opt/local/bin /opt/aws/bin; do
 	[ -d "${d}" ] && PATH="${d}:${PATH}"
 done
-for d in "${HOME}/.local/bin" "${HOME}/.gem/ruby/1.8/bin" "${HOME}/bin"; do
+#for d in "${HOME}/.local/bin" "${HOME}/.gem/ruby/1.8/bin" "${HOME}/bin"; do
+#	[ -d "${d}" ] && PATH="${d}:${PATH}"
+#done
+for d in "${HOME}/.local/bin" "${HOME}/bin"; do
 	[ -d "${d}" ] && PATH="${d}:${PATH}"
 done
 
@@ -221,9 +224,9 @@ fi
 
 # -- ruby ---------------------------------------------------------------------
 
-if [ "$(uname -s)" = "Darwin" ]; then
-	export GEM_HOME=${HOME}/.gem/ruby/1.8
-fi
+#if [ "$(uname -s)" = "Darwin" ]; then
+#	export GEM_HOME=${HOME}/.gem/ruby/1.8
+#fi
 
 # -- sudo ---------------------------------------------------------------------
 
