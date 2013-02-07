@@ -184,6 +184,8 @@ if which ruby >/dev/null 2>&1; then
 	_mkdir ~/.gem/
 	_install gemrc ~/.gemrc
 	_install irbrc ~/.irbrc
+	_mkdir ~/.rbenv/
+	_install rbenv/default-gems ~/.rbenv/default-gems
 	_install rspec ~/.rspec
 fi
 
