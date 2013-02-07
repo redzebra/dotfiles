@@ -107,6 +107,14 @@ _install () {
   chmod ${_mode:-0400} "$2" || return
 }
 
+_git_clone () {
+	if [ -d $2/.git ]; then
+		(cd $2 && git pull -q)
+	else
+		git clone -q --depth 1 --recursive -- $1 $2
+	fi
+}
+
 # Local install
 
 umask 077 || exit
@@ -179,13 +187,19 @@ if [ `uname -s` = Darwin ]; then
 	_install pydistutils.cfg ~/.pydistutils.cfg
 fi
 
+echo installing rbenv
+_git_clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+_git_clone https://github.com/sstephenson/rbenv-default-gems.git ~/.rbenv/plugins/rbenv-default-gems
+_git_clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
+_git_clone https://github.com/sstephenson/rbenv-vars.git ~/.rbenv/plugins/rbenv-vars
+_git_clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+_install rbenv/default-gems ~/.rbenv/default-gems
+
 if which ruby >/dev/null 2>&1; then
 	echo installing ruby support
 	_mkdir ~/.gem/
 	_install gemrc ~/.gemrc
 	_install irbrc ~/.irbrc
-	_mkdir ~/.rbenv/
-	_install rbenv/default-gems ~/.rbenv/default-gems
 	_install rspec ~/.rspec
 fi
 
