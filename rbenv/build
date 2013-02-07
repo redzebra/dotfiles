@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]; then
+	echo "Usage: $0: version" >&2
+	exit 1
+fi
+
+case $1 in
+	1.8.7-*)
+		CONFIGURE_OPTS='--with-openssl-dir=/opt/local --without-tcl --without-tk' \
+			rbenv install $1
+		;;
+	1.9.3-*)
+		CONFIGURE_OPTS='--with-openssl-dir=/opt/local --without-tcl --without-tk' \
+			rbenv install $1
+		;;
+	amazon)
+		$0 '1.8.7-p371'
+		$0 '1.9.3-p286'
+		[ `uname` = Amazon ] && rbenv global 1.8.7-p371
+		;;
+	darwin)
+		$0 1.8.7-p358
+		[ `uname` = Darwin ] && rbenv global 1.8.7-p358
+		;;
+	*)
+		echo "don't know about $1" >&2
+		exit 2
+esac
