@@ -17,7 +17,8 @@ shopt -s no_empty_cmd_completion 2>/dev/null
 shopt -s promptvars 2>/dev/null
 shopt -s xpg_echo 2>/dev/null
 
-for d in /usr/local/bin /opt/aws/bin ~/.local/bin ~/bin; do
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+for d in /opt/X11/bin /usr/local/bin /opt/aws/bin ~/.local/bin ~/bin; do
 	case :"${PATH}": in
 		*:"${d}":*) ;;
 		*) PATH="${d}:${PATH}";;
