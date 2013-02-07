@@ -17,22 +17,17 @@ shopt -s no_empty_cmd_completion 2>/dev/null
 shopt -s promptvars 2>/dev/null
 shopt -s xpg_echo 2>/dev/null
 
-if [ "$(uname -s)" = "Darwin" ]; then
-	PATH=${PATH%:/usr/local/bin}
-	PATH="/usr/local/bin:${PATH}"
-fi
-for d in /opt/bin /opt/local/bin /opt/aws/bin; do
-	[ -d "${d}" ] && PATH="${d}:${PATH}"
+for d in /usr/local/bin /opt/local/bin /opt/aws/bin ~/.local/bin ~/bin; do
+	case :"${PATH}": in
+		*:"${d}":*) ;;
+		*) PATH="${d}:${PATH}";;
+	esac
 done
-#for d in "${HOME}/.local/bin" "${HOME}/.gem/ruby/1.8/bin" "${HOME}/bin"; do
-#	[ -d "${d}" ] && PATH="${d}:${PATH}"
-#done
-for d in "${HOME}/.local/bin" "${HOME}/bin"; do
-	[ -d "${d}" ] && PATH="${d}:${PATH}"
-done
-
-for d in "${HOME}/.local/share/man"; do
-	[ -d "${d}" ] && MANPATH="${d}${MANPATH:+:${MANPATH}}"
+for d in /usr/local/man /opt/local/man ~/.local/man; do
+	case :"${MANPATH}": in
+		*:"${d}":*) ;;
+		*) MANPATH="${d}${MANPATH:+${MANPATH}}";;
+	esac
 done
 
 : ${HISTCONTROL:='ignorespace:erasedups'}
