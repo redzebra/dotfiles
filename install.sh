@@ -197,7 +197,7 @@ _install rbenv/default-gems ~/.rbenv/default-gems
 
 if which ruby >/dev/null 2>&1; then
 	echo installing ruby support
-	_install irbrc ~/.gemrc
+	_install gemrc ~/.gemrc
 	_install irbrc ~/.irbrc
 	_install rspec ~/.rspec
 fi
