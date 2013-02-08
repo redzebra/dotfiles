@@ -5,7 +5,7 @@ export POSIXLY_CORRECT
 
 args=`getopt i: $*`
 if [ $? != 0 ]; then
-	echo "Usage: $0 [[-i identity_file] host ...]" >&2; exit 2
+uecho "Usage: $0 [[-i identity_file] host ...]" >&2; exit 2
 fi
 set -- $args
 for i; do
@@ -197,6 +197,7 @@ _install rbenv/default-gems ~/.rbenv/default-gems
 
 if which ruby >/dev/null 2>&1; then
 	echo installing ruby support
+	_install irbrc ~/.gemrc
 	_install irbrc ~/.irbrc
 	_install rspec ~/.rspec
 fi
