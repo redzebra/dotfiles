@@ -115,77 +115,56 @@ _git_clone () {
 	fi
 }
 
+_ln_s () {
+	if [ $# != 1 ]; then
+		echo "Usage: ${FUNCNAME[0]} source_file" >&2; return 1
+	fi
+	[ "`readlink ~/.$1`" = ".dotfiles/$1" ] && return
+	ln -hfsv .dotfiles/$1 ~/.$1
+}
+
 # Local install
 
 umask 077 || exit
 
 echo installing .local tree
-for d in `find local -type d ! -name .git`; do
-	_mkdir ~/.$d/
-done
-for f in `find local -type f ! -name '.git*'`; do
-	case $f in
-		local/bin/aws-context) ;;
-		local/bin/*) _mode=0500;;
-		local/etc/bash_completion.d/helpers/*) _mode=0500;;
-	esac
-	_install ${_mode:+-m ${_mode}} $f ~/.$f
-	unset _mode
-done
-for f in `cd ~/.local && find * -type f`; do
-	[ $f = 'share/autojump/autojump.txt' ] && continue
-	[ -e local/$f ] || { echo removing ~/.local/$f; rm -f ~/.local/$f; }
-done
+_ln_s local
 if which SetFile >/dev/null 2>&1; then
-	SetFile -a V ~/.local/
+	SetFile -P -a V ~/.local
 fi
 
-if which perl >/dev/null 2>&1; then
-	echo installing ack support
-	_install ackrc ~/.ackrc
-fi
+#defaults write com.apple.terminal 'Window Settings' -dict-add \
+#	IR_Black "`cat Terminal/IR_Black.terminal`"
+#defaults write com.apple.terminal 'Default Window Settings' IR_Black
+#defaults write com.apple.terminal 'Startup Window Settings' IR_Black
 
-if which bash >/dev/null 2>&1; then
-	echo installing bash support
-	for f in bash_completion bash_logout bash_profile bashrc; do
-		_install $f ~/.$f
-	done
-	_mkdir ~/.bash_completion.d
-	for f in bash_completion.d/*; do
-		[ -f $f ] && _install $f ~/.$f
-	done
-	for f in `cd ~/.bash_completion.d && find * -type f`; do
-		[ -e bash_completion.d/$f ] || { echo removing ~/.bash_completion.d/$f; rm -f ~/.bash_completion.d/$f; }
-	done
-	_install inputrc ~/.inputrc
-fi
+echo installing ack support
+_ln_s ackrc
 
-if [ -z "${variant}" ] && which git >/dev/null 2>&1; then
-	echo installing git support
-	for f in gitconfig gitignore; do _install $f ~/.$f; done
-fi
+echo installing bash support
+_ln_s bash_completion
+_ln_s bash_completion.d
+_ln_s bash_logout
+_ln_s bash_profile
+_ln_s bashrc
+_ln_s inputrc
 
-if [ `uname -s` = Darwin -o `uname -s` = Linux ]; then
-	echo installing colordiff support
-	_install colordiffrc ~/.colordiffrc
-fi
+echo installing git support
+_ln_s gitconfig
+_ln_s gitignore
+[ -e ~/.gitconfig.local ] || touch ~/.gitconfig.local
 
-if which hg >/dev/null 2>&1; then
-	echo installing mercurial support
-	_install -m 0400 hgignore ~/.hgignore
-	_install -m 0400 hgrc ~/.hgrc
-fi
+echo installing colordiff support
+_ln_s colordiffrc
 
-if which puppet-lint >/dev/null 2>&1; then
-	echo installing puppet-lint support
-	rm -fv ~/.puppet-lintrc
-	_install -m 0400 puppet-lint.rc ~/.puppet-lint.rc
-fi
+echo installing puppet-lint support
+_ln_s puppet-lint.rc
+rm -fv ~/.puppet-lintrc
 
-if [ `uname -s` = Darwin ]; then
-	echo installing python support
-	_install pydistutils.cfg ~/.pydistutils.cfg
-fi
+#if [ `uname -s` = Darwin ]; then
+#	echo installing python support
+#	_install pydistutils.cfg ~/.pydistutils.cfg
+#fi
 
 echo installing rbenv
 _git_clone https://github.com/sstephenson/rbenv.git ~/.rbenv
@@ -193,60 +172,52 @@ _git_clone https://github.com/sstephenson/rbenv-default-gems.git ~/.rbenv/plugin
 _git_clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
 _git_clone https://github.com/sstephenson/rbenv-vars.git ~/.rbenv/plugins/rbenv-vars
 _git_clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-_install rbenv/default-gems ~/.rbenv/default-gems
+#_ln_s rbenv/default-gems
+[ "`readlink ~/.rbenv/default-gems`" = "../.dotfiles/rbenv/default-gems" ] || {
+	ln -hfsv ../.dotfiles/rbenv/default-gems ~/.rbenv/default-gems
+}
 
-if which ruby >/dev/null 2>&1; then
-	echo installing ruby support
-	_install gemrc ~/.gemrc
-	_install irbrc ~/.irbrc
-	_install rspec ~/.rspec
-fi
+echo installing ruby support
+_ln_s gemrc
+_ln_s irbrc
+_ln_s rspec
 
-if which screen >/dev/null 2>&1; then
-	echo installing screen support
-	_install -m 0400 screenrc ~/.screenrc
-fi
+#if which screen >/dev/null 2>&1; then
+#	echo installing screen support
+#	_install -m 0400 screenrc ~/.screenrc
+#fi
 
-if which ssh >/dev/null 2>&1; then
-	echo installing ssh support
-	_mkdir ~/.ssh/
-fi
+echo installing ssh support
+_mkdir ~/.ssh/
 
-if which svn >/dev/null 2>&1; then
-	echo installing subversion support
-	_mkdir ~/.subversion/
-	_install subversion/config ~/.subversion/config
-	_install colorsvnrc ~/.colorsvnrc
-fi
+#if which svn >/dev/null 2>&1; then
+#	echo installing subversion support
+#	_mkdir ~/.subversion/
+#	_install subversion/config ~/.subversion/config
+#	_install colorsvnrc ~/.colorsvnrc
+#fi
 
-if [ `uname -s` = OpenBSD ]; then
-	echo installing vi support
-	_install nexrc ~/.nexrc
-fi
-
-if which vim >/dev/null 2>&1; then
-	echo installing vim support
-	for d in `find vim -type d ! -name .git`; do
-		_mkdir ~/.$d/
-	done
-	_mkdir ~/.vim/view/
-	for f in `find vim -type f ! -name '.git*'`; do
-		_install $f ~/.$f
-	done
-	for f in `cd ~/.vim && find * -type f ! -name tags ! -name '*.cache' ! -name '*.spl'|egrep -v '^view/'`; do
-		[ -e vim/$f ] || { echo removing ~/.vim/$f; rm -f ~/.vim/$f; }
-	done
-	_install vimrc ~/.vimrc
-	if which gvim >/dev/null 2>&1 || which mvim >/dev/null 2>&1; then
-		_install gvimrc ~/.gvimrc
-	fi
- 	[ -d ~/.vim/doc ] && vim -E -i NONE -u NONE '+helptags ~/.vim/doc' '+quit' </dev/null >/dev/null
-	for d in ~/.vim/bundle/*/doc; do
-	 	vim -E -i NONE -u NONE "+helptags $d" '+quit' </dev/null >/dev/null
-	done
-	for f in ~/.vim/spell/*.add; do
-		vim -E -i NONE -u NONE "+mkspell! $f" '+quit' </dev/null >/dev/null
-	done
-fi
+echo installing vim support
+_ln_s gvimrc
+_ln_s vim
+_ln_s vimrc
+#	_mkdir ~/.vim/view/
+#	for f in `find vim -type f ! -name '.git*'`; do
+#		_install $f ~/.$f
+#	done
+#	for f in `cd ~/.vim && find * -type f ! -name tags ! -name '*.cache' ! -name '*.spl'|egrep -v '^view/'`; do
+#		[ -e vim/$f ] || { echo removing ~/.vim/$f; rm -f ~/.vim/$f; }
+#	done
+#	if which gvim >/dev/null 2>&1 || which mvim >/dev/null 2>&1; then
+#		_install gvimrc ~/.gvimrc
+#	fi
+# 	[ -d ~/.vim/doc ] && vim -E -i NONE -u NONE '+helptags ~/.vim/doc' '+quit' </dev/null >/dev/null
+#	for d in ~/.vim/bundle/*/doc; do
+#	 	vim -E -i NONE -u NONE "+helptags $d" '+quit' </dev/null >/dev/null
+#	done
+#	for f in ~/.vim/spell/*.add; do
+#		vim -E -i NONE -u NONE "+mkspell! $f" '+quit' </dev/null >/dev/null
+#	done
+#fi
 
 # vi: set sw=2 ts=2:

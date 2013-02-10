@@ -1,4 +1,4 @@
-if [ -d $HOME/.rbenv/bin ]; then
-	export PATH="$HOME/.rbenv/bin:$PATH"
+if [ -d ~/.rbenv/bin ]; then
+	export PATH="~/.rbenv/bin:$PATH"
 	eval "$(rbenv init -)"
 fi

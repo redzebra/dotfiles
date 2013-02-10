@@ -3,5 +3,3 @@
 		. ~/.bash_completion.d/$i
 	done
 }
-#[ -r ~/.rbenv/completions/rbenv.bash ] && . ~/.rbenv/completions/rbenv.bash
-#[ -r ~/.rvm/scripts/completion ] && . ~/.rvm/scripts/completion

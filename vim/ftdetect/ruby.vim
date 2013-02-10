@@ -1,3 +1,3 @@
-au BufRead,BufNewFile .gemfile,Gemfile set filetype=ruby
-au BufRead,BufNewFile Capfile set filetype=ruby
-au BufRead,BufNewFile Puppetfile set filetype=ruby
+au BufRead,BufNewFile .gemfile,Gemfile setf ruby
+au BufRead,BufNewFile Capfile          setf ruby
+au BufRead,BufNewFile Puppetfile       setf ruby

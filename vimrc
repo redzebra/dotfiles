@@ -7,7 +7,7 @@ set nocompatible
 filetype off			" Force reloading after pathogen is loaded
 runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
-call pathogen#helptags()
+"call pathogen#helptags()
 filetype plugin indent on	" Automatically detect file types
 syntax on			" Turn on syntax highlighting
 
@@ -52,8 +52,11 @@ set showcmd
 set nomodeline
 set cursorline
 
+"set background=dark		" Assume a dark background
 set background=light		" Assume a light background
-"colorscheme hemisu
+set t_Co=256
+colorscheme molokai
+"colorscheme ir_black
 
 set shortmess+=I
 
@@ -65,7 +68,7 @@ set nobackup
 "set noshowmode			" don't display the current mode
 
 if has('statusline')
-	set laststatus=2
+  set laststatus=2
 endif
 
 set backspace=indent,eol,start	" backspace over everything in insert mode
