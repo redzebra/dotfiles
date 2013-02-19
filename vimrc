@@ -52,8 +52,8 @@ set showcmd
 set nomodeline
 set cursorline
 
-"set background=dark		" Assume a dark background
-set background=light		" Assume a light background
+set background=dark		" Assume a dark background
+"set background=light		" Assume a light background
 set t_Co=256
 colorscheme solarized
 "let g:Powerline_theme = 'solarized16'
