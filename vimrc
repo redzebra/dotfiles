@@ -57,7 +57,7 @@ set background=light		" Assume a light background
 set t_Co=256
 colorscheme solarized
 "let g:Powerline_theme = 'solarized16'
-let g:Powerline_colorscheme = 'solarized16'
+let g:Powerline_colorscheme = 'solarized'
 
 set shortmess+=I
 
