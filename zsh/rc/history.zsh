@@ -12,5 +12,5 @@ setopt   HIST_REDUCE_BLANKS
 setopt   HIST_SAVE_NO_DUPS
 setopt   SHARE_HISTORY
 
-bindkey "^[[A" history-beginning-search-backward
-bindkey "^[[B" history-beginning-search-forward
+bindkey "^[[A" up-line-or-search
+bindkey "^[[B" down-line-or-search

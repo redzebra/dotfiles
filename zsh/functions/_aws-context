@@ -1,0 +1,28 @@
+#compdef aws-context
+
+typeset -A opt_args
+local context state line
+
+_arguments \
+	'-r[region]:region:->region' \
+	'1: :->account'
+
+case $state in
+	account)
+		for f in ~/.aws/*.credentials; do
+			compadd -- $(basename $f)
+		done
+		return 0
+		;;
+	region)
+		compadd -- 'ap-northeast-1'
+		compadd -- 'ap-southeast-1'
+		compadd -- 'ap-southeast-2'
+		compadd -- 'eu-west-1'
+		compadd -- 'sa-east-1'
+		compadd -- 'us-east-1'
+		compadd -- 'us-west-1'
+		compadd -- 'us-west-2'
+		return 0
+		;;
+esac

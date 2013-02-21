@@ -18,12 +18,12 @@ function aws-context {
 		fi
 	fi
 	if [ $# -ne 1 -o "$1" = '-h' ]; then
-		echo "usage: ${BASH_SOURCE##*/} [-r region] account" >&2; return 2
+		echo "Usage: $(basename $0) [-r region] account" >&2; return 2
 	fi
 
 	credentials=($(ls $HOME/.aws/$1.{boto,credentials,crt,key} 2>/dev/null))
 	if [ ${#credentials[@]} -eq 0 ]; then
-		echo "${BASH_SOURCE##*/}: $1: No such credentials" >&2; return 2
+		echo "$(basename $0): $1: No such credentials" >&2; return 2
 	fi
 
 	export AWS_REGION="${region:-eu-west-1}"
@@ -46,8 +46,8 @@ function aws-context {
 		AWS_SECRET_KEY=`egrep ^AWSSecretKey= $AWS_CREDENTIAL_FILE|cut -d= -f2`
 		export AWS_ACCESS_KEY AWS_SECRET_KEY
 		# AWS SDK for Ruby uses different names:
-		AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY}
-		AWS_SECRET_ACCESS_KEY=${AWS_SECRET_KEY}
+		AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY
+		AWS_SECRET_ACCESS_KEY=$AWS_SECRET_KEY
 		export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY
 	fi
 }
