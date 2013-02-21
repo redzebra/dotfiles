@@ -1,6 +1,9 @@
 [submodule "vim/bundle/bad-whitespace"]
 	path = vim/bundle/bad-whitespace
 	url = https://github.com/bitc/vim-bad-whitespace.git
+[submodule "vim/bundle/editorconfig"]
+	path = vim/bundle/editorconfig
+	url = https://github.com/editorconfig/editorconfig-vim.git
 [submodule "vim/bundle/endwise"]
 	path = vim/bundle/endwise
 	url = https://github.com/tpope/vim-endwise.git
@@ -31,3 +34,9 @@
 [submodule "vim/bundle/tabular"]
 	path = vim/bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
+[submodule "zsh/completions"]
+	path = zsh/completions
+	url = https://github.com/zsh-users/zsh-completions.git
+[submodule "zsh/git-prompt"]
+	path = zsh/git-prompt
+	url = https://github.com/olivierverdier/zsh-git-prompt.git

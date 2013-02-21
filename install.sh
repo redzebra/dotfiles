@@ -220,4 +220,8 @@ _ln_s vimrc
 #	done
 #fi
 
+_ln_s zsh
+_ln_s zshenv
+_ln_s zshrc
+
 # vi: set sw=2 ts=2:
