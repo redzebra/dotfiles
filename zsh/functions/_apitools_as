@@ -1,0 +1,22 @@
+#compdef as-describe-adjustment-types
+
+arguments=(
+	'--aws-credential-file[Location of the file with your AWS credentials]:file:_files'
+	{-C,--ec2-cert-file-path}'[file]:file:_files'
+	'--connection-timeout[Connection timeout (in seconds)]'
+	'--delimiter[use delimiter]:file'
+	{-H,--headers}'[show headers]'
+	{-I,--access-key-id}'[access key id]:file'
+	{-K,--ec2-private-key-file-path}'[private key file path]:file:_files'
+	'--region[Amazon EC2 region to use]:region'
+	{-S,--secret-key}'[The AWS Secret Key to use]:file:_files'
+	'--show-empty-fields[Shows empty fields and rows]'
+	'--show-request[show request]'
+	'--show-table[Display tabular output]'
+	'--show-long[Display delimited (long) output]'
+	'--show-xml[Display XML output]'
+	'--quiet[quiet]'
+	{-U,--url}'[URL]:url'
+)
+
+_arguments $arguments
