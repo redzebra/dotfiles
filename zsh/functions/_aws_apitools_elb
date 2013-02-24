@@ -52,6 +52,7 @@ _elb-attach-lb-to-subnets () {
 }
 
 _elb-cmd () {
+	_message 'no more arguments'
 }
 
 _elb-configure-healthcheck () {
@@ -209,6 +210,7 @@ _elb-set-lb-policies-of-listener () {
 }
 
 _elb-version () {
+	_message 'no more arguments'
 }
 
 compdef _elb-apply-security-groups-to-lb elb-apply-security-groups-to-lb

@@ -1,5 +1,5 @@
 _aws_apitools_cfn_general_options=(
-  '(- 1 *)'{'-?',-h,--help}'[Display help]' \
+	'(- 1 *)'{'-?',-h,--help}'[Display help]' \
 	'(-C -I -K -S --access-key-id --ec2-cert-file-path --ec2-private-key-file-path --secret-key)--aws-credential-file[Location of the file with your AWS credentials]:file:_files'
 	'(-I -S --access-key-id --aws-credential-file --secret-key)'{-C,--ec2-cert-file-path}'[file]:file:_files'
 	'--connection-timeout[Connection timeout (in seconds)]:number'
@@ -18,23 +18,33 @@ _aws_apitools_cfn_general_options=(
 	'(--region)'{-U,--url}'[URL]:url'
 )
 
+__aws_apitools_cfn_capabilities () {
+	_values -s , 'capabilities' \
+		'CAPABILITY_IAM'
+}
+
 __aws_apitools_cfn_region () {
-  _values 'region' \
-    'ap-northeast-1[Asia Pacific (Tokyo) Region]' \
-    'ap-southeast-1[Asia Pacific (Singapore) Region]' \
-    'ap-southeast-2[Asia Pacific (Sydney) Region]' \
-    'eu-west-1[EU (Ireland) Region]' \
-    'sa-east-1[South America (Sao Paulo) Region]' \
-    'us-east-1[US East (Northern Virginia) Region]' \
-    'us-west-1[US West (Northern California) Region]' \
-    'us-west-2[US West (Oregon) Region]'
+	_values 'region' \
+		'ap-northeast-1[Asia Pacific (Tokyo) Region]' \
+		'ap-southeast-1[Asia Pacific (Singapore) Region]' \
+		'ap-southeast-2[Asia Pacific (Sydney) Region]' \
+		'eu-west-1[EU (Ireland) Region]' \
+		'sa-east-1[South America (Sao Paulo) Region]' \
+		'us-east-1[US East (Northern Virginia) Region]' \
+		'us-west-1[US West (Northern California) Region]' \
+		'us-west-2[US West (Oregon) Region]'
 }
 
 _cfn-cancel-update-stack () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'--stack-name[Name or Stack Id of the stack]:stack_name'
+		'--force}[Delete the stack without prompting]'
+	)
+	_arguments $arguments
 }
 
 _cfn-cmd () {
@@ -44,77 +54,139 @@ _cfn-create-stack () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'--stack-name[Name of the stack]:stack_name'
+		'(-c --capabilities)'{-c,--capabilities}'[explicitly approved capabilities that may be used]:capabilities:__aws_apitools_cfn_capabilities'
+   	'(-d --disable-rollback)'{-d,--disable-rollback}'[disable rollback of created resources on failure]'
+   	'(-f -u --template-file --template-url)'{-f,--template-file}'[file that contains the template]:template_file:_files'
+   	'(-n --notification-arns)'{-n,--notification-arns}'[SNS ARNs to receive notification]:notification_arns'
+   	'(-p --parameters)'{-p,--parameters}'[Parameter values used to create the stack]:parameters'
+   	'(-t --timeout)'{-t,--timeout}'[Stack creation timeout in minutes]:timeout'
+   	'--tag[user-defined Tags to associate with this stack]:tags'
+   	'(-f -u --template-file --template-url)'{-u,--template-url}'[URL that contains the template]:template_url'
+	)
+	_arguments $arguments
 }
 
 _cfn-delete-stack () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'--stack-name[Name or Stack Id of the stack]:stack_name'
+		'--force}[Delete the stack without prompting]'
+	)
+	_arguments $arguments
 }
 
 _cfn-describe-stack-events () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'--stack-name[Name or Stack Id of the stack]:stack_name'
+	)
+	_arguments $arguments
 }
 
 _cfn-describe-stack-resource () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'--stack-name[Name or Stack Id of the stack]:stack_name'
+		'--logical-resource-id[Logical identifier of the resource]:logical_resource_id'
+	)
+	_arguments $arguments
 }
 
 _cfn-describe-stack-resources () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'(-l --logical-resource-id)'{-l,--logical-resource-id}'[Logical identifier of the resource]:logical_resource_id'
+		'(-p --physical-resource-id)'{-p,--physical-resource-id}'[Physical identifier of the resource]:physical_resource_id'
+		'(-s --stack-name)'{-s,--stack-name}'[Name or Stack Id of the stack]:stack_name'
+	)
+	_arguments $arguments
 }
 
 _cfn-describe-stacks () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'--stack-name[Name or Stack Id of the stack]:stack_name'
+	)
+	_arguments $arguments
 }
 
 _cfn-get-template () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'--stack-name[Name or Stack Id of the stack]:stack_name'
+	)
+	_arguments $arguments
 }
 
 _cfn-list-stack-resources () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'--stack-name[Name or Stack Id of the stack]:stack_name'
+	)
+	_arguments $arguments
 }
 
 _cfn-list-stacks () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'(-s --stack-status)'{-s,--stack-status}'[Status(es) of the stacks to return]:stack_status:_values -s , CREATE_IN_PROGRESS CREATE_FAILED CREATE_COMPLETE ROLLBACK_IN_PROGRESS ROLLBACK_FAILED ROLLBACK_COMPLETE DELETE_IN_PROGRESS DELETE_FAILED DELETE_COMPLETE UPDATE_IN_PROGRESS UPDATE_COMPLETE_CLEANUP_IN_PROGRESS UPDATE_COMPLETE UPDATE_ROLLBACK_IN_PROGRESS UPDATE_ROLLBACK_FAILED UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS UPDATE_ROLLBACK_COMPLETE'
+	)
+	_arguments $arguments
 }
 
 _cfn-update-stack () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'--stack-name[Name or Stack Id of the stack]:stack_name'
+		'(-c --capabilities)'{-c,--capabilities}'[explicitly approved capabilities that may be used]:capabilities:__aws_apitools_cfn_capabilities'
+   	'(-d --disable-rollback)'{-d,--disable-rollback}'[disable rollback of created resources on failure]'
+   	'(-f -u --template-file --template-url)'{-f,--template-file}'[file that contains the template]:template_file:_files'
+   	'(-p --parameters)'{-p,--parameters}'[Parameter values used to create the stack]:parameters'
+   	'(-f -u --template-file --template-url)'{-u,--template-url}'[URL that contains the template]:template_url'
+	)
+	_arguments $arguments
 }
 
 _cfn-validate-template () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_cfn_general_options
+	arguments=(
+		$_aws_apitools_cfn_general_options
+		'(-f -u --template-file --template-url)'{-f,--template-file}'[file that contains the template]:file:_files'
+		'(-f -u --template-file --template-url)'{-u,--template-url}'[URL that contains the template]:url'
+	)
+	_arguments $arguments
 }
 
 _cfn-version () {

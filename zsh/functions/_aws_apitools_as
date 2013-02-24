@@ -18,6 +18,77 @@ _aws_apitools_as_general_options=(
 	'(--region)'{-U,--url}'[URL]:url'
 )
 
+__aws_apitools_as_availability_zones () {
+	_access_key_id=${(v)opt_args[(i)-I,--access-key-id]}
+	_aws_credential_file=${(v)opt_args[(i)--aws-credential-file]}
+	_ec2_cert_file_path=${(v)opt_args[(i)-C|--ec2-cert-file-path]}
+	_ec2_private_key_file_path=${(v)opt_args[(i)-K|--ec2-private-key-file-path]}
+	_region=${(v)opt_args[(i)--region]}
+	_secret_key=${(v)opt_args[(i)-S|--secret-key]}
+	_url=${(v)opt_args[(i)-U|--url]}
+	_ec2daz='ec2daz' \
+		${_access_key_id:+-I $_access_key_id} \
+		${_aws_credential_file:+--aws-credential-file $_aws_credential_file} \
+		${_ec2_cert_file_path:+-C $_ec2_cert_file_path} \
+		${_ec2_private_key_file_path:+-C $_ec2_private_key_file_path} \
+		${_region:+--region $_region} \
+		${_secret_key:+-S $_secret_key} \
+		${_url:+-U $_url}
+	_values 'availability zone' \
+		$(${_ec2daz} 2>/dev/null|awk '$1=="AVAILABILITYZONE" {print $2 "[" $3 "]"}')
+}
+
+__aws_apitools_as_health_check_type () {
+	local health_check_types; health_check_types=(
+		'EC2:Amazon EC2'
+		'ELB:Elastic Load Balancer'
+	)
+	_describe -t health_check_types 'health check types' health_check_types "$@"
+}
+
+__aws_apitools_as_instance_type () {
+	local instance_types; instance_types=(
+		'm1.small:M1 Small Instance'
+		'm1.medium:M1 Medium Instance'
+		'm1.large:M1 Large Instance'
+		'm1.xlarge:M1 Extra Large Instance'
+		'm3.xlarge:M3 Extra Large Instance'
+		'm3.2xlarge:M3 Double Extra Large Instance'
+		't1.micro:Micro Instance'
+		'm2.xlarge:High-Memory Extra Large Instance'
+		'm2.2xlarge:High-Memory Double Extra Large Instance'
+		'm2.4xlarge:High-Memory Quadruple Extra Large Instance'
+		'c1.medium:High-CPU Medium Instance'
+		'c2.xlarge:High CPU Extra Large Instance'
+		'cc2.8xlarge:Cluster Compute Eight Extra Large Instance'
+		'cr1.8xlarge:High Memory Cluster Eight Extra Large Instance'
+		'cg1.4xlarge:Cluster GPU Quadruple Extra Large Instance'
+		'hi1.4xlarge:High I/O Quadruple Extra Large Instance'
+		'hs1.8xlarge:High Storage Instance'
+	)
+	_describe -t instance_types 'instance types' instance_types "$@"
+}
+
+__aws_apitools_as_key () {
+	_access_key_id=${(v)opt_args[(i)-I,--access-key-id]}
+	_aws_credential_file=${(v)opt_args[(i)--aws-credential-file]}
+	_ec2_cert_file_path=${(v)opt_args[(i)-C|--ec2-cert-file-path]}
+	_ec2_private_key_file_path=${(v)opt_args[(i)-K|--ec2-private-key-file-path]}
+	_region=${(v)opt_args[(i)--region]}
+	_secret_key=${(v)opt_args[(i)-S|--secret-key]}
+	_url=${(v)opt_args[(i)-U|--url]}
+	_ec2dkey='ec2dkey' \
+		${_access_key_id:+-I $_access_key_id} \
+		${_aws_credential_file:+--aws-credential-file $_aws_credential_file} \
+		${_ec2_cert_file_path:+-C $_ec2_cert_file_path} \
+		${_ec2_private_key_file_path:+-C $_ec2_private_key_file_path} \
+		${_region:+--region $_region} \
+		${_secret_key:+-S $_secret_key} \
+		${_url:+-U $_url}
+	_values 'key' \
+		$(${_ec2dkey} 2>/dev/null|awk '$1=="KEYPAIR" {print $2 "[" $3 "]"}')
+}
+
 __aws_apitools_as_region () {
 	_values 'region' \
 		'ap-northeast-1[Asia Pacific (Tokyo) Region]' \
@@ -30,248 +101,312 @@ __aws_apitools_as_region () {
 		'us-west-2[US West (Oregon) Region]'
 }
 
+__aws_apitools_as_termination_policies () {
+	_values -s , 'termination policies' \
+		'ClosestToNextInstanceHour[instance closest to completing billing hour]' \
+		'Default[default termination policy]' \
+		'NewestInstance[last launched instance in the group]' \
+		'OldestInstance[oldest instance in the group]' \
+		'OldestLaunchConfiguration[instance launched using oldest launch config]'
+}
+
 _as-cmd () {
+	_message 'no more arguments'
 }
 
 _as-create-auto-scaling-group () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	arguments=(
+		$_aws_apitools_as_general_options
+		'--auto-scaling-group[Auto Scaling Group name]:name'
+		'--default-cooldown[cooldown period]:seconds'
+		'--desired-capacity[capacity setting for the group]:number'
+		'--grace-period[period after an instance is launched]:seconds'
+		'--health-check-type[type of health check for instances of this group]:check:__aws_apitools_as_health_check_type'
+		'(-l --launch-configuration)'{-l,--launch-configuration}'[existing launch configuration to use]:launch_config'
+	  '--load-balancers[List of existing load balancers]:load_balancers'
+		'(-m --min-size)'{-m,--min-size}'[Minimum group size]:number'
+		'(-M --max-size)'{-M,--max-size}'[Maximum group size]:number'
+	  '--placement-group[Name of an existing placement group]:placement_group'
+	# --tag
+	  '--termination-policies[Ordered list of preferred termination policies]:policies:__aws_apitools_as_termination_policies'
+		'--vpc-zone-identifier[comma-separated list of subnet identifiers]:vpc_zones'
+		'(-z --availability-zones)'{-z,--availability-zones}'[list of Availability Zones]:zones:__aws_apitools_as_availability_zones'
+	)
+	_arguments : $arguments
 }
 
 _as-create-launch-config () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	arguments=(
+		$_aws_apitools_as_general_options
+		'--block-device-mapping[List of block device mapping specifications]:mapping'
+		'--ebs-optimized[instance is optimized for EBS I/O]'
+		'--groups[Security groups with which to associate instances]:groups'
+		'(-i --image-id)'{-i,--image-id}'[ID of the Amazon Machine Image (AMI)]:image_id'
+		'--iam-instance-profile[IAM Instance Identity Profile to use]:instance_profile'
+		'--kernel:kernel'
+		'--key[Name of the Amazon EC2 key pair]:key:__aws_apitools_as_key'
+		'(--monitoring-disabled)--monitoring-enabled[enable instance monitoring]'
+		'(--monitoring-enabled)--monitoring-disabled[disable instance monitoring]'
+		'--ramdisk:ramdisk'
+		'--spot-price[maximum hourly price]:value'
+		'(-t --instance-type)'{-t,--instance-type}'[Amazon EC2 instance type to launch]:instance_type:__aws_apitools_as_instance_type'
+		'(--user-data-file)--user-data[data to make available to the instance]:user_data'
+		'(--user-data)--user-data-file[file containing user data for the instance]:file:_files'
+	)
+	_arguments : $arguments
 }
 
 _as-create-or-update-tags () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-delete-auto-scaling-group () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	arguments=(
+		$_aws_apitools_as_general_options
+		'--auto-scaling-group[Auto Scaling Group to be deleted]:name'
+		'(-d --force-delete)'{-d,--force-delete}'[asynchronously delete the group]'
+		'(-f --force)'{-f,--force}'[delete without prompting]'
+	)
+	_arguments : $arguments
 }
 
 _as-delete-launch-config () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	arguments=(
+		$_aws_apitools_as_general_options
+		'--launch-config[Name of launch configuration to be deleted]:name'
+		'(-f --force)'{-f,--force}'[delete without prompting]'
+	)
+	_arguments : $arguments
 }
 
 _as-delete-notification-configuration () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-delete-policy () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-delete-scheduled-action () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-delete-tags () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-describe-adjustment-types () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-describe-auto-scaling-groups () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	arguments=(
+		$_aws_apitools_as_general_options
+		'--max-records[maximum groups that will be described]:number'
+	)
+	_arguments : $arguments
 }
 
 _as-describe-auto-scaling-instances () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-describe-auto-scaling-notification-types () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-describe-launch-configs () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	arguments=(
+		$_aws_apitools_as_general_options
+		'--max-records[maximum groups that will be described]:number'
+	)
+	_arguments : $arguments
 }
 
 _as-describe-metric-collection-types () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-describe-notification-configurations () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-describe-policies () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-describe-process-types () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-describe-scaling-activities () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-describe-scheduled-actions () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-describe-tags () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-describe-termination-policy-types () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-disable-metrics-collection () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-enable-metrics-collection () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-execute-policy () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-put-notification-configuration () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-put-scaling-policy () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-put-scheduled-update-group-action () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-resume-processes () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-set-desired-capacity () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-set-instance-health () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-suspend-processes () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-terminate-instance-in-auto-scaling-group () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-update-auto-scaling-group () {
 	typeset -A opt_args
 	local context state line
 
-	_arguments $_aws_apitools_as_general_options
+	_arguments : $_aws_apitools_as_general_options
 }
 
 _as-version () {
+	_message 'no more arguments'
 }
 
 compdef _as-cmd as-cmd
