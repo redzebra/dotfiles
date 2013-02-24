@@ -26,7 +26,7 @@ function aws-context {
 		echo "$(basename $0): $1: No such credentials" >&2; return 2
 	fi
 
-	export AWS_REGION="${region:-eu-west-1}"
+	export AWS_REGION="${region:-${AWS_DEFAULT_REGION:-us-eest-1}}"
 	export EC2_REGION=$AWS_REGION
 	export EC2_URL="https://ec2.$EC2_REGION.amazonaws.com"
 	unset AWS_CREDENTIAL_FILE BOTO_CONFIG EC2_CERT EC2_PRIVATE_KEY
