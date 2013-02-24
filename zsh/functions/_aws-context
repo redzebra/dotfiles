@@ -9,9 +9,7 @@ _arguments \
 
 case $state in
 	account)
-		for f in ~/.aws/*.credentials; do
-			compadd -- $(basename ${f%.credentials})
-		done
+		compadd -- ~/.aws/*.credentials(:r:t)
 		return 0
 		;;
 	region)

@@ -1,0 +1,136 @@
+_aws_apitools_cfn_general_options=(
+  '(- 1 *)'{'-?',-h,--help}'[Display help]' \
+	'(-C -I -K -S --access-key-id --ec2-cert-file-path --ec2-private-key-file-path --secret-key)--aws-credential-file[Location of the file with your AWS credentials]:file:_files'
+	'(-I -S --access-key-id --aws-credential-file --secret-key)'{-C,--ec2-cert-file-path}'[file]:file:_files'
+	'--connection-timeout[Connection timeout (in seconds)]:number'
+	'--delimiter[use delimiter]:delimiter'
+	{-H,--headers}'[show headers]'
+	'(-C -K --ec2-cert-file-path --ec2-private-key-file-path)'{-I,--access-key-id}'[access key id]:id'
+	'(-I -S --access-key-id --secret-key)'{-K,--ec2-private-key-file-path}'[private key file path]:file:_files'
+	'--region[Amazon EC2 region to use]:region:__aws_apitools_cfn_region'
+	'(-C -K --aws-credential-file --ec2-private-key-file-path)'{-S,--secret-key}'[The AWS Secret Key to use]:file:_files'
+	'--show-empty-fields[Shows empty fields and rows]'
+	'--show-request[show request]'
+	'(--show-long --show-xml --quiet)--show-table[Display tabular output]'
+	'(--show-table --show-xml --quiet)--show-long[Display delimited (long) output]'
+	'(--show-long --show-table --quiet)--show-xml[Display XML output]'
+	'(--show-long --show-table --show-xml)--quiet[quiet]'
+	'(--region)'{-U,--url}'[URL]:url'
+)
+
+__aws_apitools_cfn_region () {
+  _values 'region' \
+    'ap-northeast-1[Asia Pacific (Tokyo) Region]' \
+    'ap-southeast-1[Asia Pacific (Singapore) Region]' \
+    'ap-southeast-2[Asia Pacific (Sydney) Region]' \
+    'eu-west-1[EU (Ireland) Region]' \
+    'sa-east-1[South America (Sao Paulo) Region]' \
+    'us-east-1[US East (Northern Virginia) Region]' \
+    'us-west-1[US West (Northern California) Region]' \
+    'us-west-2[US West (Oregon) Region]'
+}
+
+_cfn-cancel-update-stack () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-cmd () {
+}
+
+_cfn-create-stack () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-delete-stack () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-describe-stack-events () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-describe-stack-resource () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-describe-stack-resources () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-describe-stacks () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-get-template () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-list-stack-resources () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-list-stacks () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-update-stack () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-validate-template () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_cfn_general_options
+}
+
+_cfn-version () {
+}
+
+compdef _cfn-cancel-update-stack cfn-cancel-update-stack
+compdef _cfn-cmd cfn-cmd
+compdef _cfn-create-stack cfn-create-stack
+compdef _cfn-delete-stack cfn-delete-stack
+compdef _cfn-describe-stack-events cfn-describe-stack-events
+compdef _cfn-describe-stack-resource cfn-describe-stack-resource
+compdef _cfn-describe-stack-resources cfn-describe-stack-resources
+compdef _cfn-describe-stacks cfn-describe-stacks
+compdef _cfn-get-template cfn-get-template
+compdef _cfn-list-stack-resources cfn-list-stack-resources
+compdef _cfn-list-stacks cfn-list-stacks
+compdef _cfn-update-stack cfn-update-stack
+compdef _cfn-validate-template cfn-validate-template
+compdef _cfn-version cfn-version

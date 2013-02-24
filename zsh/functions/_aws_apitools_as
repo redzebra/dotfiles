@@ -1,0 +1,312 @@
+_aws_apitools_as_general_options=(
+  '(- 1 *)'{-h,--help}'[Display help]' \
+	'(-C -I -K -S --access-key-id --ec2-cert-file-path --ec2-private-key-file-path --secret-key)--aws-credential-file[Location of the file with your AWS credentials]:file:_files'
+	'(-I -S --access-key-id --aws-credential-file --secret-key)'{-C,--ec2-cert-file-path}'[file]:file:_files'
+	'--connection-timeout[Connection timeout (in seconds)]:number'
+	'--delimiter[use delimiter]:delimiter'
+	{-H,--headers}'[show headers]'
+	'(-C -K --ec2-cert-file-path --ec2-private-key-file-path)'{-I,--access-key-id}'[access key id]:id'
+	'(-I -S --access-key-id --secret-key)'{-K,--ec2-private-key-file-path}'[private key file path]:file:_files'
+	'--region[Amazon EC2 region to use]:region:__aws_apitools_as_region'
+	'(-C -K --aws-credential-file --ec2-private-key-file-path)'{-S,--secret-key}'[The AWS Secret Key to use]:file:_files'
+	'--show-empty-fields[Shows empty fields and rows]'
+	'--show-request[show request]'
+	'(--show-long --show-xml --quiet)--show-table[Display tabular output]'
+	'(--show-table --show-xml --quiet)--show-long[Display delimited (long) output]'
+	'(--show-long --show-table --quiet)--show-xml[Display XML output]'
+	'(--show-long --show-table --show-xml)--quiet[quiet]'
+	'(--region)'{-U,--url}'[URL]:url'
+)
+
+__aws_apitools_as_region () {
+	_values 'region' \
+		'ap-northeast-1[Asia Pacific (Tokyo) Region]' \
+		'ap-southeast-1[Asia Pacific (Singapore) Region]' \
+		'ap-southeast-2[Asia Pacific (Sydney) Region]' \
+		'eu-west-1[EU (Ireland) Region]' \
+		'sa-east-1[South America (Sao Paulo) Region]' \
+		'us-east-1[US East (Northern Virginia) Region]' \
+		'us-west-1[US West (Northern California) Region]' \
+		'us-west-2[US West (Oregon) Region]'
+}
+
+_as-cmd () {
+}
+
+_as-create-auto-scaling-group () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-create-launch-config () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-create-or-update-tags () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-delete-auto-scaling-group () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-delete-launch-config () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-delete-notification-configuration () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-delete-policy () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-delete-scheduled-action () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-delete-tags () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-adjustment-types () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-auto-scaling-groups () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-auto-scaling-instances () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-auto-scaling-notification-types () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-launch-configs () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-metric-collection-types () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-notification-configurations () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-policies () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-process-types () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-scaling-activities () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-scheduled-actions () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-tags () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-describe-termination-policy-types () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-disable-metrics-collection () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-enable-metrics-collection () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-execute-policy () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-put-notification-configuration () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-put-scaling-policy () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-put-scheduled-update-group-action () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-resume-processes () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-set-desired-capacity () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-set-instance-health () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-suspend-processes () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-terminate-instance-in-auto-scaling-group () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-update-auto-scaling-group () {
+	typeset -A opt_args
+	local context state line
+
+	_arguments $_aws_apitools_as_general_options
+}
+
+_as-version () {
+}
+
+compdef _as-cmd as-cmd
+compdef _as-create-auto-scaling-group as-create-auto-scaling-group
+compdef _as-create-launch-config as-create-launch-config
+compdef _as-create-or-update-tags as-create-or-update-tags
+compdef _as-delete-auto-scaling-group as-delete-auto-scaling-group
+compdef _as-delete-launch-config as-delete-launch-config
+compdef _as-delete-notification-configuration as-delete-notification-configuration
+compdef _as-delete-policy as-delete-policy
+compdef _as-delete-scheduled-action as-delete-scheduled-action
+compdef _as-delete-tags as-delete-tags
+compdef _as-describe-adjustment-types as-describe-adjustment-types
+compdef _as-describe-auto-scaling-groups as-describe-auto-scaling-groups
+compdef _as-describe-auto-scaling-instances as-describe-auto-scaling-instances
+compdef _as-describe-auto-scaling-notification-types as-describe-auto-scaling-notification-types
+compdef _as-describe-launch-configs as-describe-launch-configs
+compdef _as-describe-metric-collection-types as-describe-metric-collection-types
+compdef _as-describe-notification-configurations as-describe-notification-configurations
+compdef _as-describe-policies as-describe-policies
+compdef _as-describe-process-types as-describe-process-types
+compdef _as-describe-scaling-activities as-describe-scaling-activities
+compdef _as-describe-scheduled-actions as-describe-scheduled-actions
+compdef _as-describe-tags as-describe-tags
+compdef _as-describe-termination-policy-types as-describe-termination-policy-types
+compdef _as-disable-metrics-collection as-disable-metrics-collection
+compdef _as-enable-metrics-collection as-enable-metrics-collection
+compdef _as-execute-policy as-execute-policy
+compdef _as-put-notification-configuration as-put-notification-configuration
+compdef _as-put-scaling-policy as-put-scaling-policy
+compdef _as-put-scheduled-update-group-action as-put-scheduled-update-group-action
+compdef _as-resume-processes as-resume-processes
+compdef _as-set-desired-capacity as-set-desired-capacity
+compdef _as-set-instance-health as-set-instance-health
+compdef _as-suspend-processes as-suspend-processes
+compdef _as-terminate-instance-in-auto-scaling-group as-terminate-instance-in-auto-scaling-group
+compdef _as-update-auto-scaling-group as-update-auto-scaling-group
+compdef _as-version as-version

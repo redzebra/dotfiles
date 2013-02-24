@@ -23,3 +23,8 @@ expand-or-complete-with-dots() {
 }
 zle -N expand-or-complete-with-dots
 bindkey "^I" expand-or-complete-with-dots
+
+source ~/.zsh/functions/_aws_apitools_as
+source ~/.zsh/functions/_aws_apitools_cfn
+source ~/.zsh/functions/_aws_apitools_ec2
+source ~/.zsh/functions/_aws_apitools_elb
