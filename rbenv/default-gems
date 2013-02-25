@@ -2,4 +2,4 @@ aws-sdk
 bundler
 puppet
 puppet-lint
-rspec
+rake
