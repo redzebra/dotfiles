@@ -59,7 +59,7 @@ __aws_apitools_as_instance_type () {
 		'm2.2xlarge:High-Memory Double Extra Large Instance'
 		'm2.4xlarge:High-Memory Quadruple Extra Large Instance'
 		'c1.medium:High-CPU Medium Instance'
-		'c2.xlarge:High CPU Extra Large Instance'
+		'c1.xlarge:High CPU Extra Large Instance'
 		'cc2.8xlarge:Cluster Compute Eight Extra Large Instance'
 		'cr1.8xlarge:High Memory Cluster Eight Extra Large Instance'
 		'cg1.4xlarge:Cluster GPU Quadruple Extra Large Instance'

@@ -4,6 +4,9 @@ autoload -U ~/.zsh/functions/*(:t)
 autoload -Uz colors
 colors
 
+autoload -U select-word-style
+select-word-style bash
+
 export CLICOLOR=1
 
 export EDITOR=vi
