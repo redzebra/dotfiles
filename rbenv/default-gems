@@ -1,1 +1,6 @@
+aws-sdk
 bundler
+facter
+puppet
+puppet-lint
+rspec
