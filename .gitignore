@@ -1,3 +1,4 @@
 /.zcompdump
 /local/share/autojump/
 /vim/.netrwhist
+/vim/undo

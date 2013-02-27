@@ -202,6 +202,7 @@ echo installing vim support
 _ln_s gvimrc
 _ln_s vim
 _ln_s vimrc
+_mkdir ~/.vim/undo/
 #	_mkdir ~/.vim/view/
 #	for f in `find vim -type f ! -name '.git*'`; do
 #		_install $f ~/.$f

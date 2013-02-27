@@ -39,12 +39,14 @@ set cmdheight=2
 
 set hidden
 set switchbuf=useopen
-if v:version >= 730
-  set undofile
-  set undodir=~/.vim/.undo,~/tmp,/tmp
+
+set undodir=~/.vim/undo
+if exists('+undofile')
+	set undofile
 endif
+
 set nobackup
-"set noswapfile
+set noswapfile
 set title
 set visualbell
 set noerrorbells
@@ -81,7 +83,7 @@ set smartcase			" case sensitive search when uppercase present
 set wildmenu			" show list instead of just completing
 set wildmode=list:longest:full	" command <Tab> completion
 set wildignore=.*.bak,.*.tmp,*.pyc,*.swp
-set scrolloff=3			" minimum lines to keep above and below cursor
+set scrolloff=1			" minimum lines to keep above and below cursor
 
 " -- FORMATTING ----------------------------------------------------------------
 
