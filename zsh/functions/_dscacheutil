@@ -7,7 +7,7 @@ _arguments \
 	'-cachedump' \
 	'-configuration[print current configuration information]' \
 	'-flushcache[flush the entire cache]' \
-	'-q[initiate a query]:category:->category'
+	'-q[initiate a query]:category:->category' \
 	'-statistics[print statistics from the cache]'
 	#'1: :->account'
 
