@@ -9,13 +9,11 @@ have rds-version && {
       -K|--ec2-private-key-file-path) _filedir; return 0;;
       --region)
         COMPREPLY=($(compgen -W "ap-northeast-1 ap-southeast-1 ap-southeast-2 eu-west-1 sa-east-1 us-east-1 us-west-1 us-west-2" -- ${cur}))
-        return 0
-        ;;
+        return 0;;
       -S|--secret-key) return 0;;
       --service-sig-name)
         COMPREPLY=($(compgen -W "rds" -- ${cur}))
-        return 0
-        ;;
+        return 0;;
       -U|--url) return 0;;
     esac
     opts+="${opts:+ }--access-key-id --aws-credential-file --connection-timeout --debug --delimiter --ec2-private-key-file-path --headers --help --quiet --region --secret-key --service-sig-name --show-empty-fields --show-long --show-table --show-xml --url"
@@ -24,15 +22,17 @@ have rds-version && {
 
   _aws_apitools_rds_add_option_to_option_group () {
     case ${prev} in
-      -n|--option-name) return 0;;
       --option-group-name) return 0;;
+      -n|--option-name) return 0;;
       --port) return 0;;
+      -s|--settings) return 0;;
       -sg|--security-groups) return 0;;
+      -vpcsg|--vpc-security-group-ids) return 0;;
     esac
     _aws_apitools_rds_general_options && return 0
     if [[ ${cur} == -* ]]; then
 	    [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--option-group-name"
-      opts+="${opts:+ }--apply-immediately --option-name --port --security-groups"
+      opts+="${opts:+ }--apply-immediately --option-name --port --settings --security-groups --vpc-security-group-ids"
       COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
       return 0
     fi
@@ -71,32 +71,36 @@ have rds-version && {
 
   _aws_apitools_rds_create_db_instance () {
     case ${prev} in
+			--db-instance-identifier) return 0;;
       -a|--db-security-groups) return 0;;
       -au|--auto-minor-version-upgrade) return 0;;
       -b|--preferred-backup-window) return 0;;
       -c|--db-instance-class)
       	COMPREPLY=($(compgen -W "db.t1.micro db.m1.small db.m1.medium db.m1.large db.m1.xlarge db.m2.xlarge db.m2.2xlarge db.m2.4xlarge" -- ${cur}))
-				return 0
-				;;
+				return 0;;
       -cs|--character-set) return 0;;
 		  --db-instance-identifier) return 0;;
       -e|--engine)
       	COMPREPLY=($(compgen -W "MySQL oracle-se1 oracle-se sqlserver-ee sqlserver-se sqlserver-ex sqlserver-web" -- ${cur}))
 				return 0;;
       -g|--db-parameter-group-name) return 0;;
+      --iops) return 0;;
       -lm|--license-model)
       	COMPREPLY=($(compgen -W "license-included bring-your-own-license general-public-license" -- ${cur}))
 				return 0;;
       -m|--multi-az)
       	COMPREPLY=($(compgen -W "true false" -- ${cur}))
-				return 0
-				;;
+				return 0;;
       -n|--db-name) return 0;;
       -og|--option-group) return 0;;
       -p|--master-user-password) return 0;;
       --port) return 0;;
+      -pub|--publicly-accessible)
+      	COMPREPLY=($(compgen -W "true false" -- ${cur}))
+				return 0;;
       -r|--backup-retention-period) return 0;;
       -s|--allocated-storage) return 0;;
+      -sg|--vpc-security-group-ids) return 0;;
       -sn|--db-subnet-group-name) return 0;;
       -u|--master-username) return 0;;
       -v|--engine-version) return 0;;
@@ -106,7 +110,7 @@ have rds-version && {
     _aws_apitools_rds_general_options && return 0
     if [[ ${cur} == -* ]]; then
 	    [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--db-instance-identifier"
-      opts+="${opts:+ }--allocated-storage --auto-minor-version-upgrade --availability-zone --backup-retention-period --character-set --db-instance-class --db-name --db-parameter-group-name --db-security-groups --db-subnet-group-name --engine --engine-version --license-model --master-user-password --master-username --multi-az --option-group --port --preferred-backup-window --preferred-maintenance-window"
+      opts+="${opts:+ }--db-security-groups --auto-minor-version-upgrade --preferred-backup-window --db-instance-class --character-set --engine --db-parameter-group-name --iops --license-model --multi-az --db-name --option-group --master-user-password --port --publicly-accessible --backup-retention-period --allocated-storage --vpc-security-group-ids --db-subnet-group-name --master-username --engine-version --preferred-maintenance-window --availability-zone"
       COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
       return 0
     fi
@@ -114,21 +118,24 @@ have rds-version && {
 
   _aws_apitools_rds_create_db_instance_read_replica () {
     case ${prev} in
+      --db-instance-identifier) return 0;;
       -au|--auto-minor-version-upgrade) return 0;;
       -c|--db-instance-class)
       	COMPREPLY=($(compgen -W "db.m1.small db.m1.large db.m1.xlarge db.m2.2xlarge db.m2.4xlarge" -- ${cur}))
-				return 0
-				;;
-      --db-instance-identifier) return 0;;
+				return 0;;
+			--iops) return 0;;
       -og|--option-group) return 0;;
       -p|--port) return 0;;
+			-pub|--publicly-accessible)
+      	COMPREPLY=($(compgen -W "true false" -- ${cur}))
+				return 0;;
       -s|--source-db-instance-identifier) return 0;;
       -z|--availability-zone) return 0;;
     esac
     _aws_apitools_rds_general_options && return 0
     if [[ ${cur} == -* ]]; then
 	    [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--db-instance-identifier"
-      opts+="${opts:+ }--auto-minor-version-upgrade --availability-zone --db-instance-class --option-group --port --source-db-instance-identifier"
+      opts+="${opts:+ }--auto-minor-version-upgrade --db-instance-class --iops --option-group --port --publicly-accessible --source-db-instance-identifier --availability-zone"
       COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
       return 0
     fi
@@ -136,14 +143,14 @@ have rds-version && {
 
   _aws_apitools_rds_create_db_parameter_group () {
     case ${prev} in
-      -d|--description) return 0;;
       --db-parameter-group-name) return 0;;
+      -d|--description) return 0;;
       -f|--db-parameter-group-family) return 0;;
     esac
     _aws_apitools_rds_general_options && return 0
     if [[ ${cur} == -* ]]; then
 	    [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--db-parameter-group-name"
-      opts+="${opts:+ }--db-parameter-group-family --description"
+      opts+="${opts:+ }--description --db-parameter-group-family"
       COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
       return 0
     fi
@@ -151,14 +158,13 @@ have rds-version && {
 
   _aws_apitools_rds_create_db_security_group () {
     case ${prev} in
-      -d|--db-security-group-description) return 0;;
       --db-security-group-name) return 0;;
-      -v|--ec2-vpc-id) return 0;;
+      -d|--db-security-group-description) return 0;;
     esac
     _aws_apitools_rds_general_options && return 0
     if [[ ${cur} == -* ]]; then
 	    [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--db-security-group-name"
-      opts+="${opts:+ }--db-security-group-description --ec2-vpc-id"
+      opts+="${opts:+ }--db-security-group-description"
       COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
       return 0
     fi
@@ -180,8 +186,8 @@ have rds-version && {
 
   _aws_apitools_rds_create_db_subnet_group () {
     case ${prev} in
-      -d|--db-subnet-group-description) return 0;;
       --db-subnet-group-name) return 0;;
+      -d|--db-subnet-group-description) return 0;;
       -s|--db-subnet-list) return 0;;
     esac
     _aws_apitools_rds_general_options && return 0
@@ -195,9 +201,9 @@ have rds-version && {
 
   _aws_apitools_rds_create_option_group () {
     case ${prev} in
+      --option-group-name) return 0;;
       -d|--description) return 0;;
       -e|--engine-name) return 0;;
-      --option-group-name) return 0;;
       -v|--major-engine-version) return 0;;
     esac
     _aws_apitools_rds_general_options && return 0
@@ -292,13 +298,13 @@ have rds-version && {
     case ${prev} in
       -e|--engine) return 0;;
       -f|--db-parameter-group-family) return 0;;
+      -v|--engine-version) return 0;;
       --marker) return 0;;
       --max-records) return 0;;
-      -v|--engine-version) return 0;;
     esac
     _aws_apitools_rds_general_options && return 0
     if [[ ${cur} == -* ]]; then
-      opts+="${opts:+ }--db-parameter-group-family --default-only --engine --engine-version --list-supported-character-sets --marker --max-records"
+      opts+="${opts:+ }--list-supported-character-sets --default-only --engine --db-parameter-group-family --engine-version --marker --max-records"
       COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
       return 0
     fi
@@ -542,23 +548,42 @@ have rds-version && {
 
   _aws_apitools_rds_modify_db_instance () {
     case ${prev} in
-      --allocated-storage) return 0;;
-      --allow-major-version-upgrade) return 0;;
-      --auto-minor-version-upgrade) return 0;;
-      --backup-retention-period) return 0;;
-      --db-instance-class) return 0;;
-      --db-parameter-group-name) return 0;;
-      --db-security-groups) return 0;;
-      --engine-version) return 0;;
-      --master-user-password) return 0;;
-      --multi-az) return 0;;
-      --option-group) return 0;;
-      --preferred-backup-window) return 0;;
-      --preferred-maintenance-window) return 0;;
+      -a|--allocated-storage) return 0;;
+      -au|--auto-minor-version-upgrade) return 0;;
+      -b|--preferred-backup-window) return 0;;
+      -c|--db-instance-class)
+      	COMPREPLY=($(compgen -W "db.m1.small db.m1.large db.m1.xlarge db.m2.xlarge db.m2.2xlarge db.m2.4xlarge" -- ${cur}))
+				return 0
+				;;
+      -cs|--character-set) return 0;;
+      -e|--engine) return 0;;
+      -g|--db-parameter-group-name) return 0;;
+			--iops) return 0;;
+      -lm|--license-model) return 0;;
+      -m|--multi-az)
+      	COMPREPLY=($(compgen -W "true false" -- ${cur}))
+      	return 0
+      	;;
+      -n|--db-name) return 0;;
+      -og|--option-group) return 0;;
+      -p|--master-user-password) return 0;;
+			--port) return 0;;
+			-pub|--publicly-accessible)
+      	COMPREPLY=($(compgen -W "true false" -- ${cur}))
+				return 0
+				;;
+      -r|--backup-retention-period) return 0;;
+			-s|--allocated-storage) return 0;;
+			-sg|--vpc-security-group-ids) return 0;;
+			-sn|--db-subnet-group-name) return 0;;
+			-u|--master-username) return 0;;
+      -v|--engine-version) return 0;;
+      -w|--preferred-maintenance-window) return 0;;
+      -z|--availability-zone) return 0;;
     esac
     _aws_apitools_rds_general_options && return 0
     if [[ ${cur} == -* ]]; then
-      opts+="${opts:+ }--allocated-storage --allow-major-version-upgrade --apply-immediately --auto-minor-version-upgrade --backup-retention-period --db-instance-class --db-parameter-group-name --db-security-groups --engine-version --master-user-password --multi-az --option-group --preferred-backup-window --preferred-maintenance-window"
+      opts+="${opts:+ }--db-security-groups --auto-minor-version-upgrade --preferred-backup-window --db-instance-class --character-set --engine --db-parameter-group-name --iops --license-model --multi-az --db-name --option-group --master-user-password --port --publicly-accessible --backup-retention-period --allocated-storage --vpc-security-group-ids --db-subnet-group-name --master-username --engine-version --preferred-maintenance-window --availability-zone"
       COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
       return 0
     fi
@@ -704,7 +729,10 @@ have rds-version && {
     _aws_apitools_${cmd//-/_}
   }
 
+  complete -F _aws_apitools_rds rds
   complete -F _aws_apitools_rds rds-add-option-to-option-group
+  complete -F _aws_apitools_rds rds-add-source-identifier-to-subscription
+  complete -F _aws_apitools_rds rds-add-tag-to-resource
   complete -F _aws_apitools_rds rds-authorize-db-security-group-ingress
   complete -F _aws_apitools_rds rds-copy-db-snapshot
   complete -F _aws_apitools_rds rds-create-db-instance
@@ -713,6 +741,7 @@ have rds-version && {
   complete -F _aws_apitools_rds rds-create-db-security-group
   complete -F _aws_apitools_rds rds-create-db-snapshot
   complete -F _aws_apitools_rds rds-create-db-subnet-group
+  complete -F _aws_apitools_rds rds-create-event-subscription
   complete -F _aws_apitools_rds rds-create-option-group
   complete -F _aws_apitools_rds rds-delete-db-instance
   complete -F _aws_apitools_rds rds-delete-db-parameter-group
@@ -722,26 +751,38 @@ have rds-version && {
   complete -F _aws_apitools_rds rds-delete-option-group
   complete -F _aws_apitools_rds rds-describe-db-engine-versions
   complete -F _aws_apitools_rds rds-describe-db-instances
+  complete -F _aws_apitools_rds rds-describe-db-log-files
   complete -F _aws_apitools_rds rds-describe-db-parameter-groups
   complete -F _aws_apitools_rds rds-describe-db-parameters
   complete -F _aws_apitools_rds rds-describe-db-security-groups
   complete -F _aws_apitools_rds rds-describe-db-snapshots
   complete -F _aws_apitools_rds rds-describe-db-subnet-groups
   complete -F _aws_apitools_rds rds-describe-engine-default-parameters
+  complete -F _aws_apitools_rds rds-describe-event-categories
+  complete -F _aws_apitools_rds rds-describe-event-subscriptions
   complete -F _aws_apitools_rds rds-describe-events
   complete -F _aws_apitools_rds rds-describe-option-group-options
   complete -F _aws_apitools_rds rds-describe-option-groups
   complete -F _aws_apitools_rds rds-describe-orderable-db-instance-options
   complete -F _aws_apitools_rds rds-describe-reserved-db-instances
   complete -F _aws_apitools_rds rds-describe-reserved-db-instances-offerings
+  complete -F _aws_apitools_rds rds-download-db-logfile
+  complete -F _aws_apitools_rds rds-list-tags-for-resource
   complete -F _aws_apitools_rds rds-modify-db-instance
   complete -F _aws_apitools_rds rds-modify-db-parameter-group
   complete -F _aws_apitools_rds rds-modify-db-subnet-group
+  complete -F _aws_apitools_rds rds-modify-event-subscription
+  complete -F _aws_apitools_rds rds-promote-read-replica
   complete -F _aws_apitools_rds rds-purchase-reserved-db-instances-offering
   complete -F _aws_apitools_rds rds-reboot-db-instance
   complete -F _aws_apitools_rds rds-remove-option-from-option-group
+  complete -F _aws_apitools_rds rds-remove-source-identifier-from-subscription
+  complete -F _aws_apitools_rds rds-remove-tags-from-resource
   complete -F _aws_apitools_rds rds-reset-db-parameter-group
   complete -F _aws_apitools_rds rds-restore-db-instance-from-db-snapshot
   complete -F _aws_apitools_rds rds-restore-db-instance-to-point-in-time
   complete -F _aws_apitools_rds rds-revoke-db-security-group-ingress
+  complete -F _aws_apitools_rds rds-update-option-in-option-group
+  complete -F _aws_apitools_rds rds-version
+  complete -F _aws_apitools_rds rds-watch-db-logfile
 }

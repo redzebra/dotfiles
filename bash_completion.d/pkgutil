@@ -1,0 +1,43 @@
+have pkgutil && {
+	_pkgutil_groupid() {
+		# FIXME: observe --volume
+		COMPREPLY=($(compgen -W "$(pkgutil --groups 2>/dev/null)" -- ${cur}))
+	}
+
+	_pkgutil_pkgid() {
+		# FIXME: observe --volume
+		COMPREPLY=($(compgen -W "$(pkgutil --pkgs 2>/dev/null)" -- ${cur}))
+	}
+
+	_pkgutil() {
+		local cur prev opts
+		COMPREPLY=()
+		cur=${COMP_WORDS[COMP_CWORD]}
+		prev=${COMP_WORDS[COMP_CWORD-1]}
+
+		case ${prev} in
+			--volume) _filedir; return 0;;
+			--edit-pkg) _pkgutil_pkgid; return 0;;
+			--group-pkgs) return 0;;
+			--files) _pkgutil_pkgid; return 0;;
+			--lsbom) _pkgutil_pkgid; return 0;;
+			--pkg-groups) _pkgutil_groupid; return 0;;
+			--export-plist) _pkgutil_pkgid; return 0;;
+			--verify) _pkgutil_pkgid; return 0;;
+			--repair) _pkgutil_pkgid; return 0;;
+			--pkg-info) _pkgutil_pkgid; return 0;;
+			--pkg-info-plist) _pkgutil_pkgid; return 0;;
+			--file-info) _filedir; return 0;;
+			--file-info-plist) _filedir; return 0;;
+			--forget) _pkgutil_pkgid; return 0;;
+			--learn) _filedir; return 0;;
+			--expand) _pkgutil_pkgid; return 0;;
+			--flatten) _filedir; return 0;;
+			--bom) _filedir; return 0;;
+			--payload-files) _filedir; return 0;;
+		esac
+		COMPREPLY=($(compgen -W "--bom --edit-pkg --expand --export-plist --file-info --file-info-plist --files --flatten --force --forget --group-pkgs --groups --groups-plist --help --learn --lsbom --only-dirs --only-files --packages --payload-files --pkg-groups --pkg-info --pkg-info-plist --pkgs --pkgs-plist --regexp --repair --verbose --verify --volume" -- ${cur}))
+	}
+
+	complete -F _pkgutil pkgutil
+}

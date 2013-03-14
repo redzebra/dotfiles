@@ -16,15 +16,18 @@ have sns-cmd && {
     return 1
   }
 
+	__aws_apitools_sns_topic_arn () {
+		COMPREPLY=($(compgen -W $(sns-list-topics 2>/dev/null) -- "${cur}"))
+	}
+
   _aws_apitools_sns_add_permission () {
     case ${prev} in
       --action-name)
-        COMPREPLY=($(compgen -W "SNS:Publish SNS:Receive SNS:Subscribe" -- ${cur}))
-        return 0
-        ;;
+        COMPREPLY=($(compgen -W 'SNS:Publish SNS:Receive SNS:Subscribe' -- ${cur}))
+        return 0;;
       --aws-account-id) return 0;;
       --label) return 0;;
-      --topic-arn) return 0;;
+      --topic-arn) __aws_apitools_sns_topic_arn; return 0;;
     esac
     _aws_apitools_sns_general_options && return 0
     if [[ ${cur} == -* ]]; then
@@ -38,7 +41,7 @@ have sns-cmd && {
   _aws_apitools_sns_confirm_subscription () {
     case ${prev} in
       --token) return 0;;
-      --topic-arn) return 0;;
+      --topic-arn) __aws_apitools_sns_topic_arn; return 0;;
     esac
     _aws_apitools_sns_general_options && return 0
     if [[ ${cur} == -* ]]; then
@@ -63,7 +66,7 @@ have sns-cmd && {
 
   _aws_apitools_sns_delete_topic () {
     case ${prev} in
-      --topic-arn) return 0;;
+      --topic-arn) __aws_apitools_sns_topic_arn; return 0;;
     esac
     _aws_apitools_sns_general_options && return 0
     if [[ ${cur} == -* ]]; then
@@ -88,7 +91,7 @@ have sns-cmd && {
 
   _aws_apitools_sns_get_topic_attributes () {
     case ${prev} in
-      --topic-arn) return 0;;
+      --topic-arn) __aws_apitools_sns_topic_arn; return 0;;
     esac
     _aws_apitools_sns_general_options && return 0
     if [[ ${cur} == -* ]]; then
@@ -108,7 +111,7 @@ have sns-cmd && {
 
   _aws_apitools_sns_list_subscriptions_by_topic () {
     case ${prev} in
-      --topic-arn) return 0;;
+      --topic-arn) __aws_apitools_sns_topic_arn; return 0;;
     esac
     _aws_apitools_sns_general_options && return 0
     if [[ ${cur} == -* ]]; then
@@ -131,7 +134,7 @@ have sns-cmd && {
       --message) return 0;;
       --message-structure) return 0;;
       --subject) return 0;;
-      --topic-arn) return 0;;
+      --topic-arn) __aws_apitools_sns_topic_arn; return 0;;
     esac
     _aws_apitools_sns_general_options && return 0
     if [[ ${cur} == -* ]]; then
@@ -145,7 +148,7 @@ have sns-cmd && {
   _aws_apitools_sns_remove_permission () {
     case ${prev} in
       --label) return 0;;
-      --topic-arn) return 0;;
+      --topic-arn) __aws_apitools_sns_topic_arn; return 0;;
     esac
     _aws_apitools_sns_general_options && return 0
     if [[ ${cur} == -* ]]; then
@@ -160,8 +163,7 @@ have sns-cmd && {
     case ${prev} in
       --attribute-name)
         COMPREPLY=($(compgen -W "DeliveryPolicy" -- ${cur}))
-        return 0
-        ;;
+        return 0;;
       --attribute-value) return 0;;
       --subscription-arn) return 0;;
     esac
@@ -178,10 +180,9 @@ have sns-cmd && {
     case ${prev} in
       --attribute-name)
         COMPREPLY=($(compgen -W "DeliveryPolicy DisplayName Policy" -- ${cur}))
-        return 0
-        ;;
+        return 0;;
       --attribute-value) return 0;;
-      --topic-arn) return 0;;
+      --topic-arn) __aws_apitools_sns_topic_arn; return 0;;
     esac
     _aws_apitools_sns_general_options && return 0
     if [[ ${cur} == -* ]]; then
@@ -197,9 +198,8 @@ have sns-cmd && {
       --endpoint) return 0;;
       --protocol)
         COMPREPLY=($(compgen -W "email email-json http https sms sqs" -- ${cur}))
-        return 0
-        ;;
-      --topic-arn) return 0;;
+        return 0;;
+      --topic-arn) __aws_apitools_sns_topic_arn; return 0;;
     esac
     _aws_apitools_sns_general_options && return 0
     if [[ ${cur} == -* ]]; then
@@ -225,13 +225,14 @@ have sns-cmd && {
   _aws_apitools_sns () {
     local cur prev opts
     COMPREPLY=()
-    cur=${COMP_WORDS[COMP_CWORD]}
-    prev=${COMP_WORDS[COMP_CWORD-1]}
-    cmd=$(basename ${COMP_WORDS[0]})
+    _get_comp_words_by_ref -n : cur prev
+    local cmd=$(basename ${COMP_WORDS[0]})
     _aws_apitools_${cmd//-/_}
+    __ltrim_colon_completions "$cur"
   }
 
   complete -F _aws_apitools_sns sns-add-permission
+  complete -F _aws_apitools_sns sns-cmd
   complete -F _aws_apitools_sns sns-confirm-subscription
   complete -F _aws_apitools_sns sns-create-topic
   complete -F _aws_apitools_sns sns-delete-topic
@@ -246,4 +247,5 @@ have sns-cmd && {
   complete -F _aws_apitools_sns sns-set-topic-attributes
   complete -F _aws_apitools_sns sns-subscribe
   complete -F _aws_apitools_sns sns-unsubscribe
+  complete -F _aws_apitools_sns sns-version
 }

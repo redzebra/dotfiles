@@ -1,65 +1,67 @@
 have ec2-cmd && {
+  _aws_apitools_ec2_general_options () {
+    case ${prev} in
+      -O|--aws-access-key) return 0;;
+      -W|--aws-secret-key) return 0;;
+      -T|--security-token) return 0;;
+      -K|--private-key) _filedir; return 0;;
+      -C|--cert) _filedir; return 0;;
+      -U|--url) return 0;;
+      --region)
+        COMPREPLY=($(compgen -W "ap-northeast-1 ap-southeast-1 ap-southeast-2 eu-west-1 sa-east-1 us-east-1 us-west-1 us-west-2" -- ${cur}))
+        return 0
+        ;;
+      --connection-timeout) return 0;;
+      --request-timeout) return 0;;
+
+
+      --aws-credential-file) _filedir; return 0;;
+      --delimiter) return 0;;
+    esac
+    opts+="${opts:+ }--aws-access-key --aws-secret-key --security-token --private-key --cert --url --region --verbose --help --headers --debug --show-empty-fields --hide-tags --connection-timeout --request-timeout"
+    return 1
+  }
+
 	_aws_apitools_ec2() {
 		local cur prev opts
 		COMPREPLY=()
 		cur=${COMP_WORDS[COMP_CWORD]}
 		prev=${COMP_WORDS[COMP_CWORD-1]}
 
-		case ${prev} in
-			--cert|--private-key)
-				_filedir
-				return 0
-				;;
-			--user-data-file|-f)
-				_filedir
-				return 0
-				;;
-			--instance-initiated-shutdown-behaviour)
-				COMPREPLY=( $(compgen -W "stop terminate" -- ${cur}) )
-				return 0
-				;;
-			--instance-type|-t)
-				COMPREPLY=( $(compgen -W "m1.small m1.medium m1.large m1.xlarge m3.xlarge m3.2xlarge t1.micro m2.xlarge m2.2xlarge m2.4xlarge c1.medium c1.xlarge cc1.4xlarge cc2.8xlarge cg1.4xlarge hi1.4xlarge" -- ${cur}) )
-				return 0
-				;;
-			--region)
-				COMPREPLY=( $(compgen -W "ap-northeast-1 ap-southeast-1 ap-southeast-2 eu-west-1 sa-east-1 us-east-1 us-west-1 us-west-2" -- ${cur}) )
-				return 0
-				;;
-		esac
-
+		_aws_apitools_ec2_general_options && return 0
 		if [[ ${cur} == -* ]]; then
-			for opt in $(${COMP_WORDS[0]} -h|egrep --color=never '^ +-([A-Za-z]|(-[a-z]+)+)'); do
-				[[ ${opt} = -* ]] && opts+="${opts:+ }${opt%,}"
-			done
-			COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+			COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
 			return 0
 		fi
 	}
 
-  complete -F _aws_apitools_ec2 ec2-activate-license
+  complete -F _aws_apitools_ec2 ec2-activate-license ec2actlic
   complete -F _aws_apitools_ec2 ec2-add-group
-  complete -F _aws_apitools_ec2 ec2-add-keypair
-  complete -F _aws_apitools_ec2 ec2-allocate-address
-  complete -F _aws_apitools_ec2 ec2-assign-private-ip-addresses
-  complete -F _aws_apitools_ec2 ec2-associate-address
+  complete -F _aws_apitools_ec2 ec2-add-keypair ec2addkey
+  complete -F _aws_apitools_ec2 ec2-allocate-address ec2allocaddr
+  complete -F _aws_apitools_ec2 ec2-assign-private-ip-addresses ec2apip
+  complete -F _aws_apitools_ec2 ec2-associate-address ec2assocaddr
   complete -F _aws_apitools_ec2 ec2-associate-dhcp-options
   complete -F _aws_apitools_ec2 ec2-associate-route-table
   complete -F _aws_apitools_ec2 ec2-attach-internet-gateway
   complete -F _aws_apitools_ec2 ec2-attach-network-interface
   complete -F _aws_apitools_ec2 ec2-attach-volume
   complete -F _aws_apitools_ec2 ec2-attach-vpn-gateway
-  complete -F _aws_apitools_ec2 ec2-authorize
-  complete -F _aws_apitools_ec2 ec2-bundle-instance
-  complete -F _aws_apitools_ec2 ec2-cancel-bundle-task
-  complete -F _aws_apitools_ec2 ec2-cancel-conversion-task
-  complete -F _aws_apitools_ec2 ec2-cancel-export-task
-  complete -F _aws_apitools_ec2 ec2-cancel-spot-instance-requests
-  complete -F _aws_apitools_ec2 ec2-confirm-product-instance
+  complete -F _aws_apitools_ec2 ec2-authorize ec2auth
+  complete -F _aws_apitools_ec2 ec2-bundle-instance ec2bundle
+  complete -F _aws_apitools_ec2 ec2-cancel-bundle-task ec2cbun
+  complete -F _aws_apitools_ec2 ec2-cancel-conversion-task ec2cct
+  complete -F _aws_apitools_ec2 ec2-cancel-export-task ec2cxt
+  complete -F _aws_apitools_ec2 ec2-cancel-reserved-instances-listing ec2caril
+  complete -F _aws_apitools_ec2 ec2-cancel-spot-instance-requests ec2csir
+# complete -F _aws_apitools_ec2 ec2-cmd
+  complete -F _aws_apitools_ec2 ec2-confirm-product-instance ec2cpi
+  complete -F _aws_apitools_ec2 ec2-copy-image ec2cpimg
+  complete -F _aws_apitools_ec2 ec2-copy-snapshot ec2cpsnap
   complete -F _aws_apitools_ec2 ec2-create-customer-gateway
   complete -F _aws_apitools_ec2 ec2-create-dhcp-options
   complete -F _aws_apitools_ec2 ec2-create-group
-  complete -F _aws_apitools_ec2 ec2-create-image
+  complete -F _aws_apitools_ec2 ec2-create-image ec2cim
   complete -F _aws_apitools_ec2 ec2-create-instance-export-task
   complete -F _aws_apitools_ec2 ec2-create-internet-gateway
   complete -F _aws_apitools_ec2 ec2-create-keypair
@@ -67,23 +69,25 @@ have ec2-cmd && {
   complete -F _aws_apitools_ec2 ec2-create-network-acl-entry
   complete -F _aws_apitools_ec2 ec2-create-network-interface
   complete -F _aws_apitools_ec2 ec2-create-placement-group
+  complete -F _aws_apitools_ec2 ec2-create-reserved-instances-listing ec2crril
   complete -F _aws_apitools_ec2 ec2-create-route
   complete -F _aws_apitools_ec2 ec2-create-route-table
   complete -F _aws_apitools_ec2 ec2-create-snapshot
   complete -F _aws_apitools_ec2 ec2-create-spot-datafeed-subscription
   complete -F _aws_apitools_ec2 ec2-create-subnet
-  complete -F _aws_apitools_ec2 ec2-create-tags
+  complete -F _aws_apitools_ec2 ec2-create-tags ec2tag
   complete -F _aws_apitools_ec2 ec2-create-volume
   complete -F _aws_apitools_ec2 ec2-create-vpc
   complete -F _aws_apitools_ec2 ec2-create-vpn-connection
+  complete -F _aws_apitools_ec2 ec2-create-vpn-connection-route ec2cvcr
   complete -F _aws_apitools_ec2 ec2-create-vpn-gateway
-  complete -F _aws_apitools_ec2 ec2-deactivate-license
+  complete -F _aws_apitools_ec2 ec2-deactivate-license ec2deactlic
   complete -F _aws_apitools_ec2 ec2-delete-customer-gateway
   complete -F _aws_apitools_ec2 ec2-delete-dhcp-options
   complete -F _aws_apitools_ec2 ec2-delete-disk-image
   complete -F _aws_apitools_ec2 ec2-delete-group
   complete -F _aws_apitools_ec2 ec2-delete-internet-gateway
-  complete -F _aws_apitools_ec2 ec2-delete-keypair
+  complete -F _aws_apitools_ec2 ec2-delete-keypair ec2delkey
   complete -F _aws_apitools_ec2 ec2-delete-network-acl
   complete -F _aws_apitools_ec2 ec2-delete-network-acl-entry
   complete -F _aws_apitools_ec2 ec2-delete-network-interface
@@ -93,15 +97,17 @@ have ec2-cmd && {
   complete -F _aws_apitools_ec2 ec2-delete-snapshot
   complete -F _aws_apitools_ec2 ec2-delete-spot-datafeed-subscription
   complete -F _aws_apitools_ec2 ec2-delete-subnet
-  complete -F _aws_apitools_ec2 ec2-delete-tags
+  complete -F _aws_apitools_ec2 ec2-delete-tags ec2deltag
   complete -F _aws_apitools_ec2 ec2-delete-volume
   complete -F _aws_apitools_ec2 ec2-delete-vpc
   complete -F _aws_apitools_ec2 ec2-delete-vpn-connection
+  complete -F _aws_apitools_ec2 ec2-delete-vpn-connection-route ec2dvcr
   complete -F _aws_apitools_ec2 ec2-delete-vpn-gateway
-  complete -F _aws_apitools_ec2 ec2-deregister
+  complete -F _aws_apitools_ec2 ec2-deregister ec2dereg
+  complete -F _aws_apitools_ec2 ec2-describe-account-attributes ec2daa
   complete -F _aws_apitools_ec2 ec2-describe-addresses
-  complete -F _aws_apitools_ec2 ec2-describe-availability-zones
-  complete -F _aws_apitools_ec2 ec2-describe-bundle-tasks
+  complete -F _aws_apitools_ec2 ec2-describe-availability-zones ec2daz
+  complete -F _aws_apitools_ec2 ec2-describe-bundle-tasks ec2dbun
   complete -F _aws_apitools_ec2 ec2-describe-conversion-tasks
   complete -F _aws_apitools_ec2 ec2-describe-customer-gateways
   complete -F _aws_apitools_ec2 ec2-describe-dhcp-options
@@ -111,28 +117,30 @@ have ec2-cmd && {
   complete -F _aws_apitools_ec2 ec2-describe-images
   complete -F _aws_apitools_ec2 ec2-describe-instance-attribute
   complete -F _aws_apitools_ec2 ec2-describe-instance-status
-  complete -F _aws_apitools_ec2 ec2-describe-instances
+  complete -F _aws_apitools_ec2 ec2-describe-instances ec2din
   complete -F _aws_apitools_ec2 ec2-describe-internet-gateways
-  complete -F _aws_apitools_ec2 ec2-describe-keypairs
+  complete -F _aws_apitools_ec2 ec2-describe-keypairs ec2dkey
   complete -F _aws_apitools_ec2 ec2-describe-licenses
   complete -F _aws_apitools_ec2 ec2-describe-network-acls
   complete -F _aws_apitools_ec2 ec2-describe-network-interface-attribute
   complete -F _aws_apitools_ec2 ec2-describe-network-interfaces
   complete -F _aws_apitools_ec2 ec2-describe-placement-groups
-  complete -F _aws_apitools_ec2 ec2-describe-regions
-  complete -F _aws_apitools_ec2 ec2-describe-reserved-instances
-  complete -F _aws_apitools_ec2 ec2-describe-reserved-instances-offerings
+  complete -F _aws_apitools_ec2 ec2-describe-regions ec2dre
+  complete -F _aws_apitools_ec2 ec2-describe-reserved-instances ec2dri
+  complete -F _aws_apitools_ec2 ec2-describe-reserved-instances-listings ec2dril
+  complete -F _aws_apitools_ec2 ec2-describe-reserved-instances-offerings ec2drio
   complete -F _aws_apitools_ec2 ec2-describe-route-tables
   complete -F _aws_apitools_ec2 ec2-describe-snapshot-attribute
   complete -F _aws_apitools_ec2 ec2-describe-snapshots
   complete -F _aws_apitools_ec2 ec2-describe-spot-datafeed-subscription
   complete -F _aws_apitools_ec2 ec2-describe-spot-instance-requests
   complete -F _aws_apitools_ec2 ec2-describe-spot-price-history
-  complete -F _aws_apitools_ec2 ec2-describe-subnets
-  complete -F _aws_apitools_ec2 ec2-describe-tags
+  complete -F _aws_apitools_ec2 ec2-describe-subnets ec2dsubnet
+  complete -F _aws_apitools_ec2 ec2-describe-tags ec2dtag
   complete -F _aws_apitools_ec2 ec2-describe-volume-attribute
   complete -F _aws_apitools_ec2 ec2-describe-volume-status
   complete -F _aws_apitools_ec2 ec2-describe-volumes
+  complete -F _aws_apitools_ec2 ec2-describe-vpc-attribute ec2dva
   complete -F _aws_apitools_ec2 ec2-describe-vpcs
   complete -F _aws_apitools_ec2 ec2-describe-vpn-connections
   complete -F _aws_apitools_ec2 ec2-describe-vpn-gateways
@@ -140,52 +148,54 @@ have ec2-cmd && {
   complete -F _aws_apitools_ec2 ec2-detach-network-interface
   complete -F _aws_apitools_ec2 ec2-detach-volume
   complete -F _aws_apitools_ec2 ec2-detach-vpn-gateway
-  complete -F _aws_apitools_ec2 ec2-disassociate-address
-  complete -F _aws_apitools_ec2 ec2-disassociate-route-table
-  complete -F _aws_apitools_ec2 ec2-enable-volume-io
-  complete -F _aws_apitools_ec2 ec2-fingerprint-key
-  complete -F _aws_apitools_ec2 ec2-get-console-output
-  complete -F _aws_apitools_ec2 ec2-get-password
-  complete -F _aws_apitools_ec2 ec2-import-instance
-  complete -F _aws_apitools_ec2 ec2-import-keypair
-  complete -F _aws_apitools_ec2 ec2-import-volume
-  complete -F _aws_apitools_ec2 ec2-migrate-image
+  complete -F _aws_apitools_ec2 ec2-disable-vgw-route-propagation ec2drp
+  complete -F _aws_apitools_ec2 ec2-disassociate-address ec2disaddr
+  complete -F _aws_apitools_ec2 ec2-disassociate-route-table ec2disrtb
+  complete -F _aws_apitools_ec2 ec2-enable-vgw-route-propagation ec2erp
+  complete -F _aws_apitools_ec2 ec2-enable-volume-io ec2evio
+  complete -F _aws_apitools_ec2 ec2-fingerprint-key ec2fp
+  complete -F _aws_apitools_ec2 ec2-get-console-output ec2gcons
+  complete -F _aws_apitools_ec2 ec2-get-password ec2gpass
+  complete -F _aws_apitools_ec2 ec2-import-instance ec2ii ec2iin
+  complete -F _aws_apitools_ec2 ec2-import-keypair ec2ikey
+  complete -F _aws_apitools_ec2 ec2-import-volume ec2iv ec2ivol
+  complete -F _aws_apitools_ec2 ec2-migrate-image ec2mim
   complete -F _aws_apitools_ec2 ec2-modify-image-attribute
   complete -F _aws_apitools_ec2 ec2-modify-instance-attribute
   complete -F _aws_apitools_ec2 ec2-modify-network-interface-attribute
   complete -F _aws_apitools_ec2 ec2-modify-snapshot-attribute
   complete -F _aws_apitools_ec2 ec2-modify-volume-attribute
-  complete -F _aws_apitools_ec2 ec2-monitor-instances
+  complete -F _aws_apitools_ec2 ec2-modify-vpc-attribute ec2mva
+  complete -F _aws_apitools_ec2 ec2-monitor-instances ec2min
   complete -F _aws_apitools_ec2 ec2-purchase-reserved-instances-offering
-  complete -F _aws_apitools_ec2 ec2-reboot-instances
-  complete -F _aws_apitools_ec2 ec2-register
-  complete -F _aws_apitools_ec2 ec2-release-address
+  complete -F _aws_apitools_ec2 ec2-reboot-instances ec2reboot
+  complete -F _aws_apitools_ec2 ec2-register ec2reg
+  complete -F _aws_apitools_ec2 ec2-release-address ec2reladdr
   complete -F _aws_apitools_ec2 ec2-replace-network-acl-association
   complete -F _aws_apitools_ec2 ec2-replace-network-acl-entry
   complete -F _aws_apitools_ec2 ec2-replace-route
   complete -F _aws_apitools_ec2 ec2-replace-route-table-association
-  complete -F _aws_apitools_ec2 ec2-report-instance-status
-  complete -F _aws_apitools_ec2 ec2-request-spot-instances
-  complete -F _aws_apitools_ec2 ec2-reset-image-attribute
-  complete -F _aws_apitools_ec2 ec2-reset-instance-attribute
-  complete -F _aws_apitools_ec2 ec2-reset-network-interface-attribute
-  complete -F _aws_apitools_ec2 ec2-reset-snapshot-attribute
-  complete -F _aws_apitools_ec2 ec2-resume-import
-  complete -F _aws_apitools_ec2 ec2-revoke
-  complete -F _aws_apitools_ec2 ec2-run-instances
-  complete -F _aws_apitools_ec2 ec2-start-instances
-  complete -F _aws_apitools_ec2 ec2-stop-instances
-  complete -F _aws_apitools_ec2 ec2-terminate-instances
-  complete -F _aws_apitools_ec2 ec2-unassign-private-ip-addresses
-  complete -F _aws_apitools_ec2 ec2-unmonitor-instances
-  complete -F _aws_apitools_ec2 ec2-upload-disk-image
-  complete -F _aws_apitools_ec2 ec2actlic
+  complete -F _aws_apitools_ec2 ec2-report-instance-status ec2rep
+  complete -F _aws_apitools_ec2 ec2-request-spot-instances ec2rsi
+  complete -F _aws_apitools_ec2 ec2-reset-image-attribute ec2ratt ec2rimatt
+  complete -F _aws_apitools_ec2 ec2-reset-instance-attribute ec2riatt ec2rinatt
+  complete -F _aws_apitools_ec2 ec2-reset-network-interface-attribute ec2rnicatt
+  complete -F _aws_apitools_ec2 ec2-reset-snapshot-attribute ec2rsnapatt
+  complete -F _aws_apitools_ec2 ec2-resume-import ec2rim
+  complete -F _aws_apitools_ec2 ec2-revoke ec2revoke
+  complete -F _aws_apitools_ec2 ec2-run-instances ec2run
+  complete -F _aws_apitools_ec2 ec2-start-instances ec2start
+  complete -F _aws_apitools_ec2 ec2-stop-instances ec2stop
+  complete -F _aws_apitools_ec2 ec2-terminate-instances ec2kill
+  complete -F _aws_apitools_ec2 ec2-unassign-private-ip-addresses ec2upip
+  complete -F _aws_apitools_ec2 ec2-unmonitor-instances ec2umin
+# complete -F _aws_apitools_ec2 ec2-upload-disk-imageo ec2udi
+# complete -F _aws_apitools_ec2 ec2-version
   complete -F _aws_apitools_ec2 ec2addcgw
   complete -F _aws_apitools_ec2 ec2adddopt
   complete -F _aws_apitools_ec2 ec2addgrp
   complete -F _aws_apitools_ec2 ec2addigw
   complete -F _aws_apitools_ec2 ec2addixt
-  complete -F _aws_apitools_ec2 ec2addkey
   complete -F _aws_apitools_ec2 ec2addnacl
   complete -F _aws_apitools_ec2 ec2addnae
   complete -F _aws_apitools_ec2 ec2addnic
@@ -200,37 +210,22 @@ have ec2-cmd && {
   complete -F _aws_apitools_ec2 ec2addvol
   complete -F _aws_apitools_ec2 ec2addvpc
   complete -F _aws_apitools_ec2 ec2addvpn
-  complete -F _aws_apitools_ec2 ec2allocaddr
-  complete -F _aws_apitools_ec2 ec2apip
-  complete -F _aws_apitools_ec2 ec2assocaddr
   complete -F _aws_apitools_ec2 ec2assocdopt
   complete -F _aws_apitools_ec2 ec2assocrtb
   complete -F _aws_apitools_ec2 ec2attigw
   complete -F _aws_apitools_ec2 ec2attnic
   complete -F _aws_apitools_ec2 ec2attvgw
   complete -F _aws_apitools_ec2 ec2attvol
-  complete -F _aws_apitools_ec2 ec2auth
-  complete -F _aws_apitools_ec2 ec2bundle
-  complete -F _aws_apitools_ec2 ec2cbun
-  complete -F _aws_apitools_ec2 ec2cct
-  complete -F _aws_apitools_ec2 ec2cim
-  complete -F _aws_apitools_ec2 ec2cpi
-  complete -F _aws_apitools_ec2 ec2csir
-  complete -F _aws_apitools_ec2 ec2cxt
   complete -F _aws_apitools_ec2 ec2daddr
   complete -F _aws_apitools_ec2 ec2datt
-  complete -F _aws_apitools_ec2 ec2daz
-  complete -F _aws_apitools_ec2 ec2dbun
   complete -F _aws_apitools_ec2 ec2dcgw
   complete -F _aws_apitools_ec2 ec2dct
   complete -F _aws_apitools_ec2 ec2ddi
   complete -F _aws_apitools_ec2 ec2ddopt
-  complete -F _aws_apitools_ec2 ec2deactlic
   complete -F _aws_apitools_ec2 ec2delcgw
   complete -F _aws_apitools_ec2 ec2deldopt
   complete -F _aws_apitools_ec2 ec2delgrp
   complete -F _aws_apitools_ec2 ec2deligw
-  complete -F _aws_apitools_ec2 ec2delkey
   complete -F _aws_apitools_ec2 ec2delnacl
   complete -F _aws_apitools_ec2 ec2delnae
   complete -F _aws_apitools_ec2 ec2delnic
@@ -240,12 +235,10 @@ have ec2-cmd && {
   complete -F _aws_apitools_ec2 ec2delsds
   complete -F _aws_apitools_ec2 ec2delsnap
   complete -F _aws_apitools_ec2 ec2delsubnet
-  complete -F _aws_apitools_ec2 ec2deltag
   complete -F _aws_apitools_ec2 ec2delvgw
   complete -F _aws_apitools_ec2 ec2delvol
   complete -F _aws_apitools_ec2 ec2delvpc
   complete -F _aws_apitools_ec2 ec2delvpn
-  complete -F _aws_apitools_ec2 ec2dereg
   complete -F _aws_apitools_ec2 ec2detigw
   complete -F _aws_apitools_ec2 ec2detnic
   complete -F _aws_apitools_ec2 ec2detvgw
@@ -255,28 +248,20 @@ have ec2-cmd && {
   complete -F _aws_apitools_ec2 ec2digw
   complete -F _aws_apitools_ec2 ec2dim
   complete -F _aws_apitools_ec2 ec2dimatt
-  complete -F _aws_apitools_ec2 ec2din
   complete -F _aws_apitools_ec2 ec2dinatt
   complete -F _aws_apitools_ec2 ec2dins
-  complete -F _aws_apitools_ec2 ec2disaddr
-  complete -F _aws_apitools_ec2 ec2disrtb
   complete -F _aws_apitools_ec2 ec2dkey
   complete -F _aws_apitools_ec2 ec2dlic
   complete -F _aws_apitools_ec2 ec2dnacl
   complete -F _aws_apitools_ec2 ec2dnic
   complete -F _aws_apitools_ec2 ec2dnicatt
   complete -F _aws_apitools_ec2 ec2dpgrp
-  complete -F _aws_apitools_ec2 ec2dre
-  complete -F _aws_apitools_ec2 ec2dri
-  complete -F _aws_apitools_ec2 ec2drio
   complete -F _aws_apitools_ec2 ec2drtb
   complete -F _aws_apitools_ec2 ec2dsds
   complete -F _aws_apitools_ec2 ec2dsir
   complete -F _aws_apitools_ec2 ec2dsnap
   complete -F _aws_apitools_ec2 ec2dsnapatt
   complete -F _aws_apitools_ec2 ec2dsph
-  complete -F _aws_apitools_ec2 ec2dsubnet
-  complete -F _aws_apitools_ec2 ec2dtag
   complete -F _aws_apitools_ec2 ec2dvgw
   complete -F _aws_apitools_ec2 ec2dvol
   complete -F _aws_apitools_ec2 ec2dvolatt
@@ -284,48 +269,16 @@ have ec2-cmd && {
   complete -F _aws_apitools_ec2 ec2dvpn
   complete -F _aws_apitools_ec2 ec2dvs
   complete -F _aws_apitools_ec2 ec2dxt
-  complete -F _aws_apitools_ec2 ec2evio
-  complete -F _aws_apitools_ec2 ec2fp
-  complete -F _aws_apitools_ec2 ec2gcons
-  complete -F _aws_apitools_ec2 ec2gpass
-  complete -F _aws_apitools_ec2 ec2ii
-  complete -F _aws_apitools_ec2 ec2iin
-  complete -F _aws_apitools_ec2 ec2ikey
-  complete -F _aws_apitools_ec2 ec2iv
-  complete -F _aws_apitools_ec2 ec2ivol
-  complete -F _aws_apitools_ec2 ec2kill
   complete -F _aws_apitools_ec2 ec2matt
   complete -F _aws_apitools_ec2 ec2miatt
-  complete -F _aws_apitools_ec2 ec2mim
   complete -F _aws_apitools_ec2 ec2mimatt
-  complete -F _aws_apitools_ec2 ec2min
   complete -F _aws_apitools_ec2 ec2minatt
   complete -F _aws_apitools_ec2 ec2mnicatt
   complete -F _aws_apitools_ec2 ec2msnapatt
   complete -F _aws_apitools_ec2 ec2mvolatt
   complete -F _aws_apitools_ec2 ec2prio
-  complete -F _aws_apitools_ec2 ec2ratt
-  complete -F _aws_apitools_ec2 ec2reboot
-  complete -F _aws_apitools_ec2 ec2reg
-  complete -F _aws_apitools_ec2 ec2reladdr
-  complete -F _aws_apitools_ec2 ec2rep
   complete -F _aws_apitools_ec2 ec2repnaclassoc
   complete -F _aws_apitools_ec2 ec2repnae
   complete -F _aws_apitools_ec2 ec2reprt
   complete -F _aws_apitools_ec2 ec2reprtbassoc
-  complete -F _aws_apitools_ec2 ec2revoke
-  complete -F _aws_apitools_ec2 ec2riatt
-  complete -F _aws_apitools_ec2 ec2rim
-  complete -F _aws_apitools_ec2 ec2rimatt
-  complete -F _aws_apitools_ec2 ec2rinatt
-  complete -F _aws_apitools_ec2 ec2rnicatt
-  complete -F _aws_apitools_ec2 ec2rsi
-  complete -F _aws_apitools_ec2 ec2rsnapatt
-  complete -F _aws_apitools_ec2 ec2run
-  complete -F _aws_apitools_ec2 ec2start
-  complete -F _aws_apitools_ec2 ec2stop
-  complete -F _aws_apitools_ec2 ec2tag
-  complete -F _aws_apitools_ec2 ec2udi
-  complete -F _aws_apitools_ec2 ec2umin
-  complete -F _aws_apitools_ec2 ec2upip
 }

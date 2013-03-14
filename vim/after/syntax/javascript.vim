@@ -1,3 +1,3 @@
-let g:syntastic_javascript_checker = "closurecompiler"
-let g:syntastic_javascript_closure_compiler_path = '/usr/local/share/closure/compiler.jar'
-let g:syntastic_javascript_closure_compiler_options = ""
+setlocal expandtab
+setlocal shiftwidth=2
+setlocal tabstop=2

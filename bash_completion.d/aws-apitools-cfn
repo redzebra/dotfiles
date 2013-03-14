@@ -11,26 +11,42 @@ have cfn-cmd && {
         return 0
         ;;
       -S|--secret-key) return 0;;
-      -U|--url) return 0;;
+			-U|--url) return 0;;
     esac
     opts+="${opts:+ }--access-key-id --aws-credential-file --connection-timeout --delimiter --ec2-private-key-file-path --headers --help --quiet --region --secret-key --show-empty-fields --show-long --show-table --show-xml --url"
     return 1
   }
 
+  _aws_apitools_cfn_cancel_update_stack () {
+    case ${prev} in
+      --stack-name) return 0;;
+    esac
+    _aws_apitools_cfn_general_options && return 0
+    if [[ ${cur} == -* ]]; then
+      [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--stack-name"
+      opts+="${opts:+ }--force"
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+    fi
+  }
+
   _aws_apitools_cfn_create_stack () {
     case ${prev} in
-      -c|--capabilities) return 0;;
+      -c|--capabilities)
+      	COMPREPLY=($(compgen -W IAM_CAPABILITIES -- ${cur}))
+      	return 0;;
       -f|--template-file) _filedir; return 0;;
       -n|--notification-arns) return 0;;
       -p|--parameters) return 0;;
       --stack-name) return 0;;
       -t|--timeout) return 0;;
+      --tag) return 0;;
       -u|--template-url) return 0;;
     esac
     _aws_apitools_cfn_general_options && return 0
     if [[ ${cur} == -* ]]; then
       [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--stack-name"
-      opts+="${opts:+ }--capabilities --disable-rollback --notification-arns --parameters --template-file --template-url --timeout"
+      opts+="${opts:+ }--capabilities --disable-rollback --notification-arns --parameters --tag --template-file --template-url --timeout"
       COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
       return 0
     fi
@@ -137,15 +153,18 @@ have cfn-cmd && {
   }
 
   _aws_apitools_cfn_update_stack () {
+  	echo "X${COMP_CWORD}X"
     case ${prev} in
-      -c|--capabilities) return 0;;
+      -c|--capabilities)
+      	COMPREPLY=($(compgen -W IAM_CAPABILITIES -- ${cur}))
+      	return 0;;
       -f|--template-file) _filedir; return 0;;
       -p|--parameters) return 0;;
       --stack-name) return 0;;
       -u|--template-url) return 0;;
     esac
     _aws_apitools_cfn_general_options && return 0
-    if [[ ${cur} == -* ]]; then
+    if [[ ${COMP_CWORD} -gt 1 || ${cur} == -* ]]; then
       [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--stack-name"
       opts+="${opts:+ }--capabilities --disable-rollback --parameters --template-file --template-url"
       COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
@@ -169,12 +188,13 @@ have cfn-cmd && {
   _aws_apitools_cfn () {
     local cur prev opts
     COMPREPLY=()
-    cur=${COMP_WORDS[COMP_CWORD]}
-    prev=${COMP_WORDS[COMP_CWORD-1]}
-    cmd=$(basename ${COMP_WORDS[0]})
+    _get_comp_words_by_ref -n : cur prev
+    local cmd=$(basename ${COMP_WORDS[0]})
     _aws_apitools_${cmd//-/_}
+    __ltrim_colon_completions "$cur"
   }
 
+  complete -F _aws_apitools_cfn cfn-cancel-stack-update
   complete -F _aws_apitools_cfn cfn-create-stack
   complete -F _aws_apitools_cfn cfn-delete-stack
   complete -F _aws_apitools_cfn cfn-describe-stack-events

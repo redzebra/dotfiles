@@ -1,0 +1,31 @@
+have dscacheutil && {
+	_dscacheutil() {
+		local cur prev opts
+		COMPREPLY=()
+		cur=${COMP_WORDS[COMP_CWORD]}
+		prev=${COMP_WORDS[COMP_CWORD-1]}
+
+		if [ $COMP_CWORD -eq 1 ]; then
+			COMPREPLY=($(compgen -W "-h -q -cachedump -configuration -flushcache -statistics" -- ${cur}) )
+			return 0
+		elif [ ${prev} = '-q' -o ${prev} = '-entries' ]; then
+			COMPREPLY=($(compgen -W "group host mount protocol rpc service user" -- ${cur}) )
+			return 0
+		else
+			case ${COMP_WORDS[1]} in
+				-q)
+					case ${COMP_CWORD} in
+						3) COMPREPLY=($(compgen -W "-a" -- ${cur}));;
+						4) COMPREPLY=($(compgen -W "$(dscacheutil -q ${COMP_WORDS[2]} 2>/dev/null|cut -d: -f1)" -- ${cur}));;
+						5) COMPREPLY=($(compgen -W "$(dscacheutil -q ${COMP_WORDS[2]} 2>/dev/null|egrep "^${COMP_WORDS[4]}:"|cut -d' ' -f2-)" -- ${cur}));;
+					esac
+					return 0;;
+				-cachedump)
+					COMPREPLY=($(compgen -W "-buckets -entries" -- ${cur}))
+					return 0;;
+			esac
+		fi
+	}
+
+	complete -F _dscacheutil dscacheutil
+}

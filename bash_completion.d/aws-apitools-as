@@ -34,6 +34,7 @@ have as-cmd && {
       -m|--min-size) return 0;;
       --placement-group) return 0;;
       --tag) return 0;;
+      --termination-policies) return 0;;
       --vpc-zone-identifier) return 0;;
       -z|--availability-zones) return 0;;
     esac
@@ -48,13 +49,13 @@ have as-cmd && {
 
   _aws_apitools_as_create_launch_config () {
     case ${prev} in
+      --launch-config) return 0;;
       --block-device-mapping) return 0;;
       --group) return 0;;
       -i|--image-id) return 0;;
       --iam-instance-profile) return 0;;
       --kernel) return 0;;
       --key) return 0;;
-      --launch-config) return 0;;
       --ramdisk) return 0;;
       --spot-price) return 0;;
       -t|--instance-type)
@@ -67,7 +68,7 @@ have as-cmd && {
     _aws_apitools_as_general_options && return 0
     if [[ ${cur} == -* ]]; then
       [[ ${COMP_WORDS[1]} == -* ]] && opts+="${opts:+ }--launch-config"
-      opts+="${opts:+ }--block-device-mapping --group --iam-instance-profile --image-id --instance-type --kernel --key --monitoring-disabled --monitoring-enabled --ramdisk --spot-price --user-data --user-data-file"
+      opts+="${opts:+ }--block-device-mapping --ebs-optimized --group --iam-instance-profile --image-id --instance-type --kernel --key --monitoring-disabled --monitoring-enabled --ramdisk --spot-price --user-data --user-data-file"
       COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
       return 0
     fi
