@@ -18,7 +18,7 @@ shopt -s promptvars 2>/dev/null
 shopt -s xpg_echo 2>/dev/null
 
 PATH=/usr/bin:/bin:/usr/sbin:/sbin
-for d in /opt/X11/bin /usr/local/bin /opt/aws/bin ~/.local/bin ~/bin; do
+for d in /opt/X11/bin /usr/local/bin /usr/local/sbin /opt/aws/bin ~/.local/bin ~/bin; do
 	case :"${PATH}": in
 		*:"${d}":*) ;;
 		*) PATH="${d}:${PATH}";;
