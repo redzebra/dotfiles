@@ -161,11 +161,6 @@ echo installing puppet-lint support
 _ln_s puppet-lint.rc
 rm -fv ~/.puppet-lintrc
 
-#if [ `uname -s` = Darwin ]; then
-#	echo installing python support
-#	_install pydistutils.cfg ~/.pydistutils.cfg
-#fi
-
 echo installing rbenv
 _git_clone https://github.com/sstephenson/rbenv.git ~/.rbenv
 _git_clone https://github.com/sstephenson/rbenv-default-gems.git ~/.rbenv/plugins/rbenv-default-gems
