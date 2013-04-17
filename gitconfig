@@ -4,7 +4,10 @@
 	excludesfile = ~/.gitignore
 [help]
 	autocorrect = -1
+[mergetool]
+	keepBackup = true
 [user]
 	name = Nick Osborn
+	email = 
 [include]
 	path = ~/.gitconfig.local
