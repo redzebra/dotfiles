@@ -29,8 +29,8 @@ GIT_PROMPT_UNTRACKED="…"
 GIT_PROMPT_CLEAN="${BGreen}✔"
 
 #PROMPT_START="$IBlack$Time12a$ResetColor$Yellow$PathShort$ResetColor"
-PROMPT_START='\[\e[1;32m\]'${_hostid}'\[\e[0m\]:\[\e[1;34m\]\W\[\e[0m\]'
-PROMPT_END='\$ '
+PROMPT_START='\[\e[1;32m\]'${_hostid}'\[\e[0m\]:\[\e[1;34m\]\W\[\e[0m\]$(rbenv_ps1)'
+PROMPT_END=" % "
 
 
 function update_current_git_vars() {
@@ -54,7 +54,7 @@ function setGitPrompt() {
 	update_current_git_vars
 
 	if [ -n "$__CURRENT_GIT_STATUS" ]; then
-		STATUS="$GIT_PROMPT_PREFIX$GIT_PROMPT_BRANCH$GIT_BRANCH$ResetColor"
+		STATUS=" $GIT_PROMPT_PREFIX$GIT_PROMPT_BRANCH$GIT_BRANCH$ResetColor"
 
 		if [ -n "$GIT_REMOTE" ]; then
 			STATUS="$STATUS$GIT_PROMPT_REMOTE$GIT_REMOTE$ResetColor"
