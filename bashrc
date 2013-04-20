@@ -124,7 +124,7 @@ case $(hostname -s) in
 	*)
 		_hostid='$(tr "[A-Z]" "[a-z]" <<<\h)'
 esac
-PS1='\[\e[1;32m\]'${_hostid}'\[\e[0m\]:\[\e[1;34m\]\W\[\e[0m\]$(scm_ps1)\[\e[0m\]\$ '
+PS1='\[\e[1;32m\]'${_hostid}'\[\e[0m\]:\[\e[1;34m\]\W\[\e[0m\]$(rbenv_ps1)$(scm_ps1)\[\e[0m\]\$ '
 export PS1
 
 #export PS1='\n${PINK}\u \

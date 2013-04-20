@@ -161,6 +161,18 @@ echo installing puppet-lint support
 _ln_s puppet-lint.rc
 rm -fv ~/.puppet-lintrc
 
+echo installing rbenv
+_git_clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+_git_clone https://github.com/sstephenson/rbenv-default-gems.git ~/.rbenv/plugins/rbenv-default-gems
+_git_clone https://github.com/chriseppstein/rbenv-each.git ~/.rbenv/plugins/rbenv-each
+_git_clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
+_git_clone https://github.com/rkh/rbenv-update.git ~/.rbenv/plugins/rbenv-update
+_git_clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+#_ln_s rbenv/default-gems
+[ "`readlink ~/.rbenv/default-gems`" = "../.dotfiles/rbenv/default-gems" ] || {
+	ln -hfsv ../.dotfiles/rbenv/default-gems ~/.rbenv/default-gems
+}
+
 echo installing ruby support
 _ln_s gemrc
 _ln_s irbrc
