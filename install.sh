@@ -217,4 +217,13 @@ _mkdir ~/.vim/undo/
 #	done
 #fi
 
+[ -d '/Applications/Sublime Text 2.app' ] && (
+	echo installing Sublime Text 2 support
+	cd "${HOME}/Library/Application Support/Sublime Text 2/Installed Packages"
+	[ -e "Package Control.sublime-package" ] || {
+		curl --fail -# -o 'Package Control.sublime-package' \
+			'https://sublime.wbond.net/Package%20Control.sublime-package'
+	}
+)
+
 # vi: set sw=2 ts=2:
