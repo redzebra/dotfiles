@@ -226,8 +226,22 @@ _mkdir ~/.vim/undo/
 				'https://sublime.wbond.net/Package%20Control.sublime-package'
 		}
 	)
-	tar -C "Sublime Text 2" -cf - 'Packages/User' \
+	tar -C "Sublime Text" -cf - 'Packages/User' \
 		| tar -C "${HOME}/Library/Application Support/Sublime Text 2" -xf -
+)
+
+[ -d '/Applications/Sublime Text.app' ] && (
+	echo installing Sublime Text 3 support
+	(
+		cd "${HOME}/Library/Application Support/Sublime Text 3/Packages"
+		[ -d "Package Control" ] || {
+			git clone --branch python3 --depth 1 --single-branch -- \
+				https://github.com/wbond/sublime_package_control.git \
+				"Package Control"
+		}
+	)
+	tar -C "Sublime Text" -cf - 'Packages/User' \
+		| tar -C "${HOME}/Library/Application Support/Sublime Text 3" -xf -
 )
 
 # vi: set sw=2 ts=2:
