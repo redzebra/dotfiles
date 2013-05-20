@@ -172,6 +172,7 @@ _git_clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-b
 [ "`readlink ~/.rbenv/default-gems`" = "../.dotfiles/rbenv/default-gems" ] || {
 	ln -hfsv ../.dotfiles/rbenv/default-gems ~/.rbenv/default-gems
 }
+ln -hfsv ../../.dotfiles/rbenv/bin/rbenv-auto-ruby ~/.rbenv/bin/
 
 echo installing ruby support
 _ln_s gemrc

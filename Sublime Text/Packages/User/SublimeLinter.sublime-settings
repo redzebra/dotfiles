@@ -1,4 +1,7 @@
 {
+	"sublimelinter_executable_map": {
+    "ruby": "~/.rbenv/bin/rbenv-auto-ruby"
+  },
 	"sublimelinter_mark_style": "none",
 	"sublimelinter_gutter_marks": true
 }
