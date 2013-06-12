@@ -85,12 +85,12 @@ function scm_ps1 () {
 	if [[ -d .svn ]]; then
 		which svnversion &>/dev/null && echo -n "($(svnversion 2>/dev/null))"
 	elif [[ $(declare -f __git_ps1) ]]; then
-		#local GIT_PS1_SHOWDIRTYSTATE=yes
-		#local GIT_PS1_SHOWSTASHSTATE=yes
-		#local GIT_PS1_SHOWUNTRACKEDFILES=yes
-		#local GIT_PS1_SHOWUPSTREAM='auto verbose'
-		#echo -n " $(__git_ps1 '(%s)' 2>/dev/null)"
-		printf "%s" $(setGitPrompt)
+		local GIT_PS1_SHOWDIRTYSTATE=yes
+		local GIT_PS1_SHOWSTASHSTATE=yes
+		local GIT_PS1_SHOWUNTRACKEDFILES=yes
+		local GIT_PS1_SHOWUPSTREAM='auto verbose'
+		echo -n " $(__git_ps1 '(%s)' 2>/dev/null)"
+		#printf "%s" $(setGitPrompt)
 	fi
 }
 
