@@ -4,6 +4,8 @@
 	excludesfile = ~/.gitignore
 [help]
 	autocorrect = -1
+[init]
+	templatedir = ~/.dotfiles/git.template
 [mergetool]
 	keepBackup = true
 [user]
