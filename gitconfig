@@ -1,15 +1,36 @@
+[apply]
+	whitespace = nowarn
+[branch]
+	autosetupmerge = true
 [color]
 	ui = true
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "diff"]
+	frag = magenta bold
+	meta = yellow bold
+	new = green bold
+	old = red bold
 [core]
-	excludesfile = ~/.gitignore
+	excludesfile = ~/.dotfiles/gitignore
+[diff]
+	mnemonicprefix = true
 [help]
 	autocorrect = -1
 [init]
 	templatedir = ~/.dotfiles/git.template
+[merge]
+	summary = true
 [mergetool]
 	keepBackup = true
+[push]
+	default = tracking
+[rerere]
+	enabled = true
 [user]
 	name = Nick Osborn
 	email = 
 [include]
-	path = ~/.gitconfig.local
+	path = .gitconfig.user

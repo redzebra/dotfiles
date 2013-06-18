@@ -151,8 +151,7 @@ _ln_s inputrc
 
 echo installing git support
 _ln_s gitconfig
-_ln_s gitignore
-[ -e ~/.gitconfig.local ] || touch ~/.gitconfig.local
+[ -e ~/.gitconfig.user ] || touch ~/.gitconfig.user
 
 echo installing colordiff support
 _ln_s colordiffrc
