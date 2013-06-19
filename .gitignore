@@ -1,4 +1,7 @@
 /local/lib/python2.7/
 /local/share/autojump/
 /vim/.netrwhist
+/vim/bundle/*/
+!/vim/bundle/vundler/
 /vim/undo
+/vim/vundles.local.vim

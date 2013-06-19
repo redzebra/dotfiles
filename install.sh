@@ -149,6 +149,9 @@ _ln_s bash_profile
 _ln_s bashrc
 _ln_s inputrc
 
+echo installing ctags support
+_ln_s ctags
+
 echo installing git support
 _ln_s gitconfig
 [ -e ~/.gitconfig.user ] || touch ~/.gitconfig.user
@@ -207,6 +210,8 @@ _ln_s gvimrc
 _ln_s vim
 _ln_s vimrc
 _mkdir ~/.vim/undo/
+vim --noplugin -u vim/vundles.vim -N '+set hidden' '+syntax on' +BundleClean! +BundleInstall +qall
+
 #	_mkdir ~/.vim/view/
 #	for f in `find vim -type f ! -name '.git*'`; do
 #		_install $f ~/.$f
