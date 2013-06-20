@@ -2,6 +2,10 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+if filereadable(expand("~/.vimrc.before"))
+  source ~/.vimrc.before
+endif
+
 "set number                      "Line numbers are good
 set backspace=indent,eol,start  "Allow backspace in insert mode
 set history=1000                "Store lots of :cmdline history
@@ -19,14 +23,13 @@ set hidden
 " turn on syntax highlighting
 syntax on
 
-" Change leader to a comma because the backslash is too far away
+" Change leader to a comma because the backslash is too far away.
 " That means all \x commands turn into ,x
-" The mapleader has to be set before vundle starts loading all 
-" the plugins.
-"let mapleader=","
+" The mapleader has to be set before vundle starts loading all the plugins.
+let mapleader=","
 
 " This loads all the plugins specified in ~/.vim/vundles.vim
-" Use Vundle plugin to manage all other plugins
+" Use Vundle plugin to manage all other plugins.
 if filereadable(expand("~/.vim/vundles.vim"))
 	source ~/.vim/vundles.vim
 endif
@@ -35,6 +38,12 @@ endif
 set noswapfile
 set nobackup
 set nowb
+
+silent !mkdir ~/.vim/undo >/dev/null 2>&1
+set undodir=~/.vim/undo
+if exists('+undofile')
+	set undofile
+endif
 
 set autoindent
 set smartindent
@@ -47,82 +56,26 @@ set expandtab
 filetype plugin on
 filetype indent on
 
-" Display tabs and trailing spaces visually
+" Display tabs and trailing spaces visually.
 set list listchars=tab:\ \ ,trail:·
 
 " Editing behaviour.
-set nowrap			" Don't wrap lines.
+set nowrap			                " don't wrap lines
+set linebreak                   " wrap lines at convenient points
 
-"set shiftround
-"set backspace=indent,eol,start	" Allow backspacing over everything in insert
-				" mode.
-"set autoindent			" Always set autoindenting on.
-"set copyindent			" Copy the previous indentation on
-				" autoindenting.
-"set showmatch			" Set show matching parentheses.
-"set ignorecase			" Ignore case when searching.
-"set smartcase
-"set hlsearch			" Highlight search terms.
-"set incsearch			" Show search matches as you type.
-"set gdefault			" Search/replace 'globally' (on a line) by
-				" default.
-"set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·
-"set nolist			" Don't show invisible characters by default
-"set formatoptions+=1
+set foldmethod=indent
+set foldnestmax=3
+set nofoldenable                " don't fold by default
 
-"set termencoding=utf-8
-"set encoding=utf-8
-"set lazyredraw
-"set laststatus=2
-"set cmdheight=2
+set wildmode=list:longest
+set wildmenu
+set wildignore=*~,*.o,*.obj,*.pyc,*.swp
+set wildignore+=.DS_Store
+set wildignore+=~/.vim/undo
 
-"set hidden
-"set switchbuf=useopen
-
-"set undodir=~/.vim/undo
-"if exists('+undofile')
-"	set undofile
-"endif
-
-"set nobackup
-"set noswapfile
-"set title
-"set visualbell
-"set noerrorbells
-"set showcmd
-"set nomodeline
-"set cursorline
-
-"set background=dark		" Assume a dark background
-"set background=light		" Assume a light background
-"set t_Co=256
-"colorscheme solarized
-"let g:Powerline_theme = 'solarized16'
-"let g:Powerline_colorscheme = 'solarized'
-
-"set shortmess+=I
-
-"set backupcopy=yes		" Prevent Finder labels from disappearing
-"set nobackup
-
-" -- UI -----------------------------------------------------------------------
-
-"set noshowmode			" don't display the current mode
-
-"if has('statusline')
-"  set laststatus=2
-"endif
-
-"set backspace=indent,eol,start	" backspace over everything in insert mode
-"set showmatch			" show matching brackets/parentheses
-"set incsearch			" do incremental searching
-"set hlsearch
-"set ignorecase			" case insensitive search
-"set smartcase			" case sensitive search when uppercase present
-"set wildmenu			" show list instead of just completing
-"set wildmode=list:longest:full	" command <Tab> completion
-"set wildignore=.*.bak,.*.tmp,*.pyc,*.swp
-"set scrolloff=1			" minimum lines to keep above and below cursor
+set scrolloff=8
+set sidescrolloff=15
+set sidescroll=1
 
 " -- FORMATTING ----------------------------------------------------------------
 
@@ -155,13 +108,8 @@ set nowrap			" Don't wrap lines.
 
 " -----------------------------------------------------------------------------
 
-"set autoread			" reload changed files (if no local changes)
-"set nobackup			" don't create backup files
-
-" -----------------------------------------------------------------------------
-
-"set spelllang=en_gb
-"set spellfile=~/.vim/spell/en_gb.utf-8.add
+set spelllang=en_gb
+set spellfile=~/.vim/spell/en_gb.utf-8.add
 
 "if has("autocmd") && exists("+omnifunc")
 "	autocmd Filetype *
@@ -193,11 +141,55 @@ if has("gui_running")
   " (the numbers don't show up) so I made it a VimEnter event
   autocmd VimEnter * set guitablabel=%N:\ %t\ %M
 
-  set lines=60
-  set columns=190
+"  set lines=60
+"  set columns=190
 
-  set guifont=Inconsolata\ XL:h17,Inconsolata:h20,Monaco:h17
+"  set guifont=Inconsolata\ XL:h17,Inconsolata:h20,Monaco:h17
 else
   "dont load csapprox if we no gui support - silences an annoying warning
-  let g:CSApprox_loaded = 1
+  let g:CSApprox_loaded=1
 endif
+
+" -- APPEND-SEMICOLON
+
+" If there isn't one, append a semicolon to the end of the current line.
+function! s:appendSemiColon()
+  if getline('.') !~ ';$'
+    let original_cursor_position = getpos('.')
+    exec("s/$/;/")
+    call setpos('.', original_cursor_position)
+  endif
+endfunction
+" For programming languages using a semicolon at the end of statement.
+autocmd FileType c,cpp,css,jade,java,javascript,perl,php nmap <silent> ;; :call <SID>appendSemiColon()<CR>
+autocmd FileType c,cpp,css,jade,java,javascript,perl,php inoremap <silent> ;; <ESC>:call <SID>appendSemiColon()<CR>a
+
+" -- WHITESPACE-KILLER
+
+" via: http://rails-bestpractices.com/posts/60-remove-trailing-whitespace
+" Strip trailing whitespace
+function! <SID>StripTrailingWhitespaces()
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l=line(".")
+  let c=col(".")
+  " Do the business:
+  %s/\s\+$//e
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
+endfunction
+command! StripTrailingWhitespaces call <SID>StripTrailingWhitespaces()
+nmap ,w :StripTrailingWhitespaces<CR>
+
+" -- WRAPPING
+
+" http://vimcasts.org/episodes/soft-wrapping-text/
+function! SetupWrapping()
+  set wrap linebreak nolist
+  set showbreak=…
+endfunction
+
+" TODO: this should happen automatically for certain file types (e.g.
+" markdown)
+command! -nargs=* Wrap :call SetupWrapping()<CR>
