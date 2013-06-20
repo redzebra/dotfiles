@@ -21,8 +21,9 @@ readonly apitools="${prefix}/apitools"
 readonly bindir="${prefix}/bin"
 mkdir -p "${amitools}" "${apitools}" "${bindir}"
 
-mkdir -p /tmp/aws-cli
-cd /tmp/aws-cli || exit
+tempdir=$(mktemp -d -t $(basename $0))
+trap "rm -r ${tempdir}" EXIT
+cd ${tempdir} || exit
 
 _fetch() {
 	local url=$1
@@ -198,3 +199,5 @@ readonly template='credential-file-path.template'
 AWSAccessKeyId=<Write your AWS access ID>
 AWSSecretKey=<Write your AWS secret key>
 END
+
+ls -l
