@@ -188,6 +188,7 @@ ln -hfsv ../../.dotfiles/rbenv/bin/rbenv-auto-ruby ~/.rbenv/bin/
 echo installing ruby support
 _ln_s gemrc
 _ln_s irbrc
+_ln_s pryrc
 _ln_s rspec
 
 #if which screen >/dev/null 2>&1; then
