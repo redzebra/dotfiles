@@ -127,6 +127,12 @@ _ln_s () {
 
 umask 077 || exit
 
+if [ $(uname) = Darwin ]; then
+  echo installing Powerline fonts
+  _mkdir -m 0755 ~/Library/Fonts/
+  cp -af ~/.dotfiles/powerline-fonts/SourceCodePro/*.otf ~/Library/Fonts/
+fi
+
 echo installing .local tree
 _ln_s local
 if which SetFile >/dev/null 2>&1; then

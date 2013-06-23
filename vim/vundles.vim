@@ -39,11 +39,12 @@ Bundle 'tpope/vim-endwise'
 Bundle 'nathanaelkane/vim-indent-guides'
 
 " Cosmetics, color scheme, Powerline...
+Bundle 'Lokaltog/powerline'
 Bundle 'bogado/file-line'
 Bundle 'chrisbra/color_highlight'
 Bundle 'itspriddle/vim-jquery'
 Bundle 'skwp/vim-colors-solarized'
-Bundle 'skwp/vim-powerline'
+"Bundle 'skwp/vim-powerline'
 Bundle 'vim-scripts/TagHighlight'
 
 "Bundle 'bitc/vim-bad-whitespace'

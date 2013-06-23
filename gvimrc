@@ -3,7 +3,7 @@ set lines=40
 
 set number
 
-set guifont=Source\ Code\ Pro:h13
+set guifont=Source\ Code\ Pro\ for\ \PowerLine:h14
 "set guioptions-=T	" Hide the toolbar
 "set showtabline=2	" Always show tabs
 

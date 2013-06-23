@@ -2,6 +2,8 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+
 if filereadable(expand("~/.vimrc.before"))
   source ~/.vimrc.before
 endif
