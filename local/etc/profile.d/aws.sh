@@ -2,12 +2,16 @@ function aws-context {
   if [ $# -eq 0 ]; then
     [ -n "$AWS_ACCESS_KEY"        ] && echo AWS_ACCESS_KEY=$AWS_ACCESS_KEY
     [ -n "$AWS_ACCESS_KEY_ID"     ] && echo AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+    [ -n "$AWS_CONFIG_FILE"       ] && echo AWS_CONFIG_FILE=$AWS_CONFIG_FILE
     [ -n "$AWS_CREDENTIAL_FILE"   ] && echo AWS_CREDENTIAL_FILE=$AWS_CREDENTIAL_FILE
+    [ -n "$AWS_DEFAULT_OUTPUT"    ] && echo AWS_DEFAULT_OUTPUT=$AWS_DEFAULT_OUTPUT
+    [ -n "$AWS_DEFAULT_PROFILE"   ] && echo AWS_DEFAULT_PROFILE=$AWS_DEFAULT_PROFILE
     [ -n "$AWS_DEFAULT_REGION"    ] && echo AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
     [ -n "$AWS_DELEGATION_TOKEN"  ] && echo AWS_DELEGATION_TOKEN='[SET]'
     [ -n "$AWS_REGION"            ] && echo AWS_REGION=$AWS_REGION
     [ -n "$AWS_SECRET_ACCESS_KEY" ] && echo AWS_SECRET_ACCESS_KEY='[SET]'
     [ -n "$AWS_SECRET_KEY"        ] && echo AWS_SECRET_KEY='[SET]'
+    [ -n "$AWS_SECURITY_TOKEN"    ] && echo AWS_SECURITY_TOKEN='[SET]'
     [ -n "$BOTO_CONFIG"           ] && echo BOTO_CONFIG=$BOTO_CONFIG
     [ -n "$EC2_CERT"              ] && echo EC2_CERT=$EC2_CERT
     [ -n "$EC2_PRIVATE_KEY"       ] && echo EC2_KEY=$EC2_PRIVATE_KEY
@@ -52,6 +56,14 @@ function aws-context {
     AWS_SECRET_ACCESS_KEY=${AWS_SECRET_KEY}
     export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY
   fi
+
+  export AWS_CONFIG_FILE=~/.aws/.aws-context
+  export AWS_DEFAULT_PROFILE=aws-context
+  (
+    umask 077
+    echo "[${AWS_DEFAULT_PROFILE}]" >${AWS_CONFIG_FILE}
+    [ -n "${region}" ] && echo "region=${region}" >>${AWS_CONFIG_FILE}
+  )
 }
 
 [ -e /opt/aws ] && {
