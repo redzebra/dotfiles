@@ -266,6 +266,8 @@ vim --noplugin -u vim/vundles.vim -N '+set hidden' '+syntax on' +BundleClean! +B
 )
 
 mkdir -p local/lib/python2.7
-PYTHONPATH=${PYTHONPATH}:${PWD}/local/lib/python2.7 easy_install-2.7 --install-dir=${PWD}/local/lib/python2.7 awscli #--script-dir=${PWD}/local/bin awscli
+PYTHONPATH=${PYTHONPATH}:${PWD}/local/lib/python2.7 \
+  easy_install-2.7 --install-dir=${PWD}/local/lib/python2.7 \
+    --script-dir=${PWD}/local/bin awscli
 
 # vi: set sw=2 ts=2:

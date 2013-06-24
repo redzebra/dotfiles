@@ -214,10 +214,12 @@ fi
 
 # -- python --------------------------------------------------------------------
 
-if [ -d ${HOME}/Library/Python/2.7/site-packages ]; then
-	PYTHONPATH=${HOME}/Library/Python/2.7/site-packages:${PYTHONPATH:+:${PYTHONPATH}}
-	export PYTHONPATH
-fi
+for d in Library/Python/2.7/site-packages .local/lib/python2.7; do
+  if [ -d ${HOME}/${d} ]; then
+  	PYTHONPATH=${d}${PYTHONPATH:+:${PYTHONPATH}}
+  	export PYTHONPATH
+  fi
+done
 
 # -- ruby ---------------------------------------------------------------------
 
