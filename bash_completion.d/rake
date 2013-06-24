@@ -50,4 +50,6 @@ _rake()
   fi
 }
 
-have rake && complete -F _rake $filenames rake
+# FIXME: make this play nicely with rbenv
+#have rake && complete -F _rake $filenames rake
+complete -F _rake $filenames rake
