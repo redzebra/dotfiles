@@ -1,3 +1,5 @@
+[advice]
+  statusHints = false
 [apply]
 	whitespace = nowarn
 [branch]
@@ -14,20 +16,26 @@
 	new = green bold
 	old = red bold
 [core]
+  autocrlf = false
+  editor = vim
 	excludesfile = ~/.dotfiles/gitignore
 [diff]
-	mnemonicprefix = true
+  mnemonicprefix = true
+[format]
+  pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [help]
 	autocorrect = -1
 [init]
 	templatedir = ~/.dotfiles/git.template
 [merge]
-	summary = true
+  summary = true
+  verbosity = 1
 [mergetool]
 	keepBackup = true
 [push]
 	default = tracking
 [rerere]
+  # Remember my merges.
 	enabled = true
 [user]
 	name = Nick Osborn
