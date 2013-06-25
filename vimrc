@@ -75,9 +75,9 @@ set wildignore=*~,*.o,*.obj,*.pyc,*.swp
 set wildignore+=.DS_Store
 set wildignore+=~/.vim/undo
 
-set scrolloff=8
-set sidescrolloff=15
-set sidescroll=1
+"set scrolloff=8
+"set sidescrolloff=15
+"set sidescroll=1
 
 " -- FORMATTING ----------------------------------------------------------------
 
