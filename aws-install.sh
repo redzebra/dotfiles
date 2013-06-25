@@ -199,5 +199,3 @@ readonly template='credential-file-path.template'
 AWSAccessKeyId=<Write your AWS access ID>
 AWSSecretKey=<Write your AWS secret key>
 END
-
-ls -l
