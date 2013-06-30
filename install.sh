@@ -242,11 +242,11 @@ vim --noplugin -u vim/vundles.vim -N '+set hidden' '+syntax on' +BundleClean! +B
 
 echo installing zsh support
 ln -hfsv .dotfiles/zsh/prezto ~/.zprezto
-ln -hfsv .dotfiles/zsh/prezto/runcoms/zlogin ~/.zlogin
-ln -hfsv .dotfiles/zsh/prezto/runcoms/zlogout ~/.zlogout
+_ln_s zlogin
+_ln_s zlogout
 _ln_s zpreztorc
-ln -hfsv .dotfiles/zsh/prezto/runcoms/zprofile ~/.zprofile
-ln -hfsv .dotfiles/zsh/prezto/runcoms/zshenv ~/.zshenv
+_ln_s zprofile
+_ln_s zshenv
 _ln_s zshrc
 
 [ -d '/Applications/Sublime Text 2.app' ] && (
