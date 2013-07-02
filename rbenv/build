@@ -27,13 +27,18 @@ case $1 in
 		[ `uname` = Amazon ] && rbenv global 1.8.7-p371
 		;;
 	darwin)
-		$0 1.8.7-p358
+		$0 '1.8.7-p358'
 		[ `uname` = Darwin ] && rbenv global 1.8.7-p358
+		;;
+	precise)
+		$0 '1.8.7-p352'
+		$0 '1.9.3-p0'
+		[ `uname` = Ubuntu ] && rbenv global 1.9.3-p0
 		;;
 	quantal|raging)
 		$0 '1.8.7-p358'
 		$0 '1.9.3-p194'
-		[ `uname` = Ubuntu ] && rbenv global 1.9.4-p194
+		[ `uname` = Ubuntu ] && rbenv global 1.9.3-p194
 		;;
 	*)
 		echo "don't know about $1" >&2
