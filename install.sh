@@ -276,13 +276,4 @@ _ln_s zshrc
 		| tar -C "${HOME}/Library/Application Support/Sublime Text 3" -xf -
 )
 
-mkdir -p local/lib/python2.7
-PYTHONPATH=${PWD}/local/lib/python2.7:${PYTHONPATH} \
-  easy_install-2.7 --install-dir=${PWD}/local/lib/python2.7 \
-    --script-dir=${PWD}/local/bin awscli
-PYTHONPATH=${PWD}/local/lib/python2.7:${PYTHONPATH} \
-  easy_install-2.7 --install-dir=${PWD}/local/lib/python2.7 \
-    --script-dir=${PWD}/local/bin boto
-
-
 # vi: set sw=2 ts=2:

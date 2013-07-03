@@ -1,8 +1,3 @@
-/local/bin/aws
-/local/bin/aws.cmd
-/local/bin/aws_completer
-/local/bin/aws_zsh_completer.sh
-/local/lib/python2.7/
 /local/share/autojump/
 /vim/.netrwhist
 /vim/bundle/*/
