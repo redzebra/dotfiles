@@ -9,17 +9,17 @@ uecho "Usage: $0 [[-i identity_file] host ...]" >&2; exit 2
 fi
 set -- $args
 for i; do
-	case "$i" in
-		-i) identity_file=$2; shift 2;;
-		--) shift; break;;
-	esac
+  case "$i" in
+    -i) identity_file=$2; shift 2;;
+    --) shift; break;;
+  esac
 done
 if [ -n "$identity_file" -a $# = 0 ]; then
-	echo "Usage: $0 [[-i identity_file] host ...]" >&2; exit 2
+  echo "Usage: $0 [[-i identity_file] host ...]" >&2; exit 2
 fi
 
 if [ `id -u` = 0 ]; then
-	echo "$0: refusing to run as root" >&2; exit 1
+  echo "$0: refusing to run as root" >&2; exit 1
 fi
 
 cd `dirname $0` || exit
@@ -27,17 +27,17 @@ cd `dirname $0` || exit
 # Sanity checks.
 
 if which bash >/dev/null 2>&1; then
-	for f in bash_completion bash_logout bash_profile bashrc; do
-		bash -n $f || exit
-	done
+  for f in bash_completion bash_logout bash_profile bashrc; do
+    bash -n $f || exit
+  done
 fi
 
 if test -d .git && which git >/dev/null 2>&1; then
-	_status=`git status -s`
-	if [ -n "$_status" ]; then
-		git status -s
-	fi
-	unset _status
+  _status=`git status -s`
+  if [ -n "$_status" ]; then
+    git status -s
+  fi
+  unset _status
 fi
 
 # Remote install.
@@ -240,14 +240,14 @@ vim --noplugin -u vim/vundles.vim -N '+set hidden' '+syntax on' +BundleClean! +B
 #	done
 #fi
 
-echo installing zsh support
-ln -hfsv .dotfiles/zsh/prezto ~/.zprezto
-_ln_s zlogin
-_ln_s zlogout
-_ln_s zpreztorc
-_ln_s zprofile
-_ln_s zshenv
-_ln_s zshrc
+#echo installing zsh support
+#ln -hfsv .dotfiles/zsh/prezto ~/.zprezto
+#_ln_s zlogin
+#_ln_s zlogout
+#_ln_s zpreztorc
+#_ln_s zprofile
+#_ln_s zshenv
+#_ln_s zshrc
 
 [ -d '/Applications/Sublime Text 2.app' ] && (
 	echo installing Sublime Text 2 support
