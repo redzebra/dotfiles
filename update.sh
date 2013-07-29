@@ -21,12 +21,12 @@ _fetch local/bin/ack \
 	https://raw.github.com/petdance/ack/master/ack
 
 # autojump
-_fetch bash_completion.d/autojump \
-	https://raw.github.com/joelthelion/autojump/master/bin/autojump.bash
-_fetch local/bin/autojump \
-	https://raw.github.com/joelthelion/autojump/master/bin/autojump
-_fetch local/share/man/man1/autojump.1 \
-	https://raw.github.com/joelthelion/autojump/master/docs/autojump.1
+#_fetch bash_completion.d/autojump \
+#	https://raw.github.com/joelthelion/autojump/master/bin/autojump.bash
+#_fetch local/bin/autojump \
+#	https://raw.github.com/joelthelion/autojump/master/bin/autojump
+#_fetch local/share/man/man1/autojump.1 \
+#	https://raw.github.com/joelthelion/autojump/master/docs/autojump.1
 
 # colordiff
 _fetch local/bin/colordiff \
