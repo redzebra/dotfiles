@@ -249,6 +249,11 @@ vim --noplugin -u vim/vundles.vim -N '+set hidden' '+syntax on' +BundleClean! +B
 #_ln_s zshenv
 #_ln_s zshrc
 
+[ -d '/Applications/Slate.app' ] && {
+	echo installing Slate support
+  _ln_s slate
+}
+
 [ -d '/Applications/Sublime Text 2.app' ] && (
 	echo installing Sublime Text 2 support
 	(
