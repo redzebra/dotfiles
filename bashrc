@@ -233,3 +233,9 @@ done
 if [[ -z "${SUDO_PROMPT}" ]]; then
   export SUDO_PROMPT="[sudo] password for $(id -un): "
 fi
+
+# -- user ---------------------------------------------------------------------
+
+if [ -e ~/.bashrc.user ]; then
+  source ~/.bashrc.user
+fi
