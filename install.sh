@@ -240,14 +240,14 @@ vim --noplugin -u vim/vundles.vim -N '+set hidden' '+syntax on' +BundleClean! +B
 #	done
 #fi
 
-#echo installing zsh support
+echo installing zsh support
 #ln -hfsv .dotfiles/zsh/prezto ~/.zprezto
 #_ln_s zlogin
 #_ln_s zlogout
 #_ln_s zpreztorc
 #_ln_s zprofile
-#_ln_s zshenv
-#_ln_s zshrc
+_ln_s zshenv
+_ln_s zshrc
 
 [ -d '/Applications/Slate.app' ] && {
 	echo installing Slate support
@@ -258,7 +258,7 @@ vim --noplugin -u vim/vundles.vim -N '+set hidden' '+syntax on' +BundleClean! +B
 	echo installing Sublime Text 2 support
 	(
 		cd "${HOME}/Library/Application Support/Sublime Text 2/Installed Packages"
-		[ -e "Package Control.sublime-package" ] || {
+		[ -e 'Package Control.sublime-package' ] || {
 			curl --fail -# -o 'Package Control.sublime-package' \
 				'https://sublime.wbond.net/Package%20Control.sublime-package'
 		}
@@ -271,10 +271,9 @@ vim --noplugin -u vim/vundles.vim -N '+set hidden' '+syntax on' +BundleClean! +B
 	echo installing Sublime Text 3 support
 	(
 		cd "${HOME}/Library/Application Support/Sublime Text 3/Packages"
-		[ -d "Package Control" ] || {
-			git clone --branch python3 --depth 1 --single-branch -- \
-				https://github.com/wbond/sublime_package_control.git \
-				"Package Control"
+		[ -e 'Package Control.sublime-package' ] || {
+			curl --fail -# -o 'Package Control.sublime-package' \
+				'https://sublime.wbond.net/Package%20Control.sublime-package'
 		}
 	)
 	tar -C "Sublime Text" -cf - 'Packages/User' \
