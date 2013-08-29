@@ -254,19 +254,6 @@ _ln_s zshrc
   _ln_s slate
 }
 
-[ -d '/Applications/Sublime Text 2.app' ] && (
-	echo installing Sublime Text 2 support
-	(
-		cd "${HOME}/Library/Application Support/Sublime Text 2/Installed Packages"
-		[ -e 'Package Control.sublime-package' ] || {
-			curl --fail -# -o 'Package Control.sublime-package' \
-				'https://sublime.wbond.net/Package%20Control.sublime-package'
-		}
-	)
-	tar -C "Sublime Text" -cf - 'Packages/User' \
-		| tar -C "${HOME}/Library/Application Support/Sublime Text 2" -xf -
-)
-
 [ -d '/Applications/Sublime Text.app' ] && (
 	echo installing Sublime Text 3 support
 	(
