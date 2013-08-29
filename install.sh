@@ -249,15 +249,10 @@ echo installing zsh support
 _ln_s zshenv
 _ln_s zshrc
 
-[ -d '/Applications/Slate.app' ] && {
-	echo installing Slate support
-  _ln_s slate
-}
-
 [ -d '/Applications/Sublime Text.app' ] && (
 	echo installing Sublime Text 3 support
 	(
-		cd "${HOME}/Library/Application Support/Sublime Text 3/Packages"
+		cd "${HOME}/Library/Application Support/Sublime Text 3/Installed Packages"
 		[ -e 'Package Control.sublime-package' ] || {
 			curl --fail -# -o 'Package Control.sublime-package' \
 				'https://sublime.wbond.net/Package%20Control.sublime-package'
