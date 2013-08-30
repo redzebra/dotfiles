@@ -19,6 +19,8 @@
   autocrlf = false
   editor = vim
   excludesfile = ~/.dotfiles/gitignore
+[credential]
+  helper = osxkeychain
 [diff]
   mnemonicprefix = true
   patience = true
@@ -41,3 +43,5 @@
   email = 
 [include]
   path = .gitconfig.user
+[credential]
+	helper = osxkeychain
