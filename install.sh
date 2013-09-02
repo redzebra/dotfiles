@@ -144,6 +144,8 @@ fi
 #defaults write com.apple.terminal 'Default Window Settings' IR_Black
 #defaults write com.apple.terminal 'Startup Window Settings' IR_Black
 
+_ln_s editrc
+
 echo installing ack support
 _ln_s ackrc
 
@@ -171,8 +173,8 @@ rm -fv ~/.puppet-lintrc
 
 echo installing rbenv
 _git_clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-_git_clone https://github.com/tpope/rbenv-ctags.git \
-	~/.rbenv/plugins/rbenv-ctags
+_git_clone https://github.com/ianheggie/rbenv-binstubs.git \
+	~/.rbenv/plugins/rbenv-binstubs
 _git_clone https://github.com/sstephenson/rbenv-default-gems.git \
 	~/.rbenv/plugins/rbenv-default-gems
 _git_clone https://github.com/chriseppstein/rbenv-each.git \
@@ -204,6 +206,9 @@ _ln_s rspec
 #	_install -m 0400 screenrc ~/.screenrc
 #fi
 
+echo installing slate support
+_ln_s slate
+
 echo installing ssh support
 _mkdir ~/.ssh/
 
@@ -220,6 +225,9 @@ _ln_s vim
 _ln_s vimrc
 _mkdir ~/.vim/undo/
 vim --noplugin -u vim/vundles.vim -N '+set hidden' '+syntax on' +BundleClean! +BundleInstall +qall
+for f in ~/.vim/spell/*.add; do
+  vim -E -i NONE -u NONE "+mkspell! $f" '+quit' </dev/null >/dev/null
+done
 
 #	_mkdir ~/.vim/view/
 #	for f in `find vim -type f ! -name '.git*'`; do
@@ -235,19 +243,16 @@ vim --noplugin -u vim/vundles.vim -N '+set hidden' '+syntax on' +BundleClean! +B
 #	for d in ~/.vim/bundle/*/doc; do
 #	 	vim -E -i NONE -u NONE "+helptags $d" '+quit' </dev/null >/dev/null
 #	done
-#	for f in ~/.vim/spell/*.add; do
-#		vim -E -i NONE -u NONE "+mkspell! $f" '+quit' </dev/null >/dev/null
-#	done
 #fi
 
-echo installing zsh support
-#ln -hfsv .dotfiles/zsh/prezto ~/.zprezto
-#_ln_s zlogin
-#_ln_s zlogout
-#_ln_s zpreztorc
-#_ln_s zprofile
-_ln_s zshenv
-_ln_s zshrc
+#echo installing zsh support
+##ln -hfsv .dotfiles/zsh/prezto ~/.zprezto
+##_ln_s zlogin
+##_ln_s zlogout
+##_ln_s zpreztorc
+##_ln_s zprofile
+#_ln_s zshenv
+#_ln_s zshrc
 
 [ -d '/Applications/Sublime Text.app' ] && (
 	echo installing Sublime Text 3 support

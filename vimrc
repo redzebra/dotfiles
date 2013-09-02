@@ -111,7 +111,7 @@ set wildignore+=~/.vim/undo
 " -----------------------------------------------------------------------------
 
 set spelllang=en_gb
-set spellfile=~/.vim/spell/en_gb.utf-8.add
+set spellfile=~/.vim/spell/en.utf-8.add
 
 "if has("autocmd") && exists("+omnifunc")
 "	autocmd Filetype *

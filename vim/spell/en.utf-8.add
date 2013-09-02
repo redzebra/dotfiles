@@ -1,6 +1,10 @@
 /encoding=utf-8
 /regions=gb
-PHP/=?
-puppetd/=?
-S3/=?
-UI/=?
+API/=
+PHP/=
+puppetd/=
+S3/=
+UI/=
+vCloud/=
+XML/=
+hyperlink

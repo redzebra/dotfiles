@@ -2,5 +2,6 @@
 /vim/.netrwhist
 /vim/bundle/*/
 !/vim/bundle/vundler/
+/vim/spell/*.add.spl
 /vim/undo
 /vim/vundles.local.vim

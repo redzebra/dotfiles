@@ -3,7 +3,5 @@ function rbenv_ps1() {
   echo " ‹${_rbenv_version}›"
 }
 
-if [ -d "${HOME}/.rbenv/bin" ]; then
-  export PATH="${HOME}/.rbenv/bin:${PATH}"
-  eval "$(rbenv init -)"
-fi
+[ -d "${HOME}/.rbenv/bin" ] && export PATH="${HOME}/.rbenv/bin:${PATH}"
+if which rbenv >/dev/null; then eval "$(rbenv init -)"; fi
