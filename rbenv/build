@@ -5,7 +5,7 @@ if [ $# -ne 1 ]; then
 	exit 1
 fi
 
-readonly ssldir='/usr/local/opt/openssl'
+readonly ssldir=$(brew --prefix openssl)
 
 case $1 in
 	1.8.7-*)
@@ -18,15 +18,22 @@ case $1 in
 			rbenv install $1
 		;;
 	2.0.0-*)
-		#CONFIGURE_OPTS="--without-tcl --without-tk" rbenv install $1
-		rbenv install $1
+    CONFIGURE_OPTS="--with-openssl-dir=${ssldir} --without-tcl --without-tk" \
+		  rbenv install $1
 		;;
 	amazon)
 		$0 '1.8.7-p371'
 		$0 '1.9.3-p286'
 		[ `uname` = Amazon ] && rbenv global 1.8.7-p371
 		;;
-	darwin)
+	heroku)
+		$0 '1.9.3-p448'
+		;;
+	mavericks)
+		$0 '2.0.0-p247'
+		[ `uname` = Darwin ] && rbenv global 2.0.0-p247
+		;;
+	mountain_lion)
 		$0 '1.8.7-p358'
 		[ `uname` = Darwin ] && rbenv global 1.8.7-p358
 		;;
